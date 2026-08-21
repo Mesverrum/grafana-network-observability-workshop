@@ -8,10 +8,12 @@ Building 4 degrades when fault_active is true (default).
 
 from __future__ import annotations
 
+import os
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
-from fastapi import FastAPI, Header, Request
+from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -28,7 +30,7 @@ from inventory import (  # noqa: E402
     TICKET,
 )
 
-app = FastAPI(title="Network workshop mocks", version="1.1.0")
+app = FastAPI(title="Network workshop mocks", version="1.2.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -36,7 +38,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-STATE = {"fault_active": True}
+ADMIN_TOKEN = os.environ.get("WORKSHOP_ADMIN_TOKEN", "").strip()
+
+STATE = {
+    "fault_active": True,
+    "hairpin_desired": False,
+    "hairpin_applied": False,
+    "hairpin_updated_at": None,
+    "hairpin_applied_at": None,
+}
 
 
 def fault() -> bool:
@@ -47,9 +57,32 @@ def tenant_of(x_workshop_tenant: str | None) -> str:
     return x_workshop_tenant or "default"
 
 
+def _now() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+
+
+def require_admin(
+    x_workshop_admin: str | None = Header(default=None, alias="X-Workshop-Admin"),
+    authorization: str | None = Header(default=None),
+) -> None:
+    if not ADMIN_TOKEN:
+        return
+    bearer = ""
+    if authorization and authorization.lower().startswith("bearer "):
+        bearer = authorization.split(" ", 1)[1].strip()
+    if x_workshop_admin == ADMIN_TOKEN or bearer == ADMIN_TOKEN:
+        return
+    raise HTTPException(status_code=401, detail="admin token required")
+
+
 @app.get("/health")
 def health() -> dict:
-    return {"ok": True, "fault_active": fault(), "ticket": TICKET}
+    return {
+        "ok": True,
+        "fault_active": fault(),
+        "hairpin": hairpin_payload(),
+        "ticket": TICKET,
+    }
 
 
 class FaultBody(BaseModel):
@@ -65,6 +98,49 @@ def set_fault(body: FaultBody) -> dict:
 @app.get("/admin/fault")
 def get_fault() -> dict:
     return {"fault_active": fault()}
+
+
+def hairpin_payload() -> dict:
+    desired = bool(STATE["hairpin_desired"])
+    applied = bool(STATE["hairpin_applied"])
+    if desired and applied:
+        path, label = "singapore", "Singapore hairpin"
+    elif desired and not applied:
+        path, label = "singapore", "Enabling Singapore path"
+    elif (not desired) and applied:
+        path, label = "direct", "Restoring direct US"
+    else:
+        path, label = "direct", "Direct US"
+    return {
+        "active": desired,
+        "active_num": 1 if desired else 0,
+        "applied": applied,
+        "applied_num": 1 if applied else 0,
+        "in_sync": desired == applied,
+        "path": path,
+        "label": label,
+        "updated_at": STATE["hairpin_updated_at"],
+        "applied_at": STATE["hairpin_applied_at"],
+    }
+
+
+@app.get("/admin/hairpin")
+def get_hairpin() -> dict:
+    return hairpin_payload()
+
+
+@app.post("/admin/hairpin")
+def set_hairpin(body: FaultBody, _: None = Depends(require_admin)) -> dict:
+    STATE["hairpin_desired"] = body.active
+    STATE["hairpin_updated_at"] = _now()
+    return hairpin_payload()
+
+
+@app.post("/admin/hairpin/applied")
+def set_hairpin_applied(body: FaultBody, _: None = Depends(require_admin)) -> dict:
+    STATE["hairpin_applied"] = body.active
+    STATE["hairpin_applied_at"] = _now()
+    return hairpin_payload()
 
 
 def _node_status(device: dict) -> str:
@@ -504,6 +580,7 @@ def index() -> dict:
     return {
         "ticket": TICKET,
         "fault_active": fault(),
+        "hairpin": hairpin_payload(),
         "paths": {
             "prtg": "/prtg/api/v2/sensors",
             "checkpoint": "/checkpoint/gateways",
@@ -516,5 +593,6 @@ def index() -> dict:
             "fortigate_alias": "/fortigate/status",
             "aruba_aps": "/aruba/aps",
             "fault": "POST /admin/fault {\"active\": true|false}",
+            "hairpin": "POST /admin/hairpin {\"active\": true|false}",
         },
     }

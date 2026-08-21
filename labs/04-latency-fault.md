@@ -1,45 +1,32 @@
 # Lab 4 — The path got worse
 
-The facilitator is changing routing (or adding a Singapore probe). Your Lab 2 checks stay pointed at the same hostname from chat.
+The facilitator is sending the **same public IP** from Lab 2 to a farther backend. Do not edit the check target. Keep the same public probe.
 
 ## Investigate
 
-1. Open your `workshop-tcp` check. Compare duration **now** vs the number you saved in Lab 2.
-2. Explore:
+1. **Testing & synthetics** → **Synthetics** → **workshop-tcp**. Look at the **duration / latency** chart. You want a step up from Lab 2 on this same graph.
+2. Open **workshop-tr**. Look at hops over time (list or map). Did the path change after the step in latency?
 
-```promql
-probe_duration_seconds{job="workshop-tcp"}
-```
+If hops moved, that is a path change. If hops did not move but duration stepped up, that is still the finding.
 
-Legend by `probe`. Which location got slower?
-
-3. Traceroute:
-
-```promql
-probe_traceroute_total_hops{job="workshop-tr"}
-```
-
-```promql
-changes(probe_traceroute_route_hash{job="workshop-tr"}[20m])
-```
-
-If hops went up or the hash changed, the path moved. That is the hairpin story.
-
-4. Open the traceroute check UI and look at the hop list if the UI shows one.
+If chat says to use the **Singapore** probe: edit **workshop-tcp**, add public probe **Singapore**, save, wait two runs. Singapore will be slower than Oregon because it is farther away.
 
 ## Alert
 
-**Alerting** → New alert rule.
+On the **workshop-tcp** check, open **Alerts** / **Alerting**.
 
-- Name: `workshop tcp latency`
-- Query: `probe_duration_seconds{job="workshop-tcp"}`
-- Condition: above a number **you** choose (2x your Lab 2 baseline, or 400ms if you want a default)
-- Evaluate every 1m, pending 2m
+- Threshold on **duration / latency**: about **2x the flat part** of the chart before the step, or **400ms** if you want a default.
+- Let the check UI create the Grafana alert.
 
-Save it. You do not need to page Slack.
+If that control is missing:
+
+1. **Alerting** → **Alert rules** → **New alert rule** (Grafana-managed).
+2. Query A: datasource = your stack Prometheus (`grafanacloud-…-prom`, not `workshop-ktranslate`). Metric `probe_duration_seconds`. Filter `job` = `workshop-tcp`.
+3. Keep **Reduce** (Last) and **Threshold**. Threshold **Is above `0.4`**. That value is **seconds** (`400` will never fire).
+4. Folder: **Network Observability**.
+5. Evaluation group: **New**, name `workshop`, every **1m**, pending **2m**.
+6. Save. You do not need Slack.
 
 ## You are done when
 
-You can say whether this was a **path change** (hops/hash) or **just a slower probe** (Singapore added, hops maybe unchanged). Drop that in chat if they ask for a readout.
-
-If hops did not move, that is still a valid finding. Keep it with your Lab 2 numbers.
+You can say whether this was a **path change** (hops moved) or **just slower** (duration up, hops unchanged).

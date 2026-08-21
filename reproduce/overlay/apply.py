@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import ssl
 import sys
 import urllib.error
@@ -22,8 +23,11 @@ FOLDER_UID = "workshop-network"
 FOLDER_TITLE = "Network Observability"
 DS_UID = "workshop-network-apis"
 DS_NAME = "workshop-network-apis"
+CTRL_DS_UID = "workshop-hairpin-control"
+CTRL_DS_NAME = "workshop-hairpin-control"
 PLUGIN_ID = "yesoreyeram-infinity-datasource"
 TENANT_HEADER = "X-Workshop-Tenant"
+ADMIN_HEADER = "X-Workshop-Admin"
 
 DASHBOARDS = [
     "device-summary.json",
@@ -32,6 +36,9 @@ DASHBOARDS = [
     "prtg-summary.json",
     "checkpoint-summary.json",
     "aruba-summary.json",
+]
+FACILITATOR_DASHBOARDS = [
+    "facilitator-control.json",
 ]
 
 
@@ -99,6 +106,32 @@ def plugin_present(base: str, token: str) -> bool:
     return code == 200 and bool(body)
 
 
+def _put_infinity_ds(base: str, token: str, payload: dict, dry: bool) -> None:
+    uid = payload["uid"]
+    mock_url = payload["url"]
+    code, existing = api(base, token, f"/api/datasources/uid/{uid}")
+    if dry:
+        print(f"  DRY datasource {'update' if code == 200 else 'create'} {uid} -> {mock_url}")
+        return
+    if code == 200 and isinstance(existing, dict):
+        payload["id"] = existing.get("id")
+        code, body = api(
+            base,
+            token,
+            f"/api/datasources/{existing.get('id')}",
+            method="PUT",
+            body=payload,
+        )
+    else:
+        code, body = api(base, token, "/api/datasources", method="POST", body=payload)
+    if code in (200, 201):
+        print(f"  datasource ok {uid}")
+        return
+    print(f"  datasource FAILED HTTP {code} {body}", file=sys.stderr)
+    print("  hint: Editor tokens cannot create datasources. Re-run with --skip-datasource or use admin.", file=sys.stderr)
+    raise SystemExit(3)
+
+
 def ensure_infinity_ds(base: str, token: str, mock_url: str, tenant: str, dry: bool) -> None:
     payload = {
         "name": DS_NAME,
@@ -116,31 +149,33 @@ def ensure_infinity_ds(base: str, token: str, mock_url: str, tenant: str, dry: b
             "httpHeaderValue1": tenant or "default",
         },
     }
-    code, existing = api(base, token, f"/api/datasources/uid/{DS_UID}")
-    if dry:
-        print(f"  DRY datasource {'update' if code == 200 else 'create'} {DS_UID} -> {mock_url}")
-        return
-    if code == 200 and isinstance(existing, dict):
-        payload["id"] = existing.get("id")
-        code, body = api(
-            base,
-            token,
-            f"/api/datasources/{existing.get('id')}",
-            method="PUT",
-            body=payload,
-        )
-    else:
-        code, body = api(base, token, "/api/datasources", method="POST", body=payload)
-    if code in (200, 201):
-        print(f"  datasource ok {DS_UID}")
-        return
-    print(f"  datasource FAILED HTTP {code} {body}", file=sys.stderr)
-    print("  hint: Editor tokens cannot create datasources. Re-run with --skip-datasource or use admin.", file=sys.stderr)
-    raise SystemExit(3)
+    _put_infinity_ds(base, token, payload, dry)
 
 
-def import_dashboards(base: str, token: str, dry: bool) -> None:
-    for name in DASHBOARDS:
+def ensure_hairpin_ds(base: str, token: str, mock_url: str, admin_token: str, dry: bool) -> None:
+    json_data: dict = {
+        "auth_method": "none",
+        "allowedHosts": [mock_url.rstrip("/")],
+    }
+    secure: dict = {}
+    if admin_token:
+        json_data["httpHeaderName1"] = ADMIN_HEADER
+        secure["httpHeaderValue1"] = admin_token
+    payload = {
+        "name": CTRL_DS_NAME,
+        "uid": CTRL_DS_UID,
+        "type": PLUGIN_ID,
+        "access": "proxy",
+        "url": mock_url.rstrip("/"),
+        "isDefault": False,
+        "jsonData": json_data,
+        "secureJsonData": secure,
+    }
+    _put_infinity_ds(base, token, payload, dry)
+
+
+def import_dashboards(base: str, token: str, dry: bool, names: list[str] | None = None) -> None:
+    for name in names or DASHBOARDS:
         path = DASH_DIR / name
         dash = json.loads(path.read_text(encoding="utf-8"))
         uid = dash.get("uid")
@@ -174,6 +209,7 @@ def inspect_stack(base: str, token: str) -> None:
             "grafanacloud-traces",
             "grafanacloud-infinity",
             DS_UID,
+            CTRL_DS_UID,
         ) or "infinity" in str(row.get("type", "")):
             print(f"    ds {row.get('type')} uid={row.get('uid')} name={row.get('name')}")
     print(f"    infinity plugin: {plugin_present(base, token)}")
@@ -193,14 +229,24 @@ def apply_row(row: dict[str, str], args: argparse.Namespace) -> None:
             if not args.allow_missing_plugin:
                 raise SystemExit(5)
         ensure_infinity_ds(base, token, args.mock_url, tenant, args.dry_run)
+    if args.facilitator:
+        hairpin_url = args.hairpin_url or args.mock_url
+        ensure_hairpin_ds(base, token, hairpin_url, args.admin_token, args.dry_run)
     if not args.skip_dashboards:
         import_dashboards(base, token, args.dry_run)
+    if args.facilitator:
+        import_dashboards(base, token, args.dry_run, FACILITATOR_DASHBOARDS)
 
 
 def main() -> None:
     p = argparse.ArgumentParser(description="Overlay network workshop assets onto Brokkr stacks")
     p.add_argument("--manifest", type=Path, required=True)
     p.add_argument("--mock-url", required=True, help="Public base URL for mocks (Grafana Cloud must reach it)")
+    p.add_argument(
+        "--hairpin-url",
+        default="",
+        help="Public URL for POST /admin/hairpin (defaults to --mock-url)",
+    )
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--skip-datasource", action="store_true")
     p.add_argument(
@@ -210,7 +256,19 @@ def main() -> None:
     )
     p.add_argument("--allow-missing-plugin", action="store_true")
     p.add_argument("--inspect", action="store_true", help="Print Cloud UIDs before applying")
+    p.add_argument(
+        "--facilitator",
+        action="store_true",
+        help="Import path-control dashboard + Infinity DS workshop-hairpin-control (your stack only)",
+    )
+    p.add_argument(
+        "--admin-token",
+        default="",
+        help="WORKSHOP_ADMIN_TOKEN for hairpin POSTs (header X-Workshop-Admin)",
+    )
     args = p.parse_args()
+    if not args.admin_token:
+        args.admin_token = os.environ.get("WORKSHOP_ADMIN_TOKEN", "")
 
     rows = load_manifest(args.manifest)
     if not rows:

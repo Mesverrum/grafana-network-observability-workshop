@@ -1,6 +1,6 @@
 # Talk track
 
-Short sentences. Honest limits. No Linux homework. You are on a **webinar**: share slides or a diagram; paste hostnames and prompts in chat. See [webinar.md](webinar.md).
+Short sentences. Honest limits. No Linux homework. You are on a **webinar**: share slides or a diagram; paste the public IP and prompts in chat. See [webinar.md](webinar.md).
 
 ## Cloud vs the OSS scar (first 10 minutes)
 
@@ -45,17 +45,23 @@ Point at the first `kentik_snmp_PollingHealth` series when it lands. Names they 
 
 > Value-add is not another poller. It is one place to ask questions. **Assistant** inherits Grafana RBAC and your datasources. It is a consumption layer. It will not replace a network engineer.
 
-Paste this in chat (also in [assistant-prompts.md](assistant-prompts.md)):
+Paste this in chat (also in [assistant-prompts.md](assistant-prompts.md)). They should ask **Assistant**, not type PromQL in Explore:
 
 > In the last 30 minutes, which `device_name` has the highest `kentik_snmp_CPU`?
 
 ## Synthetics primer (5 min, then they drive)
 
-> SNMP tells you what the box thinks. Synthetics tell you what a user path from the internet looks like. Grafana Cloud runs public probes in AMER, EMEA, APAC. Today you create two checks: a **traceroute** and a **TCP port** check.
+> SNMP tells you what the box thinks. Synthetics tell you what a user path looks like. Same public IP for everyone. You pick a **public** home probe — Oregon or North Virginia. I will shuffle where that IP lands in AWS. I do not touch your stack, and I do not flip DNS.
 
-> Pick Oregon or North Virginia as your "home" probe. We will mess with the path later.
+> Create two checks: a **traceroute** and a **TCP port** check. Same probe. Stay on the check page for duration and hops. I will show **Explore once** on my share so they see the series; that is not the rest of the day.
 
-Paste the target hostname (and port) in chat as its own message so they can copy it.
+Paste this as its own chat message:
+
+```
+Target: 15.197.194.37
+TCP: 15.197.194.37:80
+Probe: Oregon or North Virginia (public). Do not add Singapore yet.
+```
 
 ## Import + hunt (2 min)
 
@@ -63,13 +69,15 @@ Paste the target hostname (and port) in chat as its own message so they can copy
 
 ## Fault (2 min)
 
-> I am changing the path. Your job is latency and traceroute, not my router. Lab 4 is in chat.
+> I am changing where that IP lands. Same address you already typed. Open the checks you already have — duration and hops are on those pages. Lab 4 is in chat.
 
-If the hairpin fails: "Singapore probe is the fallback. Same alert skill." Repeat it in chat.
+Click **Enable Singapore path**, wait ~30 seconds plus one check interval, then send them to Lab 4.
+
+If duration does not move: "Edit the TCP check and add the public Singapore probe. Same alert skill." Repeat it in chat.
 
 ## Infinity + Assistant (4 min)
 
-> PRTG is your NMS. Check Point and EdgeConnect have their own controllers. We do not have first-class Cloud integrations that replace those. **Infinity** is the generic API datasource. You will query a mock that looks like those APIs (Lab 5 uses Meraki because the JSON is simple). Then you ask Assistant to build a dashboard that puts controller status next to SNMP errors and the synthetic latency you already have.
+> PRTG is your NMS. Check Point and EdgeConnect have their own controllers. We do not have first-class Cloud integrations that replace those. **Infinity** is the generic API datasource. Open the canned PRTG / Check Point / Aruba boards first. Then ask Assistant to build one board that puts Meraki next to SNMP errors and the TCP check they already watch in Synthetics.
 
 > After the webinar that URL becomes the real controller plus an API key. The skill is the same.
 

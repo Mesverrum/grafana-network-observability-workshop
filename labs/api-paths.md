@@ -1,8 +1,6 @@
 # Mock controller APIs (Infinity)
 
-The facilitator hosts a mock API and points the Infinity datasource `workshop-network-apis` at it. Explore with **type JSON**, **source URL**, parser **backend**, format **table**.
-
-These paths are workshop-shaped. Auth and schemas on live controllers will differ.
+Paths on the workshop mock. Point Infinity `workshop-network-apis` at the mock URL from chat, then use these in Explore or Assistant.
 
 | Integration | Path | Root | Identity fields |
 |---|---|---|---|
@@ -13,12 +11,6 @@ These paths are workshop-shaped. Auth and schemas on live controllers will diffe
 | Aruba EdgeConnect | `/edgeconnect/appliances` | `appliances` | `hostName` |
 | EdgeConnect tunnels | `/edgeconnect/tunnels` | `tunnels` | `src`, `dst` |
 | Aruba Central APs | `/aruba/aps` | `aps` | `name` |
-| Meraki | `/meraki/devices` | _(array)_ | `name` |
+| Meraki | `/meraki/devices` | leave empty (JSON array) | `name` |
 
-Canned summary boards (if imported):
-
-- Workshop PRTG Summary (`workshop-prtg-summary`)
-- Workshop Check Point Summary (`workshop-checkpoint-summary`)
-- Workshop Aruba Summary (`workshop-aruba-summary`)
-
-After the webinar, the same Infinity skill points at the real API plus a token.
+Canned boards (if imported in Lab 3): Workshop PRTG Summary, Workshop Check Point Summary, Workshop Aruba Summary.

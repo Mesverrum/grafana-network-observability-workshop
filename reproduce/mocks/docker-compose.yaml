@@ -5,4 +5,6 @@ services:
       dockerfile: mocks/Dockerfile
     ports:
       - "8088:8088"
+    environment:
+      WORKSHOP_ADMIN_TOKEN: ${WORKSHOP_ADMIN_TOKEN:-}
     restart: unless-stopped

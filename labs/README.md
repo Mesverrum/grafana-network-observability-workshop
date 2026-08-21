@@ -1,18 +1,17 @@
 # Labs
 
-This is a **webinar**. Keep the session and Grafana Cloud in two windows. Use **chat** (or raise-hand) if you are stuck — you will not install collectors or use a terminal. If a step wants Linux, you are in the wrong lab; say so in chat.
+Keep the webinar and Grafana Cloud in two windows. Use **chat** if you get stuck.
 
-The facilitator will paste the Grafana URL, the synthetic target hostname, and when to start each lab.
+Your sandbox starts empty. Add Prometheus and Loki from chat, then import dashboards. Synthetics stay on your stack.
 
-Work in order:
+The facilitator will paste datasource credentials, the synthetic target IP, and when to start each lab.
 
 1. [Login](00-login.md)
-2. [Watch discovery](01-watch-discovery.md)
-3. [Synthetics](02-synthetics.md)
-4. [Summary, then drill in](03-import-and-hunt.md)
-5. [The path got worse](04-latency-fault.md)
-6. [Infinity + Assistant](05-infinity-assistant.md)
+2. [Add shared data sources](00-datasources.md) (when chat has the credentials)
+3. [Watch discovery](01-watch-discovery.md)
+4. [Synthetics](02-synthetics.md)
+5. [Import dashboards, then hunt](03-import-and-hunt.md)
+6. [The path got worse](04-latency-fault.md)
+7. [Infinity + Assistant](05-infinity-assistant.md)
 
-Dashboards you may import: [dashboards/](dashboards/).
-
-Mock API paths for Infinity: [api-paths.md](api-paths.md).
+Dashboard JSON: [dashboards/](dashboards/). Mock API paths: [api-paths.md](api-paths.md).

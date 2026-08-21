@@ -2,49 +2,49 @@
 
 SNMP is what the box thinks. Synthetics are what a path from the internet looks like.
 
-The facilitator will **paste a target hostname in webinar chat** (and usually on a slide). Use that. Do not invent a customer production VIP.
+This lab uses **your** stack’s Synthetic Monitoring. The facilitator will paste a **public IP** and `IP:port` in chat. Copy both. Every stack uses the same target.
 
-Docs: [Traceroute checks](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/checks/traceroute/), [TCP checks](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/checks/tcp/), [public probes](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/public-probes/).
+Docs if you want them: [traceroute](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/checks/traceroute/), [TCP](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/checks/tcp/), [public probes](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/public-probes/).
 
-## A. Traceroute
+## Find Synthetics
 
-1. Left menu: **Testing & synthetics** → **Synthetics**.
-2. **Create new check** (wording may be **Add new check**).
-3. Choose **Traceroute**.
-4. Job name: `workshop-tr`
-5. Target: the hostname from chat.
-6. Probe locations: pick **one** home probe, **Oregon** or **North Virginia**. Do not add Singapore yet.
-7. Frequency: 120 seconds (minimum for traceroute).
-8. **Save**. **Test** once if the UI offers it.
+1. Left menu: **Testing & synthetics**.
+2. Click **Synthetics** (not **Performance Testing** / **k6**).
+3. If the page asks you to **Initialize the plugin**, click it and wait for a Checks list. If you already have a Checks list, skip this.
 
-## B. TCP port
+## A. Traceroute check
 
-1. Create another check. Type **TCP** (sometimes under API Endpoint; set protocol to TCP).
-2. Job name: `workshop-tcp`
-3. Target: hostname **and port** from chat (example `lab.example.com:443`).
-4. Same home probe as the traceroute.
-5. Frequency: 60 seconds is fine.
-6. Save.
+1. **Add new check** (sometimes **Create check** or **Create new check**).
+2. Choose the **Traceroute** card.
+3. **Job name:** `workshop-tr`.
+4. **Target:** the IP from chat (example `15.197.194.37`). No `https://`, no port.
+5. **Probe locations:** choose **one** public probe, **Oregon** or **North Virginia**. Uncheck anything else.
+6. **Frequency:** `120` seconds, or **2 minutes** if the control is in minutes.
+7. Scroll to the bottom. **Submit** / **Save**.
+8. If the UI offers **Test**, click it once.
 
-## C. Prove it
+## B. TCP check
 
-1. Open the check → recent runs. You want at least one green.
-2. **Explore** → Prometheus:
+1. **Add new check** again.
+2. Choose **TCP**. If you only see HTTP / Ping / DNS, scroll. It is not under “API Endpoint.”
+3. **Job name:** `workshop-tcp`.
+4. **Target:** IP **and port** from chat (example `15.197.194.37:80`).
+5. **Probes:** the same single public probe as traceroute.
+6. **Frequency:** `60` seconds is fine.
+7. **Save**.
 
-```promql
-probe_duration_seconds{job="workshop-tcp"}
-```
+## C. Prove it on the check page
 
-```promql
-probe_traceroute_total_hops{job="workshop-tr"}
-```
-
-Save today's hop count and a ballpark duration (screenshot or a note). You will need that after the fault.
+1. Open **workshop-tcp** from the Checks list.
+2. Wait until at least one run is green. First TCP run is usually under a minute. If it stays red, the target or port is wrong; paste a screenshot in chat.
+3. Find the **duration / latency** chart on that page. Lab 4 uses this same chart.
+4. Open **workshop-tr**. Traceroute can take up to two minutes for the first result.
+5. Confirm you can see a hop list or traceroute map.
 
 ## You are done when
 
-Both checks have a result, and you know which probe you used. If the UI is confusing, post a screenshot in chat rather than waiting.
+Both checks have a result and you know which public probe you used. Leave the target alone for the rest of the session.
 
 ## Stretch
 
-Add a second home-region probe (Ohio or Montreal). Still no Singapore.
+Add a second public probe in a nearby region (Ohio or Montreal) only if chat says to.

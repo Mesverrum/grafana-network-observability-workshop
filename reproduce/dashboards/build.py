@@ -964,6 +964,7 @@ def skeleton() -> dict:
 
 def main() -> None:
     import integrations
+    import facilitator
 
     for name, builder in (
         ("device-summary.json", summary),
@@ -972,6 +973,7 @@ def main() -> None:
         ("prtg-summary.json", integrations.prtg_summary),
         ("checkpoint-summary.json", integrations.checkpoint_summary),
         ("aruba-summary.json", integrations.aruba_summary),
+        ("facilitator-control.json", facilitator.facilitator_control),
     ):
         path = OUT / name
         path.write_text(json.dumps(builder(), indent=2) + "\n", encoding="utf-8")
