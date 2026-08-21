@@ -1,0 +1,902 @@
+{
+  "uid": "workshop-checkpoint-summary",
+  "title": "Workshop Check Point Summary",
+  "description": "Mock Check Point gateways and Skyline status via Infinity.",
+  "tags": [
+    "workshop",
+    "network-o11y",
+    "infinity"
+  ],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "editable": true,
+  "graphTooltip": 1,
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "infinity",
+        "type": "datasource",
+        "query": "yesoreyeram-infinity-datasource",
+        "current": {
+          "text": "workshop-network-apis",
+          "value": "workshop-network-apis"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "options": [],
+        "refresh": 1
+      },
+      {
+        "name": "datasource",
+        "type": "datasource",
+        "query": "prometheus",
+        "current": {
+          "text": "grafanacloud-prom",
+          "value": "grafanacloud-prom"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "options": [],
+        "refresh": 1
+      },
+      {
+        "name": "loki",
+        "type": "datasource",
+        "query": "loki",
+        "current": {
+          "text": "grafanacloud-logs",
+          "value": "grafanacloud-logs"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "options": [],
+        "refresh": 1
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Overview",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 2,
+      "type": "text",
+      "title": "What this is",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 1
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "Infinity against the workshop **Check Point** mock.\n\n`/checkpoint/gateways` is a convenience GET. `/checkpoint/web_api/show-gateways-and-servers` is the Management-shaped POST. Skyline on this mock is a status JSON \u2014 production Skyline is OTel, not REST."
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Gateways",
+      "description": "GET /checkpoint/gateways",
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 8,
+        "y": 1
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/checkpoint/gateways",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "count",
+              "text": "Gateways",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Attention",
+      "description": "status != OK",
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 13,
+        "y": 1
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/checkpoint/gateways",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "attention",
+              "text": "Attention",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Skyline objects",
+      "description": "GET /checkpoint/skyline/status \u2192 gateways",
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/checkpoint/skyline/status",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "gateways",
+              "text": "Skyline objects",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 6,
+      "type": "row",
+      "title": "Management inventory",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 7,
+      "type": "table",
+      "title": "Gateways",
+      "description": "GET /checkpoint/gateways \u2192 gateways[]",
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/checkpoint/gateways",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "gateways",
+          "columns": [
+            {
+              "selector": "name",
+              "text": "Device",
+              "type": "string"
+            },
+            {
+              "selector": "building",
+              "text": "Building",
+              "type": "string"
+            },
+            {
+              "selector": "hardware",
+              "text": "Model",
+              "type": "string"
+            },
+            {
+              "selector": "ipv4-address",
+              "text": "IPv4",
+              "type": "string"
+            },
+            {
+              "selector": "status",
+              "text": "Status",
+              "type": "string"
+            },
+            {
+              "selector": "cpu",
+              "text": "CPU",
+              "type": "number"
+            },
+            {
+              "selector": "sessions",
+              "text": "Sessions",
+              "type": "number"
+            },
+            {
+              "selector": "policy",
+              "text": "Policy",
+              "type": "string"
+            },
+            {
+              "selector": "sic-status",
+              "text": "SIC",
+              "type": "string"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "id": true,
+              "type": true,
+              "platform": true,
+              "name": true,
+              "building": true,
+              "hardware": true,
+              "ipv4-address": true,
+              "status": true,
+              "cpu": true,
+              "sessions": true,
+              "policy": true,
+              "sic-status": true
+            },
+            "renameByName": {},
+            "indexByName": {
+              "Device": 0,
+              "Building": 1,
+              "Model": 2,
+              "IPv4": 3,
+              "Status": 4,
+              "CPU": 5,
+              "Sessions": 6,
+              "Policy": 7,
+              "SIC": 8
+            }
+          }
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Device details",
+                    "url": "/d/workshop-device-details?var-device=${__data.fields.Device}&var-datasource=${datasource}&var-loki=${loki}&from=${__from}&to=${__to}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "type": "row",
+      "title": "Skyline status",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 9,
+      "type": "table",
+      "title": "Skyline objects",
+      "description": "Same four gateways on the Skyline status document.",
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 0,
+        "y": 17
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/checkpoint/skyline/status",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "objects",
+          "columns": [
+            {
+              "selector": "name",
+              "text": "Device",
+              "type": "string"
+            },
+            {
+              "selector": "building",
+              "text": "Building",
+              "type": "string"
+            },
+            {
+              "selector": "hardware",
+              "text": "Model",
+              "type": "string"
+            },
+            {
+              "selector": "ipv4-address",
+              "text": "IPv4",
+              "type": "string"
+            },
+            {
+              "selector": "status",
+              "text": "Status",
+              "type": "string"
+            },
+            {
+              "selector": "cpu",
+              "text": "CPU",
+              "type": "number"
+            },
+            {
+              "selector": "sessions",
+              "text": "Sessions",
+              "type": "number"
+            },
+            {
+              "selector": "policy",
+              "text": "Policy",
+              "type": "string"
+            },
+            {
+              "selector": "sic-status",
+              "text": "SIC",
+              "type": "string"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "id": true,
+              "type": true,
+              "platform": true,
+              "name": true,
+              "building": true,
+              "hardware": true,
+              "ipv4-address": true,
+              "status": true,
+              "cpu": true,
+              "sessions": true,
+              "policy": true,
+              "sic-status": true
+            },
+            "renameByName": {},
+            "indexByName": {
+              "Device": 0,
+              "Building": 1,
+              "Model": 2,
+              "IPv4": 3,
+              "Status": 4,
+              "CPU": 5,
+              "Sessions": 6,
+              "Policy": 7,
+              "SIC": 8
+            }
+          }
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Device details",
+                    "url": "/d/workshop-device-details?var-device=${__data.fields.Device}&var-datasource=${datasource}&var-loki=${loki}&from=${__from}&to=${__to}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "type": "table",
+      "title": "FortiGate path alias",
+      "description": "Leftover path \u2014 same box as bld4-fw-01.",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 17
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/fortigate/status",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "results",
+          "columns": [
+            {
+              "selector": "hostname",
+              "text": "Device",
+              "type": "string"
+            },
+            {
+              "selector": "vendor",
+              "text": "Vendor",
+              "type": "string"
+            },
+            {
+              "selector": "version",
+              "text": "Version",
+              "type": "string"
+            },
+            {
+              "selector": "cpu",
+              "text": "CPU",
+              "type": "number"
+            },
+            {
+              "selector": "sessions",
+              "text": "Sessions",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "id": true,
+              "type": true,
+              "platform": true,
+              "hostname": true,
+              "vendor": true,
+              "version": true,
+              "cpu": true,
+              "sessions": true
+            },
+            "renameByName": {},
+            "indexByName": {
+              "Device": 0,
+              "Vendor": 1,
+              "Version": 2,
+              "CPU": 3,
+              "Sessions": 4
+            }
+          }
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Device details",
+                    "url": "/d/workshop-device-details?var-device=${__data.fields.Device}&var-datasource=${datasource}&var-loki=${loki}&from=${__from}&to=${__to}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": "row",
+      "title": "Same names over SNMP",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 12,
+      "type": "table",
+      "title": "Check Point over SNMP",
+      "description": "Same device names on the ktranslate-shaped SNMP path. Click Device for details.",
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "max by(device_name) (kentik_snmp_CPU{provider=\"checkpoint\"})",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Index": true,
+              "__name__": true,
+              "job": true,
+              "deployment_host": true,
+              "service_name": true,
+              "src_addr": true,
+              "tags_container_service": true,
+              "instrumentation_name": true,
+              "tags_snmp_group": true
+            },
+            "renameByName": {
+              "device_name": "Device",
+              "Value": "CPU %"
+            },
+            "indexByName": {
+              "Device": 0,
+              "CPU %": 1
+            }
+          }
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Device details",
+                    "url": "/d/workshop-device-details?var-device=${__data.fields.Device}&var-datasource=${datasource}&var-loki=${loki}&from=${__from}&to=${__to}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "title": "Device Summary",
+      "type": "link",
+      "url": "/d/workshop-device-summary",
+      "asDropdown": false,
+      "icon": "dashboard"
+    },
+    {
+      "title": "Device Details",
+      "type": "link",
+      "url": "/d/workshop-device-details",
+      "asDropdown": false,
+      "icon": "dashboard"
+    },
+    {
+      "title": "PRTG",
+      "type": "link",
+      "url": "/d/workshop-prtg-summary",
+      "asDropdown": false,
+      "icon": "cloud"
+    },
+    {
+      "title": "Check Point",
+      "type": "link",
+      "url": "/d/workshop-checkpoint-summary",
+      "asDropdown": false,
+      "icon": "cloud"
+    },
+    {
+      "title": "Aruba",
+      "type": "link",
+      "url": "/d/workshop-aruba-summary",
+      "asDropdown": false,
+      "icon": "cloud"
+    }
+  ],
+  "fiscalYearStartMonth": 0
+}

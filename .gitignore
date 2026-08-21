@@ -1,0 +1,12 @@
+stacks.csv
+stacks.lab.csv
+.env
+.env.*
+!.env.sample
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+tmp/
+*.log

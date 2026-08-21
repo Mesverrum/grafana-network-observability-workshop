@@ -1,0 +1,2 @@
+url,token,otlp_endpoint,otlp_instance,otlp_token,tenant
+https://REPLACE.grafana.net,glsa_REPLACE,https://otlp-gateway-prod-us-central-0.grafana.net/otlp,123456,glc_REPLACE,attendee-01

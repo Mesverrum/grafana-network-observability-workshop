@@ -1,0 +1,23 @@
+# Room-safe SNMP speaker. Collector lives in KtransToGrafana.
+# Usage: docker compose up -d snmpsim
+services:
+  snmpsim:
+    image: tandrup/snmpsim:latest
+    ports:
+      - "1161:161/udp"
+    restart: unless-stopped
+
+  alloy:
+    profiles: ["alloy"]
+    image: grafana/alloy:v1.8.3
+    command:
+      - run
+      - /etc/alloy/config.alloy
+    env_file:
+      - .env
+    volumes:
+      - ./config.alloy.sample:/etc/alloy/config.alloy:ro
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+    restart: unless-stopped

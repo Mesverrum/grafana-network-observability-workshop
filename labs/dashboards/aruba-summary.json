@@ -1,0 +1,1093 @@
+{
+  "uid": "workshop-aruba-summary",
+  "title": "Workshop Aruba Summary",
+  "description": "Mock EdgeConnect appliances/tunnels and Central APs via Infinity.",
+  "tags": [
+    "workshop",
+    "network-o11y",
+    "infinity"
+  ],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "editable": true,
+  "graphTooltip": 1,
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "infinity",
+        "type": "datasource",
+        "query": "yesoreyeram-infinity-datasource",
+        "current": {
+          "text": "workshop-network-apis",
+          "value": "workshop-network-apis"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "options": [],
+        "refresh": 1
+      },
+      {
+        "name": "datasource",
+        "type": "datasource",
+        "query": "prometheus",
+        "current": {
+          "text": "grafanacloud-prom",
+          "value": "grafanacloud-prom"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "options": [],
+        "refresh": 1
+      },
+      {
+        "name": "loki",
+        "type": "datasource",
+        "query": "loki",
+        "current": {
+          "text": "grafanacloud-logs",
+          "value": "grafanacloud-logs"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "options": [],
+        "refresh": 1
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Overview",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 2,
+      "type": "text",
+      "title": "What this is",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 1
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "Infinity against the workshop **Aruba EdgeConnect** mock (`/edgeconnect/gms/rest/appliance`).\n\nCentral APs are a second Aruba API on the same datasource (`/aruba/monitoring/v2/aps`)."
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Appliances",
+      "description": "",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/edgeconnect/appliances",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "count",
+              "text": "Appliances",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Degraded",
+      "description": "",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 1
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/edgeconnect/appliances",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "degraded",
+              "text": "Degraded",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Tunnels",
+      "description": "",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 1
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/edgeconnect/tunnels",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "count",
+              "text": "Tunnels",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "Tunnel issues",
+      "description": "",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/edgeconnect/tunnels",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "degraded",
+              "text": "Tunnel issues",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 7,
+      "type": "row",
+      "title": "Orchestrator",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 8,
+      "type": "table",
+      "title": "Appliances",
+      "description": "GET /edgeconnect/appliances (alias of /gms/rest/appliance)",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/edgeconnect/appliances",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "appliances",
+          "columns": [
+            {
+              "selector": "hostName",
+              "text": "Device",
+              "type": "string"
+            },
+            {
+              "selector": "site",
+              "text": "Site",
+              "type": "string"
+            },
+            {
+              "selector": "model",
+              "text": "Model",
+              "type": "string"
+            },
+            {
+              "selector": "role",
+              "text": "Role",
+              "type": "string"
+            },
+            {
+              "selector": "state",
+              "text": "State",
+              "type": "string"
+            },
+            {
+              "selector": "ip",
+              "text": "IP",
+              "type": "string"
+            },
+            {
+              "selector": "nePk",
+              "text": "Network element ID",
+              "type": "string"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "id": true,
+              "type": true,
+              "platform": true,
+              "hostName": true,
+              "site": true,
+              "model": true,
+              "role": true,
+              "state": true,
+              "ip": true,
+              "nePk": true
+            },
+            "renameByName": {},
+            "indexByName": {
+              "Device": 0,
+              "Site": 1,
+              "Model": 2,
+              "Role": 3,
+              "State": 4,
+              "IP": 5,
+              "Network element ID": 6
+            }
+          }
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Device details",
+                    "url": "/d/workshop-device-details?var-device=${__data.fields.Device}&var-datasource=${datasource}&var-loki=${loki}&from=${__from}&to=${__to}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "type": "table",
+      "title": "Tunnels",
+      "description": "GET /edgeconnect/tunnels",
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/edgeconnect/tunnels",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "tunnels",
+          "columns": [
+            {
+              "selector": "src",
+              "text": "Src device",
+              "type": "string"
+            },
+            {
+              "selector": "dst",
+              "text": "Dst device",
+              "type": "string"
+            },
+            {
+              "selector": "overlay",
+              "text": "Overlay",
+              "type": "string"
+            },
+            {
+              "selector": "id",
+              "text": "Tunnel",
+              "type": "string"
+            },
+            {
+              "selector": "state",
+              "text": "State",
+              "type": "string"
+            },
+            {
+              "selector": "loss_pct",
+              "text": "Loss %",
+              "type": "number"
+            },
+            {
+              "selector": "latency_ms",
+              "text": "Latency ms",
+              "type": "number"
+            },
+            {
+              "selector": "note",
+              "text": "Note",
+              "type": "string"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "id": true,
+              "type": true,
+              "platform": true,
+              "src": true,
+              "dst": true,
+              "overlay": true,
+              "state": true,
+              "loss_pct": true,
+              "latency_ms": true,
+              "note": true
+            },
+            "renameByName": {},
+            "indexByName": {
+              "Src device": 0,
+              "Dst device": 1,
+              "Overlay": 2,
+              "Tunnel": 3,
+              "State": 4,
+              "Loss %": 5,
+              "Latency ms": 6,
+              "Note": 7
+            }
+          }
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "id": 10,
+      "type": "row",
+      "title": "Aruba Central",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 11,
+      "type": "stat",
+      "title": "APs",
+      "description": "",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 23
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/aruba/aps",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "count",
+              "text": "APs",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 12,
+      "type": "stat",
+      "title": "APs down",
+      "description": "",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 23
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/aruba/aps",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "down",
+              "text": "APs down",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 13,
+      "type": "table",
+      "title": "Access points",
+      "description": "GET /aruba/monitoring/v2/aps",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 23
+      },
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "url": "/aruba/aps",
+          "url_options": {
+            "method": "GET",
+            "data": "",
+            "params": []
+          },
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "aps",
+          "columns": [
+            {
+              "selector": "name",
+              "text": "Device",
+              "type": "string"
+            },
+            {
+              "selector": "building",
+              "text": "Building",
+              "type": "string"
+            },
+            {
+              "selector": "serial",
+              "text": "Serial",
+              "type": "string"
+            },
+            {
+              "selector": "model",
+              "text": "Model",
+              "type": "string"
+            },
+            {
+              "selector": "status",
+              "text": "Status",
+              "type": "string"
+            },
+            {
+              "selector": "client_count",
+              "text": "Clients",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "id": true,
+              "type": true,
+              "platform": true,
+              "name": true,
+              "building": true,
+              "serial": true,
+              "model": true,
+              "status": true,
+              "client_count": true
+            },
+            "renameByName": {},
+            "indexByName": {
+              "Device": 0,
+              "Building": 1,
+              "Serial": 2,
+              "Model": 3,
+              "Status": 4,
+              "Clients": 5
+            }
+          }
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Device details",
+                    "url": "/d/workshop-device-details?var-device=${__data.fields.Device}&var-datasource=${datasource}&var-loki=${loki}&from=${__from}&to=${__to}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": "row",
+      "title": "Same names over SNMP",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 31
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 15,
+      "type": "table",
+      "title": "Aruba over SNMP",
+      "description": "Same device names on the ktranslate-shaped SNMP path. Click Device for details.",
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "max by(device_name) (kentik_snmp_CPU{provider=\"aruba\"})",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Index": true,
+              "__name__": true,
+              "job": true,
+              "deployment_host": true,
+              "service_name": true,
+              "src_addr": true,
+              "tags_container_service": true,
+              "instrumentation_name": true,
+              "tags_snmp_group": true
+            },
+            "renameByName": {
+              "device_name": "Device",
+              "Value": "CPU %"
+            },
+            "indexByName": {
+              "Device": 0,
+              "CPU %": 1
+            }
+          }
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Device details",
+                    "url": "/d/workshop-device-details?var-device=${__data.fields.Device}&var-datasource=${datasource}&var-loki=${loki}&from=${__from}&to=${__to}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "title": "Device Summary",
+      "type": "link",
+      "url": "/d/workshop-device-summary",
+      "asDropdown": false,
+      "icon": "dashboard"
+    },
+    {
+      "title": "Device Details",
+      "type": "link",
+      "url": "/d/workshop-device-details",
+      "asDropdown": false,
+      "icon": "dashboard"
+    },
+    {
+      "title": "PRTG",
+      "type": "link",
+      "url": "/d/workshop-prtg-summary",
+      "asDropdown": false,
+      "icon": "cloud"
+    },
+    {
+      "title": "Check Point",
+      "type": "link",
+      "url": "/d/workshop-checkpoint-summary",
+      "asDropdown": false,
+      "icon": "cloud"
+    },
+    {
+      "title": "Aruba",
+      "type": "link",
+      "url": "/d/workshop-aruba-summary",
+      "asDropdown": false,
+      "icon": "cloud"
+    }
+  ],
+  "fiscalYearStartMonth": 0
+}

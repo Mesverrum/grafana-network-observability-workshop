@@ -1,0 +1,11 @@
+# Example ktranslate device file. Prefer KtransToGrafana discovery.
+# Community on snmpsim is "public".
+devices:
+  bld4-sim:
+    device_name: bld4-sim
+    device_ip: snmpsim
+    snmp_comm: public
+    user_tags:
+      building: bld4
+      tags_snmp_group: campus
+      provider: cisco
