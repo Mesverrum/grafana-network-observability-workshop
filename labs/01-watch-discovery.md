@@ -1,6 +1,6 @@
 # Lab 1 — Watch discovery (you do not deploy this)
 
-The facilitator is discovering the lab on **their** collector. Your job is to understand the picture, not to copy commands.
+The facilitator is discovering the lab on **their** collector and sharing that screen. Your job is to follow the picture, not to copy commands.
 
 ## What to look for on the shared screen
 
@@ -8,7 +8,9 @@ The facilitator is discovering the lab on **their** collector. Your job is to un
 2. **Target range** — a CIDR or inventory list. Discovery tries credentials against devices and keeps what authenticated.
 3. **What shows up after** — device names, then interface series. The metric family looks like `kentik_snmp_*` because that is ktranslate's schema.
 
-## Write down (30 seconds)
+## Note for yourself (30 seconds)
+
+Keep these where you will still have them after the call (chat to yourself, a doc, or a screenshot):
 
 - What protocols did they mention besides SNMP? (traps, flows, syslog)
 - Where does the data go after ktranslate? (Alloy, then Cloud)
@@ -26,4 +28,4 @@ Empty is fine during this lab. Data may land after the break.
 
 ## You are done when
 
-You can sketch devices → ktranslate → Alloy → Cloud on a notepad without looking at the whiteboard.
+You can explain devices → ktranslate → Alloy → Cloud without staring at the shared diagram.

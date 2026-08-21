@@ -1,6 +1,6 @@
-# Assistant prompts (room + Lab 5)
+# Assistant prompts (webinar chat + Lab 5)
 
-They paste these. Adjust datasource names if Brokkr differs.
+Paste these into webinar chat. Adjust datasource names if the sandbox differs.
 
 ## After Cloud talk (optional, 1 minute)
 

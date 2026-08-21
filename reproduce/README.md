@@ -1,8 +1,8 @@
 # Reproduce this workshop
 
-This folder is the facilitator kit. Attendees stay in [`../labs/`](../labs/).
+This folder is the facilitator kit for a **webinar**. Attendees stay in [`../labs/`](../labs/). How to host the call: [`facilitator/webinar.md`](facilitator/webinar.md).
 
-## Before the room
+## Before the webinar
 
 1. Provision Grafana Cloud stacks (Brokkr **Observability Workshop**, or your own).
 2. Copy `stacks.example.csv` → `stacks.csv` (gitignored). One row per stack: Grafana URL, API token, OTLP endpoint / instance / token.
@@ -27,7 +27,7 @@ python3 overlay/provision-alerts.py --manifest stacks.csv
 python3 generator/generate.py --manifest stacks.csv --interval 15 --fault
 ```
 
-6. Your collector stays on **your** machine. Screen-share discovery. Do not have them SSH. Optional path: [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana) or [`optional-ktranslate/`](optional-ktranslate/).
+6. Your collector stays on **your** machine. Screen-share discovery. They do not SSH. Optional path: [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana) or [`optional-ktranslate/`](optional-ktranslate/).
 
 ## Day-of
 
@@ -51,7 +51,8 @@ Copy the JSON into `../labs/dashboards/` if students import from git.
 | `overlay/` | Folder, Infinity datasource, dashboard import, alerts |
 | `dashboards/` | Dashboard builders + JSON |
 | `scripts/` | Mocks, tunnel, generator helpers |
-| `optional-ktranslate/` | SNMP simulator + notes; not for attendees in the room |
+| `facilitator/` | Webinar run-of-show, talk track, prompts |
+| `optional-ktranslate/` | SNMP simulator + notes; attendees do not run this during the webinar |
 
 ## Plugins
 

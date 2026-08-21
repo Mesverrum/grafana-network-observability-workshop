@@ -1,6 +1,6 @@
 # Facilitator / take-home collector
 
-Attendees do **not** run this in the room. You use it (or [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana)) for the guided discovery. They can clone it later if their team wants a collector.
+Attendees do **not** run this during the webinar. You use it (or [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana)) for the guided discovery you screen-share. They can clone it later if their team wants a collector.
 
 ktranslate is community / partner. It is not Grafana Support.
 
@@ -41,4 +41,4 @@ Import the 00–10 dashboards from that repo. Do not stop at Device Details.
 | `config.alloy.sample` | Alloy → Grafana Cloud OTLP if you already have a local OTLP producer |
 | `ktranslate-snmp.yaml` | Example ktranslate device file targeting snmpsim |
 
-`ktranslate` itself is intentionally **not** pinned here. Image flags change. Use KtransToGrafana's compose for the collector, and this snmpsim when the room has no routers.
+`ktranslate` itself is intentionally **not** pinned here. Image flags change. Use KtransToGrafana's compose for the collector, and this snmpsim when you have no routers to share.

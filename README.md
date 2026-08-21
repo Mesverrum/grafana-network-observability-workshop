@@ -1,12 +1,14 @@
 # Grafana Network Observability Workshop
 
-Hands-on lab for Grafana Cloud: consume ktranslate-shaped SNMP, synthetics, and controller APIs — without installing collectors in the room.
+Hands-on **webinar** on Grafana Cloud: consume ktranslate-shaped SNMP, synthetics, and controller APIs — without installing collectors.
+
+You work in your own Grafana Cloud stack while the facilitator shares theirs. Keep the webinar and Grafana side by side (two windows or two monitors).
 
 ktranslate is community / partner. It is **not** a Grafana Support product.
 
 ## Students
 
-Start in [`labs/`](labs/README.md). You only need a browser and the Grafana Cloud URL from the facilitator.
+Start in [`labs/`](labs/README.md). You only need a browser, the webinar join link, and the Grafana Cloud URL (email or chat).
 
 | Lab | What you do |
 |---|---|
@@ -23,10 +25,4 @@ Controller API cheat sheet: [`labs/api-paths.md`](labs/api-paths.md).
 
 ## Facilitators
 
-Everything needed to run this again lives in [`reproduce/`](reproduce/README.md): mocks, telemetry generator, Grafana overlay, run-of-show, and an optional collector path ([KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana)).
-
-## What this is not
-
-- Production SNMP into a customer estate
-- Each attendee deploying ktranslate
-- Official Grafana Support for ktranslate
+Webinar delivery and the kit to run this again: [`reproduce/`](reproduce/README.md).

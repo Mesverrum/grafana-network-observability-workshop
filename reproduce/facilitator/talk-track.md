@@ -1,6 +1,6 @@
 # Talk track
 
-Short sentences. Honest limits. No Linux homework.
+Short sentences. Honest limits. No Linux homework. You are on a **webinar**: share slides or a diagram; paste hostnames and prompts in chat. See [webinar.md](webinar.md).
 
 ## Cloud vs the OSS scar (first 10 minutes)
 
@@ -10,7 +10,7 @@ This is the objection they will bring before architecture.
 
 > Cloud is the opposite: you ingest. Grafana runs Mimir, Loki, Tempo, and the upgrades. Skyline already speaks OTel. The same export can land here without you owning the backend.
 
-> We are not asking for SNMP into production today. This room is Cloud sandboxes and lab appliances. PRTG, Check Point, and Aruba EdgeConnect look familiar because the mocks are shaped like those APIs. Overlay, not rip-and-replace.
+> We are not asking for SNMP into production today. This session is Cloud sandboxes and lab appliances. PRTG, Check Point, and Aruba EdgeConnect look familiar because the mocks are shaped like those APIs. Overlay, not rip-and-replace.
 
 Give them one sentence to steal for leadership:
 
@@ -18,7 +18,7 @@ Give them one sentence to steal for leadership:
 
 ## ktranslate architecture (10–12 min)
 
-Draw this left to right:
+Share this left to right (slide or draw on the shared screen):
 
 ```
 campus gear  →  ktranslate  →  Alloy  →  Grafana Cloud
@@ -31,7 +31,7 @@ Say:
 
 > Grafana's *supported* SNMP path is Alloy `prometheus.exporter.snmp`. It works. It is more YAML and MIB pain. We use ktranslate in the field because discovery and vendor profiles are faster. It is **not** a Grafana Support product. If your leadership asks, say community/partner.
 
-> You are not installing this today. I will discover the lab. You will live in Cloud.
+> You are not installing this today. I will discover the lab on my screen. You will live in Cloud.
 
 ## Guided discovery (while it runs)
 
@@ -45,7 +45,7 @@ Point at the first `kentik_snmp_PollingHealth` series when it lands. Names they 
 
 > Value-add is not another poller. It is one place to ask questions. **Assistant** inherits Grafana RBAC and your datasources. It is a consumption layer. It will not replace a network engineer.
 
-Give them one prompt (also in [assistant-prompts.md](assistant-prompts.md)):
+Paste this in chat (also in [assistant-prompts.md](assistant-prompts.md)):
 
 > In the last 30 minutes, which `device_name` has the highest `kentik_snmp_CPU`?
 
@@ -55,26 +55,28 @@ Give them one prompt (also in [assistant-prompts.md](assistant-prompts.md)):
 
 > Pick Oregon or North Virginia as your "home" probe. We will mess with the path later.
 
-Target: you publish one hostname (lab VIP or a stable public port you control). Write it on the board.
+Paste the target hostname (and port) in chat as its own message so they can copy it.
 
 ## Import + hunt (2 min)
 
-> Open Device Summary. Alerts on the fleet, a device table, click through to one box. I will not click for you.
+> Open Device Summary. Alerts on the fleet, a device table, click through to one box. I will share the shape once; you click on your stack.
 
 ## Fault (2 min)
 
-> I am changing the path. Your job is latency and traceroute, not my router.
+> I am changing the path. Your job is latency and traceroute, not my router. Lab 4 is in chat.
 
-If the hairpin fails: "Singapore probe is the fallback. Same alert skill."
+If the hairpin fails: "Singapore probe is the fallback. Same alert skill." Repeat it in chat.
 
 ## Infinity + Assistant (4 min)
 
-> PRTG is your NMS. Check Point and EdgeConnect have their own controllers. We do not have first-class Cloud integrations that replace those. **Infinity** is the generic API datasource. You will point it at a mock that looks like those APIs (Lab 5 uses Meraki because the JSON is simple). Then you ask Assistant to build a board that puts controller status next to SNMP errors and the synthetic latency you already have.
+> PRTG is your NMS. Check Point and EdgeConnect have their own controllers. We do not have first-class Cloud integrations that replace those. **Infinity** is the generic API datasource. You will query a mock that looks like those APIs (Lab 5 uses Meraki because the JSON is simple). Then you ask Assistant to build a dashboard that puts controller status next to SNMP errors and the synthetic latency you already have.
 
-> On Monday that URL becomes the real controller plus an API key. The skill is the same.
+> After the webinar that URL becomes the real controller plus an API key. The skill is the same.
+
+Paste the Lab 5 Assistant block into chat.
 
 ## Close (8 min)
 
 > Today you consumed Cloud. You did not become a ktranslate admin. Your team can take [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana) home if you want the collector. Synthetics and Infinity you can use this week without Linux. Cloud upgrades stay Grafana's problem.
 
-Stop talking.
+Stop talking. Drop the GitHub link in chat again.

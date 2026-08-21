@@ -21,4 +21,4 @@ Canned summary boards (if imported):
 - Workshop Check Point Summary (`workshop-checkpoint-summary`)
 - Workshop Aruba Summary (`workshop-aruba-summary`)
 
-Monday, the same Infinity skill points at the real API plus a token.
+After the webinar, the same Infinity skill points at the real API plus a token.

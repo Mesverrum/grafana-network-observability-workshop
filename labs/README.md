@@ -1,8 +1,10 @@
 # Labs
 
-You will **not** install collectors or use Linux. If a step wants a terminal, wave at a facilitator.
+This is a **webinar**. Keep the session and Grafana Cloud in two windows. Use **chat** (or raise-hand) if you are stuck — you will not install collectors or use a terminal. If a step wants Linux, you are in the wrong lab; say so in chat.
 
-Work in order. The facilitator will tell you when to start each lab.
+The facilitator will paste the Grafana URL, the synthetic target hostname, and when to start each lab.
+
+Work in order:
 
 1. [Login](00-login.md)
 2. [Watch discovery](01-watch-discovery.md)

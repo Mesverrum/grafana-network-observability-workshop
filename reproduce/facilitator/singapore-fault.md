@@ -1,15 +1,15 @@
 # Singapore latency fault
 
-Goal: they see a **path or latency change**, then write an alert. Two ways to get there. Prefer A.
+Goal: they see a **path or latency change**, then write an alert. Two ways to get there. Prefer A. Announce the switch on **mic and chat**.
 
 ## A. Hairpin (you own the routing)
 
 Do this on **your** lab path, not on their laptops.
 
-1. Before the room: they already created traceroute + TCP toward a hostname you control (Lab 2). Home probe is Oregon or North Virginia.
+1. Before the webinar: they will create traceroute + TCP toward a hostname you control (Lab 2). Home probe is Oregon or North Virginia. Paste that hostname in chat at Lab 2.
 2. At Lab 4 start, change routing so that prefix hairpins through Singapore (or any APAC hop that was not on the baseline). Keep the destination IP the same so their check target does not change.
-3. On a spare screen, run a traceroute from a US VPS or from the same public hostname so you can narrate hops if SM is slow.
-4. Tell the room: "Path changed. Find it."
+3. Optionally run a traceroute from a US VPS in a second window and share it if SM is slow to update.
+4. Say: "Path changed. Lab 4 — find it." Paste Lab 4 in chat.
 
 What they should see within a few SM intervals:
 
@@ -21,9 +21,9 @@ Traceroute frequency in Cloud is 120s minimum. Budget 4 minutes before you panic
 
 ## B. Fallback: add the Singapore public probe
 
-If you cannot touch routing in the room:
+If you cannot touch routing during the call:
 
-1. Have them **edit** the Lab 2 TCP (or HTTP) check.
+1. Have them **edit** the Lab 2 TCP (or HTTP) check. Paste those clicks in chat.
 2. Add probe **Singapore** (APAC, AWS). Keep Oregon.
 3. Save. Wait two intervals.
 
@@ -55,7 +55,8 @@ Above 0 means the path moved.
 
 ## Your checklist
 
-- [ ] Board hostname is reachable from public probes (firewall allow-list if needed: Cloud SM public probe IPs)
+- [ ] Target hostname is reachable from public probes (firewall allow-list if needed: Cloud SM public probe IPs)
 - [ ] You know the pre-fault hop count
 - [ ] You can revert the hairpin in one command
-- [ ] Fallback B tested once on a Brokkr stack before the event
+- [ ] Fallback B tested once on a sandbox stack before the webinar
+- [ ] Chat text for “path changed” / “add Singapore probe” is ready to paste

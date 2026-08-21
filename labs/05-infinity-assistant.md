@@ -13,7 +13,7 @@ Paths: [api-paths.md](api-paths.md). The same datasource also has `/meraki/devic
 ## A. Confirm the datasource
 
 1. **Connections** → datasources. Open `workshop-network-apis` (Infinity).
-2. If it is missing, tell a facilitator. Do not create a second one unless they ask.
+2. If it is missing, post in chat. Do not create a second one unless they ask.
 3. **Explore** → that datasource.
 4. Type JSON, source URL, URL `/meraki/devices`, parser backend, format table. Run.
 
@@ -33,7 +33,7 @@ Build a dashboard titled Workshop campus that has:
 Put a text panel at the top that says users in Building 4 are slow.
 ```
 
-If it ignores Infinity, send the follow-up in the facilitator prompt sheet.
+If it ignores Infinity, paste the follow-up from webinar chat (the facilitator will drop it).
 
 ## C. You edit, it does not have to be pretty
 
@@ -42,9 +42,9 @@ If it ignores Infinity, send the follow-up in the facilitator prompt sheet.
 
 ## You are done when
 
-You have one dashboard that a network person and an app person could stand in front of: controller API + device errors + probe latency.
+You have one dashboard a network person and an app person could look at on the same call: controller API + device errors + probe latency.
 
-Export it (Share → Export) if you want a take-home.
+Export it (Share → Export) if you want a take-home. Screenshot into chat if they ask to see a volunteer board.
 
 ## Stretch
 

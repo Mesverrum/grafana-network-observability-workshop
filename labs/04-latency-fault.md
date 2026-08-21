@@ -1,10 +1,10 @@
 # Lab 4 — The path got worse
 
-The facilitator is changing routing (or adding a Singapore probe). Your Lab 2 checks stay pointed at the same hostname.
+The facilitator is changing routing (or adding a Singapore probe). Your Lab 2 checks stay pointed at the same hostname from chat.
 
 ## Investigate
 
-1. Open your `workshop-tcp` check. Compare duration **now** vs the number you wrote in Lab 2.
+1. Open your `workshop-tcp` check. Compare duration **now** vs the number you saved in Lab 2.
 2. Explore:
 
 ```promql
@@ -40,6 +40,6 @@ Save it. You do not need to page Slack.
 
 ## You are done when
 
-You can say whether this was a **path change** (hops/hash) or **just a slower probe** (Singapore added, hops maybe unchanged).
+You can say whether this was a **path change** (hops/hash) or **just a slower probe** (Singapore added, hops maybe unchanged). Drop that in chat if they ask for a readout.
 
-If hops did not move, that is still a valid finding. Write it down.
+If hops did not move, that is still a valid finding. Keep it with your Lab 2 numbers.
