@@ -55,3 +55,12 @@ If Infinity is missing from Add new connection:
 URL = the mock origin (no path). Allowed hosts = that same URL (include http:// and :8088).
 Auth: No Auth. Save & test, then Explore: JSON, path /meraki/devices, Root empty.
 ```
+
+## Extra credit (if time): network → traces
+
+The sandbox app traces are **not** caused by Building 4. Say that. Extra credit is one Grafana: CRC / TCP duration next to a Tempo waterfall.
+
+```
+Extra credit (Lab 5): Explore → Tempo (grafanacloud-…-traces) → Search → open one trace (waterfall = spans).
+Then paste the Lab 5 extra-credit Assistant prompt. Conceptual glue, not a fake root cause.
+```

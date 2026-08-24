@@ -83,6 +83,10 @@ If duration does not move: "Edit the TCP check and add the public Singapore prob
 
 Paste the Lab 5 Assistant block into chat.
 
+If you have five minutes left: extra credit in Lab 5. Tempo waterfall vs Building 4. Say out loud that the sample app traces are not caused by the switch.
+
+> App team feels CRC as a slow span, not as ifInErrors. Same stack: Mimir for the switch, Tempo for the request. We are not claiming this demo trace is that packet.
+
 ## Close (8 min)
 
 > Today you consumed Cloud. You did not become a ktranslate admin. Your team can take [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana) home if you want the collector. Synthetics and Infinity you can use this week without Linux. Cloud upgrades stay Grafana's problem.

@@ -12,7 +12,7 @@ Webinar. They do not deploy ktranslate. They do not need Linux. Delivery notes: 
 | 1:30–1:40 | Break | Confirm generator is filling stacks. Confirm SM checks exist. Stay on the call. | Stretch; keep the webinar open. |
 | 1:40–2:10 | Summary → details | Point at Device Summary on **your** share. Alerts first, then click a device. They do the same on theirs. | [03-import-and-hunt](../../labs/03-import-and-hunt.md) |
 | 2:10–2:30 | Fault | Open **Workshop Facilitator — path control**, click Enable Singapore path. Wait ~30s + one SM interval. Tell them to reopen **their checks**, not Explore. See [hairpin.md](hairpin.md). | [04-latency-fault](../../labs/04-latency-fault.md) |
-| 2:30–3:00 | Infinity + Assistant | Canned PRTG / Check Point / Aruba boards first. Paste the Lab 5 prompt. No Infinity Explore unless they are stuck. | [05-infinity-assistant](../../labs/05-infinity-assistant.md) |
+| 2:30–3:00 | Infinity + Assistant | Canned PRTG / Check Point / Aruba boards first. Paste the Lab 5 prompt. Extra credit if time: Tempo Search + the traces Assistant prompt. Sample traces are not the lab fault. | [05-infinity-assistant](../../labs/05-infinity-assistant.md) |
 | 3:00–3:10 | Close | What is supported. Take-home [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana) for *their* team, not for today. | Screenshot / export the Assistant dashboard. |
 
 ## Pre-webinar setup

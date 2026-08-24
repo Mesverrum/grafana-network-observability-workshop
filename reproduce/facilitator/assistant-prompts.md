@@ -47,3 +47,19 @@ Which Meraki AP is offline, and is that in the same building as the switch with 
 Using datasource workshop-network-apis, query GET /prtg/api/v2/sensors (root sensors) and GET /checkpoint/gateways (root gateways).
 Which Building 4 sensors are not Up, and which Check Point gateway is in Attention?
 ```
+
+## Extra credit: network finding → APM traces
+
+Sandbox traces are not injected by the lab fault. Conceptual glue only.
+
+```
+Users in Building 4 are slow. Network evidence from this workshop:
+- bld4-asw-01 Gi1/0/24 ifInErrors on workshop-ktranslate
+- workshop-tcp duration up on the stack Prometheus (grafanacloud-prom)
+- Meraki AP in building 4 may be offline on workshop-network-apis GET /meraki/devices
+
+This is conceptual. Do not say the sandbox app traces were caused by that switch.
+
+Add a text panel an app engineer can read: look in Tempo for longer client HTTP spans, timeouts, and retries on the hop that would cross that campus path.
+If Tempo (grafanacloud-traces) has traces in the last hour, add a traces panel or a table of recent traces on the same dashboard.
+```
