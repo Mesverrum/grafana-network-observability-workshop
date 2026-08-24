@@ -14,4 +14,4 @@ The facilitator will paste datasource credentials, the synthetic target IP, and 
 6. [The path got worse](04-latency-fault.md)
 7. [Infinity + Assistant](05-infinity-assistant.md)
 
-Dashboard JSON: [dashboards/](dashboards/). Mock API paths (Lab 5): [api-paths.md](api-paths.md). Extra credit in Lab 5 ties Building 4 to Tempo traces (APM).
+Dashboard JSON: [dashboards/](dashboards/). Mock API paths (Lab 5): [api-paths.md](api-paths.md).

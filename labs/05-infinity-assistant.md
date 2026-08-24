@@ -98,38 +98,3 @@ Ask Assistant:
 Which Meraki AP is offline, and is that in the same building as the switch with the highest ifInErrors?
 ```
 
-## Extra credit — glue the network finding to APM
-
-App teams do not look at CRC counters. They look at **traces**: a timed waterfall of a single user request. Grafana stores those in **Tempo** (same Cloud stack as Mimir and Loki). Each bar in the waterfall is a **span** (one operation). A long or red span is the APM version of “users are slow.”
-
-The lab fault does **not** inject into the sandbox app. If this stack has demo traces, they are a separate sample. Extra credit is putting both stories in one window so a network engineer and an app engineer can talk.
-
-### A. Open one trace
-
-1. **Explore** (compass) → datasource picker: Tempo. The name looks like `grafanacloud-…-traces` (already on the stack, like the built-in Prometheus).
-2. Query type **Search** (not TraceQL). Time range last 15–30 minutes. **Run query**.
-3. Click a trace. You should see a waterfall. Long bars took time. Error / red status failed.
-
-If Search is empty, the sample app is not sending. Skip to B.
-
-If the left menu has **Application Observability**, you can open a service there → **Traces** → pick one. Same waterfall, nicer service view.
-
-### B. Ask Assistant to put it on the campus board
-
-Paste (in **AI**, on the Workshop campus dashboard if you have it):
-
-```
-Users in Building 4 are slow. Network evidence from this workshop:
-- bld4-asw-01 Gi1/0/24 ifInErrors on workshop-ktranslate
-- workshop-tcp duration up on the stack Prometheus (grafanacloud-prom)
-- Meraki AP in building 4 may be offline on workshop-network-apis GET /meraki/devices
-
-This is conceptual. Do not say the sandbox app traces were caused by that switch.
-
-Add a text panel an app engineer can read: look in Tempo for longer client HTTP spans, timeouts, and retries on the hop that would cross that campus path.
-If Tempo (grafanacloud-traces) has traces in the last hour, add a traces panel or a table of recent traces on the same dashboard.
-```
-
-### You are done when
-
-You can say: network side is interface errors or path latency; app side is span duration or errors on the request that crossed that path. Same Grafana, two backends.

@@ -18,7 +18,7 @@ Start in [`labs/`](labs/README.md). You need a browser, the webinar join link, a
 | [02](labs/02-synthetics.md) | Traceroute + TCP to the shared public IP (public probe) |
 | [03](labs/03-import-and-hunt.md) | Import JSON into **Network Observability**, then hunt |
 | [04](labs/04-latency-fault.md) | Same IP, slower path on the check + an alert |
-| [05](labs/05-infinity-assistant.md) | Infinity + Assistant across mock APIs (extra credit: Tempo / APM) |
+| [05](labs/05-infinity-assistant.md) | Infinity + Assistant across mock APIs |
 
 Dashboard JSON: [`labs/dashboards/`](labs/dashboards/).
 
