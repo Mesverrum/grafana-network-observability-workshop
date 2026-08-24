@@ -6,9 +6,11 @@ If you have not added **workshop-ktranslate** yet, you can still watch. Add the 
 
 ## What to look for on the shared screen
 
+**ktranslate** is the SNMP collector on the facilitator’s lab (community / partner, not Grafana Support). **Alloy** is Grafana’s agent that forwards that data into Cloud.
+
 1. **Credential group** — a pile of candidate SNMP secrets, not one community string taped to each IP.
 2. **Target range** — a CIDR or inventory list. Discovery tries credentials against devices and keeps what authenticated.
-3. **What shows up after** — device names, then interface series. The metric family looks like `kentik_snmp_*` because that is ktranslate’s schema.
+3. **What shows up after** — device names, then interface series. Metrics are named `kentik_snmp_*` because that is ktranslate’s schema (the same family you queried in [00-datasources.md](00-datasources.md)).
 
 ## Note for yourself
 
@@ -20,7 +22,7 @@ If you have not added **workshop-ktranslate** yet, you can still watch. Add the 
 
 Only if [00-datasources.md](00-datasources.md) already succeeded.
 
-**Explore** → top picker **workshop-ktranslate**. Click **Run query**:
+**Explore** (compass) → top picker **workshop-ktranslate**. Click **Run query**:
 
 ```promql
 count by (device_name) (kentik_snmp_PollingHealth)

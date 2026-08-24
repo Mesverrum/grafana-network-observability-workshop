@@ -1,14 +1,14 @@
 # Lab 3 — Import dashboards, then hunt
 
-Import JSON from this repo, then work the boards like a NOC: table first, then a device, then the interface.
+Import dashboard files from this repo, then work them like a NOC: table first, then a device, then the interface.
 
 You need [00-datasources.md](00-datasources.md) done (`workshop-ktranslate` and `workshop-ktranslate-logs`).
 
-## A. Download the JSON
+## A. Download the files
 
 Open [labs/dashboards](dashboards/).
 
-Download these five files (GitHub: open the file → **Download raw file**). Do not paste JSON into chat; it will truncate.
+Download these five `.json` files (GitHub: open the file → **Download raw file**). Paste into chat and it will truncate.
 
 | File | Dashboard title after import |
 |---|---|
@@ -35,36 +35,36 @@ If the folder already exists, use it.
 2. **Upload dashboard JSON file** and pick the file.
 3. **Name** should fill in. Leave it.
 4. **Folder:** **Network Observability**.
-5. **Data sources:**
+5. **Data sources** (map each row to a source you already created):
    - Prometheus → **workshop-ktranslate**
    - Loki → **workshop-ktranslate-logs**
-   - Infinity → **workshop-network-apis** if you already have it. If not, leave it; those panels wait until Lab 5.
+   - Infinity → leave as-is if you do not have that source yet. Lab 5 adds it. Those vendor panels stay empty until then.
 6. **Import**.
 
 Repeat for the other four files.
 
-If import says the UID already exists, open the existing dashboard instead of duplicating.
+If Grafana says the dashboard already exists, open that dashboard instead of importing again.
 
 ## D. Open Device Summary
 
-Top search (or **Dashboards** → folder **Network Observability**). Type `Workshop Device Summary`. Searching only `Network Observability` finds the folder, not the board.
+Search box at the **top of Grafana** (or **Dashboards** → folder **Network Observability**). Type `Workshop Device Summary`. Searching only `Network Observability` finds the folder, not the board.
 
-At the top: **datasource**, **loki**, maybe **infinity**.
+Dropdowns at the top of the dashboard: **datasource**, **loki**, maybe **infinity**. Time range is the clock control at the **upper right**.
 
 1. **datasource** = `workshop-ktranslate`
 2. **loki** = `workshop-ktranslate-logs`
 3. Time range: **Last 1 hour** (or Last 30 minutes).
-4. If Device Status is empty, change the datasource dropdown and refresh.
+4. If Device Status is empty, change the datasource dropdown and refresh (circular arrow).
 
 ## E. Fleet hunt
 
 On **Workshop Device Summary**:
 
 1. **Active Network Alerts** (top) may be empty. Use the table.
-2. **Device Status** table. Sort **Errors/s** or **CPU %**. Look for `bld4-fw-01` (CPU) and/or `bld4-asw-01` (errors). Either is a valid hunt.
+2. **Device Status** table. Click a column header to sort **Errors/s** or **CPU %**. Look for `bld4-fw-01` (CPU) and/or `bld4-asw-01` (errors). Either is a valid hunt.
 3. Click the **Device** name. That should open **Workshop Device Details** with that device selected.
 
-If Details opens but CPU / interfaces are empty, use the **Device** dropdown at the top and pick `bld4-asw-01`.
+If Details opens but CPU / interfaces are empty, use the **Device** dropdown at the top of Details and pick `bld4-asw-01`.
 
 ## F. Device hunt
 

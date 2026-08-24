@@ -1,8 +1,8 @@
 # Lab 5 — Infinity + Assistant
 
-Grafana Cloud does not ship native PRTG / Check Point / Aruba EdgeConnect / Meraki integrations. **Infinity** pulls an HTTP API into the same stack.
+Grafana Cloud does not ship native PRTG / Check Point / Aruba EdgeConnect / Meraki integrations. **Infinity** is a Grafana data source that pulls an HTTP API into the same stack (JSON in, table on a dashboard).
 
-Today that API is a **mock**. Chat will have a **mock URL**. Add one Infinity data source, then open the canned boards (or build one with Assistant).
+Today that API is a **mock** the facilitator is hosting. Chat will have a **mock URL**. Add one Infinity data source, then open the vendor dashboards from Lab 3 (or build one with Assistant).
 
 ## A. Add Infinity
 
@@ -10,9 +10,11 @@ If **Connections** → **Data sources** already lists `workshop-network-apis`, s
 
 ### Install the plugin if needed
 
+A **plugin** is extra Grafana UI. Infinity is not always preinstalled.
+
 1. **Connections** → **Add new connection**. Search `Infinity`.
 2. If the **Infinity** card is there, go to **Create the data source**.
-3. If it is missing: **Administration** → **Plugins and data** → **Plugins**. Search `Infinity`. Open **Infinity**. Click **Install**. Wait until it says installed, then go back to **Add new connection**.
+3. If it is missing: left menu **Administration** (gear) → **Plugins and data** → **Plugins**. Search `Infinity`. Open **Infinity**. Click **Install**. Wait until it says installed, then go back to **Add new connection**.
 4. If **Install** is hidden or errors, post in chat.
 
 ### Create the data source
@@ -22,35 +24,40 @@ If **Connections** → **Data sources** already lists `workshop-network-apis`, s
 3. **Add new data source**.
 4. **Name:** `workshop-network-apis`.
 5. Leave **Default** off.
-6. **URL:** the mock URL from chat (example `http://18.217.39.189:8088`). Host only, no `/meraki` on the end.
-7. **Allowed hosts:** add that same URL, including `http://` and the port.
+6. **URL:** the mock URL from chat (example `http://18.217.39.189:8088`). Host only. Paths like `/meraki/devices` go in Explore, not here.
+7. **Allowed hosts:** add that same URL, including `http://` and the port. Infinity will only call hosts you list.
 8. **Authentication:** **No Auth** (or **None**).
 9. **Save & test**.
 
 ## B. Confirm the mock
 
-1. **Explore** → datasource `workshop-network-apis`.
-2. Type: **JSON**. Source: **URL**. Parser: **backend**. Format: **table**.
-3. URL field: `/meraki/devices`. Leave **Root** empty.
-4. **Run query**. You should see APs. One in Building 4 may be offline (`bld4-ap-12`).
+1. **Explore** (compass) → datasource picker `workshop-network-apis`.
+2. Query settings on that page:
+   - **Type:** **JSON**
+   - **Source:** **URL** (fetch from the mock, not inline text)
+   - **Parser:** **backend**
+   - **Format:** **table**
+3. **URL** field: `/meraki/devices` (path only; the data source already has the host).
+4. **Root:** which JSON key holds the rows. Meraki returns a bare list, so leave Root **empty**.
+5. **Run query**. You should see APs. One in Building 4 may be offline (`bld4-ap-12`).
 
 If this errors, the mock URL is down or Allowed hosts does not match. Post in chat.
 
-## C. Open the canned boards
+## C. Open the vendor dashboards from Lab 3
 
-**Dashboards** → **Network Observability**:
+**Dashboards** → folder **Network Observability**:
 
 - Workshop PRTG Summary
 - Workshop Check Point Summary
 - Workshop Aruba Summary
 
-At the top, set **infinity** to `workshop-network-apis` if the picker is wrong. Building 4 should look unhealthy.
+At the top, set the **infinity** dropdown to `workshop-network-apis` if it is blank. Building 4 should look unhealthy.
 
 Skip this if you did not import those three JSON files in Lab 3.
 
 ## D. Assistant builds a combined board
 
-Left menu: **AI**. Open it in this stack.
+Left menu: **AI**. That is **Grafana Assistant** in this stack.
 
 Paste:
 
@@ -75,13 +82,13 @@ Do not invent SNMP. Use workshop-ktranslate for kentik_snmp_*. Use the stack Pro
 ## E. Tidy the board
 
 - Sort or filter so Building 4 is easy to see.
-- Time range last 30–60 minutes.
+- Time range (upper right clock): last 30–60 minutes.
 
 ## You are done when
 
 You have a dashboard with the controller API, SNMP errors, and TCP latency on one page.
 
-Export it (**Share** → **Export**) if you want a take-home.
+To take it home: on the dashboard, **Share** → **Export**.
 
 ## Stretch
 

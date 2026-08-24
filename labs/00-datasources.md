@@ -1,8 +1,12 @@
 # Add the shared lab data sources
 
-SNMP and syslog for this workshop live on the facilitator’s Grafana Cloud. You add two data sources that point there, using values from **webinar chat**. Synthetics later use the Prometheus already on your stack; leave **Default** off on these new ones.
+A Grafana **data source** is a connection to a backend. **Prometheus** is metrics. **Loki** is logs.
 
-If you cannot see **Add new data source**, post in chat. You need Organization administrator.
+SNMP and syslog for this workshop live on the facilitator’s Grafana Cloud. You add two data sources that point there, using values from **webinar chat**.
+
+Grafana already created a Prometheus on **your** stack. Lab 2 synthetics write there. Leave **Default** off on the new sources so that built-in one stays the default.
+
+If you cannot see **Add new data source**, post in chat. Your login needs permission to add sources.
 
 Wait until chat has a block like this (values will differ):
 
@@ -24,21 +28,21 @@ Copy-paste from chat. The user field is digits only, not a URL.
 
 Left menu: **Connections**.
 
-- **Add new connection** creates a source (Prometheus, Loki, Infinity).
+- **Add new connection** creates a source.
 - **Data sources** is the list of what you already have.
 
-## A. Prometheus (SNMP / ktranslate metrics)
+## A. Prometheus (SNMP metrics)
 
 1. **Add new connection**.
 2. Search `Prometheus`. Click **Prometheus**.
 3. **Add new data source** (upper right).
 4. **Name:** `workshop-ktranslate`.
 5. Leave **Default** off.
-6. **Prometheus server URL:** the Prometheus URL from chat. It must end with `/api/prom`.
+6. **Prometheus server URL:** the Prometheus URL from chat. It must end with `/api/prom` (Grafana Cloud’s metrics API path).
 7. **Authentication:** **Basic authentication**.
 8. **User:** Prometheus user from chat (digits only).
 9. **Password:** Prometheus password from chat (starts with `glc_`).
-10. If you see **Prometheus type**, set **Mimir**. If you see **HTTP method**, set **POST**.
+10. If you see **Prometheus type**, set **Mimir** (Grafana Cloud’s Prometheus-compatible metrics). If you see **HTTP method**, set **POST**.
 11. Scroll to the bottom. **Save & test**. You want a green success.
 
 If Save & test fails, check for a swapped user/password, a missing `/api/prom`, or a trailing space. Try once more, then screenshot the error into chat.
@@ -57,9 +61,9 @@ If Save & test fails, check for a swapped user/password, a missing `/api/prom`, 
 
 ## C. Prove the SNMP source
 
-1. Left menu: **Explore** (compass).
-2. Top datasource picker: **workshop-ktranslate**. There may be several Prometheus entries. Pick the one you named.
-3. Paste:
+1. Left menu: **Explore** (compass icon). This is Grafana’s ad-hoc query page.
+2. Top datasource picker: **workshop-ktranslate**. There may be several Prometheus entries. Pick the one you named, not the `grafanacloud-…-prom` Grafana already created.
+3. Paste this query. `kentik_snmp_PollingHealth` is the collector’s “this device answered SNMP” metric (Lab 1 covers the naming):
 
 ```promql
 count by (device_name) (kentik_snmp_PollingHealth)

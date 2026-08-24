@@ -2,7 +2,7 @@
 
 Keep the webinar and Grafana Cloud in two windows. Use **chat** if you get stuck.
 
-Your sandbox starts empty. Add Prometheus and Loki from chat, then import dashboards. Synthetics stay on your stack.
+Your sandbox starts empty. Add two data sources from chat (Prometheus for metrics, Loki for logs), then import dashboards. Synthetic checks you create later stay on **your** stack.
 
 The facilitator will paste datasource credentials, the synthetic target IP, and when to start each lab.
 
@@ -14,4 +14,4 @@ The facilitator will paste datasource credentials, the synthetic target IP, and 
 6. [The path got worse](04-latency-fault.md)
 7. [Infinity + Assistant](05-infinity-assistant.md)
 
-Dashboard JSON: [dashboards/](dashboards/). Mock API paths: [api-paths.md](api-paths.md).
+Dashboard JSON: [dashboards/](dashboards/). Mock API paths (Lab 5): [api-paths.md](api-paths.md).

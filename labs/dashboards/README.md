@@ -2,7 +2,7 @@
 
 Import these in **Lab 3**, in this order, into a folder named **Network Observability**.
 
-Map Prometheus → `workshop-ktranslate`, Loki → `workshop-ktranslate-logs`. Map Infinity → `workshop-network-apis` if that source already exists; otherwise import anyway and finish Infinity in Lab 5.
+Map Prometheus → `workshop-ktranslate`, Loki → `workshop-ktranslate-logs`. If the form asks for Infinity and you do not have that source yet, leave it; Lab 5 adds it.
 
 1. [device-summary.json](device-summary.json) → Workshop Device Summary
 2. [device-details.json](device-details.json) → Workshop Device Details

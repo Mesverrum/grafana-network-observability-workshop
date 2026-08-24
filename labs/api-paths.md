@@ -1,6 +1,6 @@
 # Mock controller APIs (Infinity)
 
-Paths on the workshop mock. Point Infinity `workshop-network-apis` at the mock URL from chat, then use these in Explore or Assistant.
+Use this in **Lab 5** after `workshop-network-apis` exists. In Explore, **Root** is the JSON key that holds the rows. Meraki has no key (the response is already a list).
 
 | Integration | Path | Root | Identity fields |
 |---|---|---|---|
@@ -13,4 +13,4 @@ Paths on the workshop mock. Point Infinity `workshop-network-apis` at the mock U
 | Aruba Central APs | `/aruba/aps` | `aps` | `name` |
 | Meraki | `/meraki/devices` | leave empty (JSON array) | `name` |
 
-Canned boards (if imported in Lab 3): Workshop PRTG Summary, Workshop Check Point Summary, Workshop Aruba Summary.
+Vendor dashboards from Lab 3: Workshop PRTG Summary, Workshop Check Point Summary, Workshop Aruba Summary.
