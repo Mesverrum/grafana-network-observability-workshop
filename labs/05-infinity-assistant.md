@@ -1,6 +1,6 @@
 # Lab 5 — Infinity + Assistant
 
-Grafana Cloud does not ship first-class PRTG / Check Point / Aruba EdgeConnect / Meraki integrations. **Infinity** pulls an HTTP API into the same stack.
+Grafana Cloud does not ship native PRTG / Check Point / Aruba EdgeConnect / Meraki integrations. **Infinity** pulls an HTTP API into the same stack.
 
 Today that API is a **mock**. Chat will have a **mock URL**. Add one Infinity data source, then open the canned boards (or build one with Assistant).
 

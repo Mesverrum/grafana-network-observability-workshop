@@ -77,7 +77,7 @@ If duration does not move: "Edit the TCP check and add the public Singapore prob
 
 ## Infinity + Assistant (4 min)
 
-> PRTG is your NMS. Check Point and EdgeConnect have their own controllers. We do not have first-class Cloud integrations that replace those. **Infinity** is the generic API datasource. Open the canned PRTG / Check Point / Aruba boards first. Then ask Assistant to build one board that puts Meraki next to SNMP errors and the TCP check they already watch in Synthetics.
+> PRTG is your NMS. Check Point and EdgeConnect have their own controllers. We do not have native Cloud integrations that replace those. **Infinity** is the generic API datasource. Open the canned PRTG / Check Point / Aruba boards first. Then ask Assistant to build one board that puts Meraki next to SNMP errors and the TCP check they already watch in Synthetics.
 
 > After the webinar that URL becomes the real controller plus an API key. The skill is the same.
 
