@@ -21,8 +21,8 @@ Give them one sentence to steal for leadership:
 Share this left to right (slide or draw on the shared screen):
 
 ```
-campus gear  →  ktranslate  →  Alloy  →  Grafana Cloud
- SNMP / traps / flows / syslog     OTLP      Mimir Loki Tempo
+HQ + 2 branches  →  ktranslate (one poller per group)  →  Alloy  →  Grafana Cloud
+ SNMP / traps / flows / syslog                           OTLP      Mimir Loki Tempo
 ```
 
 Say:
@@ -35,9 +35,9 @@ Say:
 
 ## Guided discovery (while it runs)
 
-> Credential group, not a spreadsheet of community strings per IP. Discovery tries candidates against a range and keeps what authenticated. After this, polling is boring, which is what you want.
+> Credential group, not a spreadsheet of community strings per IP. One group per site: `srl-hq`, `srl-branch1`, `srl-branch2`. Discovery tries candidates against that group's range and keeps what authenticated. After this, polling is boring, which is what you want.
 
-Point at the first `kentik_snmp_PollingHealth` series when it lands. Names they should recognize: Cisco access (`bld4-asw-01`), Check Point (`bld4-fw-01`), EdgeConnect (`wan-edge-01`).
+Point at `kentik_snmp_PollingHealth` when it lands. Names: HQ `spine1` / `leaf1` / `leaf2`, branches `leaf-br1` / `leaf-br2`. Filter Device Summary with **SNMP group**. Building 4 / Check Point / EdgeConnect names are the **Infinity mocks** in Lab 5, not this SNMP walk.
 
 ## Cloud backends + Assistant (8–10 min)
 
@@ -51,9 +51,9 @@ Paste this in chat (also in [assistant-prompts.md](assistant-prompts.md)). They 
 
 ## Synthetics primer (5 min, then they drive)
 
-> SNMP tells you what the box thinks. Synthetics tell you what a user path looks like. Same public IP for everyone. You pick a **public** home probe — Oregon or North Virginia. I will shuffle where that IP lands in AWS. I do not touch your stack, and I do not flip DNS.
+> SNMP tells you what the box thinks. Synthetics tell you what a user path looks like from a **probe** — a city Grafana runs the check from. Same public IP for everyone. Lab 2 is one US public probe. Lab 4 they add Singapore and compare.
 
-> Create two checks: a **traceroute** and a **TCP port** check. Same probe. Stay on the check page for duration and hops. I will show **Explore once** on my share so they see the series; that is not the rest of the day.
+> Create two checks: a **traceroute** and a **TCP port** check. Same US probe. Do not add Singapore yet.
 
 Paste this as its own chat message:
 
@@ -67,13 +67,13 @@ Probe: Oregon or North Virginia (public). Do not add Singapore yet.
 
 > Open Device Summary. Alerts on the fleet, a device table, click through to one box. I will share the shape once; you click on your stack.
 
-## Fault (2 min)
+## Two vantages (2 min)
 
-> I am changing where that IP lands. Same address you already typed. Open the checks you already have — duration and hops are on those pages. Lab 4 is in chat.
+> Same IP you already typed. Edit **workshop-tcp** and **workshop-tr**. Add the public **Singapore** probe. Keep Oregon or North Virginia. Lab 4 is in chat.
 
-Click **Enable Singapore path**, wait ~30 seconds plus one check interval, then send them to Lab 4.
+> Two probes = two paths. Duration may stay small on this VIP (Global Accelerator handshake is to a nearby edge). The traceroute maps will still differ. That is the concept.
 
-If duration does not move: "Edit the TCP check and add the public Singapore probe. Same alert skill." Repeat it in chat.
+Do **not** wait on the facilitator hairpin board for their charts to move. Optional aside: `curl` to the VIP shows which nginx origin we selected; public SM TCP does not.
 
 ## Infinity + Assistant (4 min)
 

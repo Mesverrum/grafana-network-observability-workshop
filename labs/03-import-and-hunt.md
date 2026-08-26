@@ -1,5 +1,7 @@
 # Lab 3 — Import dashboards, then hunt
 
+← Previous: [Lab 2 — Synthetics](02-synthetics.md)
+
 Import dashboard files from this repo, then work them like a NOC: table first, then a device, then the interface.
 
 You need [00-datasources.md](00-datasources.md) done (`workshop-ktranslate` and `workshop-ktranslate-logs`).
@@ -53,27 +55,28 @@ Dropdowns at the top of the dashboard: **datasource**, **loki**, maybe **infinit
 
 1. **datasource** = `workshop-ktranslate`
 2. **loki** = `workshop-ktranslate-logs`
-3. Time range: **Last 1 hour** (or Last 30 minutes).
-4. If Device Status is empty, change the datasource dropdown and refresh (circular arrow).
+3. **SNMP group** = All (or pick `srl-hq`, then a branch, to see the three sites).
+4. Time range: **Last 1 hour** (or Last 30 minutes).
+5. If Device Status is empty, change the datasource dropdown and refresh (circular arrow).
 
 ## E. Fleet hunt
 
 On **Workshop Device Summary**:
 
 1. **Active Network Alerts** (top) may be empty. Use the table.
-2. **Device Status** table. Click a column header to sort **Errors/s** or **CPU %**. Look for `bld4-fw-01` (CPU) and/or `bld4-asw-01` (errors). Either is a valid hunt.
+2. **Device Status** table. Click a column header to sort **Errors/s** or **CPU %**. Pick a box that stands out. Use **SNMP group** to flip HQ vs a branch.
 3. Click the **Device** name. That should open **Workshop Device Details** with that device selected.
 
-If Details opens but CPU / interfaces are empty, use the **Device** dropdown at the top of Details and pick `bld4-asw-01`.
+If Details opens but CPU / interfaces are empty, use the **Device** dropdown at the top of Details and pick another live name.
 
 ## F. Device hunt
 
 On Device Details:
 
 1. Overview: is CPU or Memory the story, or are they fine?
-2. **Interface Status**: sort by Errors/s or by bps. Which interface is the outlier? (On the switch story you want **Gi1/0/24**.)
+2. **Interface Status**: sort by Errors/s or by bps. Which interface is the outlier?
 3. Confirm on the In / Out timeseries.
-4. **Device Syslog**: one line should agree (CRC / collisions / TOOBIG). If syslog is empty, check the Loki dropdown.
+4. **Device Syslog**: may be empty. If it has lines, they should agree with the interface you picked. If syslog is empty, stay on the SNMP table — that is enough.
 
 ## You are done when
 
@@ -81,4 +84,6 @@ You can put in chat one sentence: which device you picked, why (table), and whic
 
 ## Stretch
 
-Change the Device picker to a healthy box (`dc-core-01` or `bld1-asw-01`). The error charts should go quiet.
+Change the Device picker to a box on another site. Compare CPU, errors, and interfaces to the one you hunted.
+
+Next: [Lab 4 — A second vantage](04-latency-fault.md) →

@@ -1,5 +1,7 @@
 # Lab 2 — Synthetics: traceroute and a port check
 
+← Previous: [Lab 1 — Watch discovery](01-watch-discovery.md)
+
 SNMP is what the box thinks. **Synthetics** are checks Grafana runs from the internet toward a target you choose.
 
 This lab uses **your** stack’s Synthetic Monitoring (not the facilitator’s `workshop-ktranslate` source). Results land in the Prometheus Grafana already created on your stack. The facilitator will paste a **public IP** and `IP:port` in chat. Copy both. Every stack uses the same target.
@@ -37,7 +39,7 @@ Docs if you want them: [traceroute](https://grafana.com/docs/grafana-cloud/testi
 
 1. Open **workshop-tcp** from the Checks list.
 2. Wait until at least one run is green. First TCP run is usually under a minute. If it stays red, the target or port is wrong; paste a screenshot in chat.
-3. Find the **duration / latency** chart on that page. Lab 4 uses this same chart.
+3. Confirm the check is green. Duration here is often only a few milliseconds. Lab 4 adds a **Singapore** probe and compares **by vantage**.
 4. Open **workshop-tr**. Traceroute can take up to two minutes for the first result.
 5. Confirm you can see a hop list or traceroute map.
 
@@ -47,4 +49,6 @@ Both checks have a result and you know which public probe you used. Leave the ta
 
 ## Stretch
 
-Add a second public probe in a nearby region (Ohio or Montreal) only if chat says to.
+Add a second public probe in a nearby region (Ohio or Montreal) only if chat says to. Lab 4 is **Singapore**, not this.
+
+Next: [Lab 3 — Import dashboards, then hunt](03-import-and-hunt.md) →

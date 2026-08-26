@@ -17,13 +17,13 @@ Chat a screenshot if Save & test fails.
 Add these two data sources (lab 00-datasources). Leave Default off.
 
 Prometheus name: workshop-ktranslate
-Prometheus URL: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom
-Prometheus user: REPLACE_METRICS_INSTANCE_ID
+Prometheus URL: https://prometheus-prod-67-prod-us-west-0.grafana.net/api/prom
+Prometheus user: 3532656
 Prometheus password: REPLACE_GLC_TOKEN
 
 Loki name: workshop-ktranslate-logs
-Loki URL: https://logs-prod-006.grafana.net
-Loki user: REPLACE_LOGS_INSTANCE_ID
+Loki URL: https://logs-prod-021.grafana.net
+Loki user: 1762003
 Loki password: REPLACE_GLC_TOKEN
 ```
 
@@ -42,6 +42,16 @@ Testing & synthetics → Synthetics (not k6 / Performance Testing).
 Import JSON from labs/dashboards into a folder named Network Observability.
 Map Prometheus → workshop-ktranslate, Loki → workshop-ktranslate-logs.
 Start with device-summary.json then device-details.json.
+```
+
+## Lab 4 (second vantage)
+
+```
+Same IP as Lab 2. Do not change the target.
+Edit workshop-tcp → add public probe Singapore (keep Oregon or North Virginia) → Save.
+Edit workshop-tr → add Singapore the same way.
+Wait two TCP runs (~2 min). Compare duration by probe, and traceroute hops/map by probe.
+Then Lab 4 alert (workshop-tcp duration, threshold in seconds — not 400).
 ```
 
 ## Lab 5 (Infinity)

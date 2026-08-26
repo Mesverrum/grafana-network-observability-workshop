@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Overlay dashboards + Infinity, send one OTLP batch, start the generator.
+# Leftover: overlay + campus OTLP generator. Do not use for the webinar hunt
+# (Device Summary filters srl-.*; generator emits campus names).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"

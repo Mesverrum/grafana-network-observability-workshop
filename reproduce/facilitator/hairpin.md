@@ -26,7 +26,7 @@ Same destination IP all day. No DNS flip. No private probe on student stacks.
 3. `hairpin-agent.py` on the control host. `HAIRPIN_ON_CMD` / `HAIRPIN_OFF_CMD` call `aws globalaccelerator update-endpoint-group`.
 4. Facilitator dashboard imported **only** on your stack.
 
-GA anycast can move **duration** and often **traceroute hops** (different PoP / region). Health-check + weight updates take ~15–30s, then wait one SM interval.
+GA anycast can move **traceroute hops** (different ingress PoP). It will **not** move public-probe TCP duration — GA finishes the handshake at the edge. Laptop `curl` to `:80` still shows origin RTT and the Singapore vs US body. Health-check + weight updates take ~15–30s, then wait one traceroute interval (~2 min).
 
 ## Agent
 
@@ -97,6 +97,6 @@ curl -sS -H "X-Workshop-Admin: $WORKSHOP_ADMIN_TOKEN" \
 
 The agent should flip within `HAIRPIN_POLL_SECS` (default 2s). GA then needs ~15–30s.
 
-## Lab 4 fallback
+## Lab 4
 
-If GA weights do not move, have them add the public **Singapore** probe on the same VIP. Say that is geo latency from a second vantage, not the VIP shuffle.
+Student Lab 4 is adding a **public Singapore probe** on the same VIP ([`singapore-fault.md`](singapore-fault.md)). This hairpin board is an optional origin demo (`curl` body). It is not their lever.

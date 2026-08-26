@@ -11,7 +11,7 @@ In the last 30 minutes, which device_name has the highest kentik_snmp_CPU?
 ```
 
 ```
-Show me interface error rates for device_name bld4-asw-01.
+Show me interface error rates for device_name leaf1.
 ```
 
 ## Lab 5: connect then build
@@ -23,7 +23,7 @@ Using datasource workshop-network-apis, query GET /meraki/devices as JSON.
 Build a dashboard titled Workshop campus that has:
 1. A table of Meraki APs with name, status, clients, building.
 2. A timeseries of kentik_snmp_CPU by device_name from datasource workshop-ktranslate.
-3. A timeseries of (kentik_snmp_ifInErrors{device_name="bld4-asw-01"}) / 60 from workshop-ktranslate — ktranslate 60s gauges, not rate().
+3. A timeseries of (kentik_snmp_ifInErrors{device_name="leaf1"}) / 60 from workshop-ktranslate — ktranslate 60s gauges, not rate().
 4. A timeseries of probe_duration_seconds by probe for job workshop-tcp from the stack Prometheus (grafanacloud-prom), same TCP check as Lab 2.
 Put a text panel at the top that says users in Building 4 are slow.
 ```
@@ -40,7 +40,7 @@ Do not invent SNMP. Use workshop-ktranslate for kentik_snmp_*. Use the stack Pro
 ## Stretch
 
 ```
-Which Meraki AP is offline, and is that in the same building as the switch with the highest ifInErrors?
+Which Meraki AP is offline? Building 4 is the mock-API story. Do not look for those AP names in SNMP.
 ```
 
 ```

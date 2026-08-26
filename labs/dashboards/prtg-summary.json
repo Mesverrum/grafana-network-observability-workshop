@@ -1,156 +1,85 @@
 {
-  "uid": "workshop-prtg-summary",
-  "title": "Workshop PRTG Summary",
-  "description": "Mock PRTG sensor inventory via Infinity. Explore the NMS API, then join a name to SNMP.",
-  "tags": [
-    "workshop",
-    "network-o11y",
-    "infinity"
-  ],
-  "timezone": "browser",
-  "schemaVersion": 39,
-  "version": 1,
-  "refresh": "30s",
+  "annotations": {
+    "list": []
+  },
+  "description": "Mock PRTG sensor inventory via Infinity. These devices are not on the SNMP path.",
   "editable": true,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "time": {
-    "from": "now-1h",
-    "to": "now"
-  },
-  "templating": {
-    "list": [
-      {
-        "name": "infinity",
-        "type": "datasource",
-        "query": "yesoreyeram-infinity-datasource",
-        "current": {
-          "text": "workshop-network-apis",
-          "value": "workshop-network-apis"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "options": [],
-        "refresh": 1
-      },
-      {
-        "name": "datasource",
-        "type": "datasource",
-        "query": "prometheus",
-        "current": {
-          "text": "grafanacloud-prom",
-          "value": "grafanacloud-prom"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "options": [],
-        "refresh": 1
-      },
-      {
-        "name": "loki",
-        "type": "datasource",
-        "query": "loki",
-        "current": {
-          "text": "grafanacloud-logs",
-          "value": "grafanacloud-logs"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "options": [],
-        "refresh": 1
-      }
-    ]
-  },
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "title": "Device Summary",
+      "type": "link",
+      "url": "/d/workshop-device-summary"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "title": "Device Details",
+      "type": "link",
+      "url": "/d/workshop-device-details"
+    },
+    {
+      "asDropdown": false,
+      "icon": "cloud",
+      "title": "PRTG",
+      "type": "link",
+      "url": "/d/workshop-prtg-summary"
+    },
+    {
+      "asDropdown": false,
+      "icon": "cloud",
+      "title": "Check Point",
+      "type": "link",
+      "url": "/d/workshop-checkpoint-summary"
+    },
+    {
+      "asDropdown": false,
+      "icon": "cloud",
+      "title": "Aruba",
+      "type": "link",
+      "url": "/d/workshop-aruba-summary"
+    }
+  ],
   "panels": [
     {
-      "id": 1,
-      "type": "row",
-      "title": "Overview",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "collapsed": false,
-      "panels": []
+      "id": 1,
+      "panels": [],
+      "title": "Overview",
+      "type": "row"
     },
     {
-      "id": 2,
-      "type": "text",
-      "title": "What this is",
       "gridPos": {
         "h": 5,
         "w": 8,
         "x": 0,
         "y": 1
       },
+      "id": 2,
       "options": {
-        "mode": "markdown",
-        "content": "Infinity against the workshop **PRTG** mock (`/prtg/api/v2/sensors`).\n\nSame skill as their NMS API \u2014 JSON in, table out. Click a device to open the SNMP Device Details board."
-      }
+        "content": "Infinity against the workshop **PRTG** mock (`/prtg/api/v2/sensors`).\n\nSame skill as their NMS API \u2014 JSON in, table out. These names exist only on the mock API, not in SNMP.",
+        "mode": "markdown"
+      },
+      "title": "What this is",
+      "type": "text"
     },
     {
-      "id": 3,
-      "type": "stat",
-      "title": "Sensors",
-      "description": "`count` on GET /prtg/api/v2/sensors",
-      "gridPos": {
-        "h": 5,
-        "w": 5,
-        "x": 8,
-        "y": 1
-      },
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${infinity}"
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${infinity}"
-          },
-          "refId": "A",
-          "type": "json",
-          "source": "url",
-          "url": "/prtg/api/v2/sensors",
-          "url_options": {
-            "method": "GET",
-            "data": "",
-            "params": []
-          },
-          "format": "table",
-          "parser": "backend",
-          "root_selector": "",
-          "columns": [
-            {
-              "selector": "count",
-              "text": "Sensors",
-              "type": "number"
-            }
-          ],
-          "filters": []
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "textMode": "auto"
-      },
+      "description": "`count` on GET /prtg/api/v2/sensors",
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -159,44 +88,113 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
-      }
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 8,
+        "y": 1
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "count",
+              "text": "Sensors",
+              "type": "number"
+            }
+          ],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "/prtg/api/v2/sensors",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        }
+      ],
+      "title": "Sensors",
+      "type": "stat"
     },
     {
-      "id": 4,
-      "type": "stat",
-      "title": "Alarms",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
       "description": "Sensors not Up",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 5,
         "w": 5,
         "x": 13,
         "y": 1
       },
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${infinity}"
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
       "targets": [
         {
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${infinity}"
-          },
-          "refId": "A",
-          "type": "json",
-          "source": "url",
-          "url": "/prtg/api/v2/sensors",
-          "url_options": {
-            "method": "GET",
-            "data": "",
-            "params": []
-          },
-          "format": "table",
-          "parser": "backend",
-          "root_selector": "",
           "columns": [
             {
               "selector": "problems",
@@ -204,25 +202,36 @@
               "type": "number"
             }
           ],
-          "filters": []
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "/prtg/api/v2/sensors",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
         }
       ],
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "textMode": "auto"
+      "title": "Alarms",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
       },
+      "description": "GET /prtg/api/v2/sensors/alarms \u2014 PRTG v2-shaped",
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -239,44 +248,33 @@
                 "value": 3
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
-      }
-    },
-    {
-      "id": 5,
-      "type": "stat",
-      "title": "Alarms (alarms path)",
-      "description": "GET /prtg/api/v2/sensors/alarms \u2014 PRTG v2-shaped",
+      },
       "gridPos": {
         "h": 5,
         "w": 6,
         "x": 18,
         "y": 1
       },
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${infinity}"
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
       "targets": [
         {
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${infinity}"
-          },
-          "refId": "A",
-          "type": "json",
-          "source": "url",
-          "url": "/prtg/api/v2/sensors/alarms",
-          "url_options": {
-            "method": "GET",
-            "data": "",
-            "params": []
-          },
-          "format": "table",
-          "parser": "backend",
-          "root_selector": "",
           "columns": [
             {
               "selector": "count",
@@ -284,92 +282,67 @@
               "type": "number"
             }
           ],
-          "filters": []
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "/prtg/api/v2/sensors/alarms",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
         }
       ],
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "textMode": "auto"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "orange",
-                "value": 1
-              },
-              {
-                "color": "red",
-                "value": 3
-              }
-            ]
-          }
-        },
-        "overrides": []
-      }
+      "title": "Alarms (alarms path)",
+      "type": "stat"
     },
     {
-      "id": 6,
-      "type": "row",
-      "title": "Sensors",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 6
       },
-      "collapsed": false,
-      "panels": []
+      "id": 6,
+      "panels": [],
+      "title": "Sensors",
+      "type": "row"
     },
     {
-      "id": 7,
-      "type": "table",
-      "title": "All sensors",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
       "description": "GET /prtg/api/v2/sensors \u2192 sensors[]",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 10,
         "w": 24,
         "x": 0,
         "y": 7
       },
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${infinity}"
+      "id": 7,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
       },
       "targets": [
         {
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${infinity}"
-          },
-          "refId": "A",
-          "type": "json",
-          "source": "url",
-          "url": "/prtg/api/v2/sensors",
-          "url_options": {
-            "method": "GET",
-            "data": "",
-            "params": []
-          },
-          "format": "table",
-          "parser": "backend",
-          "root_selector": "sensors",
           "columns": [
             {
               "selector": "device",
@@ -412,102 +385,84 @@
               "type": "string"
             }
           ],
-          "filters": []
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "sensors",
+          "source": "url",
+          "type": "json",
+          "url": "/prtg/api/v2/sensors",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
         }
       ],
+      "title": "All sensors",
       "transformations": [
         {
           "id": "organize",
           "options": {
             "excludeByName": {
-              "id": true,
-              "type": true,
-              "platform": true,
-              "device": true,
-              "name": true,
               "building": true,
-              "status": true,
+              "device": true,
+              "id": true,
               "last_message": true,
-              "vendor": true,
-              "model": true
+              "model": true,
+              "name": true,
+              "platform": true,
+              "status": true,
+              "type": true,
+              "vendor": true
             },
-            "renameByName": {},
             "indexByName": {
-              "Device": 0,
-              "Sensor": 1,
               "Building": 2,
-              "Type": 3,
-              "Status": 4,
+              "Device": 0,
               "Last message": 5,
-              "Vendor": 6,
-              "Model": 7
-            }
+              "Model": 7,
+              "Sensor": 1,
+              "Status": 4,
+              "Type": 3,
+              "Vendor": 6
+            },
+            "renameByName": {}
           }
         }
       ],
-      "options": {
-        "showHeader": true,
-        "cellHeight": "sm",
-        "footer": {
-          "show": false
-        }
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Device"
-            },
-            "properties": [
-              {
-                "id": "links",
-                "value": [
-                  {
-                    "title": "Device details",
-                    "url": "/d/workshop-device-details?var-device=${__data.fields.Device}&var-datasource=${datasource}&var-loki=${loki}&from=${__from}&to=${__to}"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "type": "table"
     },
     {
-      "id": 8,
-      "type": "table",
-      "title": "Alarms only",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
       "description": "GET /prtg/api/v2/sensors/alarms",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 24,
         "x": 0,
         "y": 17
       },
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${infinity}"
+      "id": 8,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
       },
       "targets": [
         {
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${infinity}"
-          },
-          "refId": "A",
-          "type": "json",
-          "source": "url",
-          "url": "/prtg/api/v2/sensors/alarms",
-          "url_options": {
-            "method": "GET",
-            "data": "",
-            "params": []
-          },
-          "format": "table",
-          "parser": "backend",
-          "root_selector": "sensors",
           "columns": [
             {
               "selector": "device",
@@ -550,218 +505,117 @@
               "type": "string"
             }
           ],
-          "filters": []
-        }
-      ],
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "id": true,
-              "type": true,
-              "platform": true,
-              "device": true,
-              "name": true,
-              "building": true,
-              "status": true,
-              "last_message": true,
-              "vendor": true,
-              "model": true
-            },
-            "renameByName": {},
-            "indexByName": {
-              "Device": 0,
-              "Sensor": 1,
-              "Building": 2,
-              "Type": 3,
-              "Status": 4,
-              "Last message": 5,
-              "Vendor": 6,
-              "Model": 7
-            }
-          }
-        }
-      ],
-      "options": {
-        "showHeader": true,
-        "cellHeight": "sm",
-        "footer": {
-          "show": false
-        }
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Device"
-            },
-            "properties": [
-              {
-                "id": "links",
-                "value": [
-                  {
-                    "title": "Device details",
-                    "url": "/d/workshop-device-details?var-device=${__data.fields.Device}&var-datasource=${datasource}&var-loki=${loki}&from=${__from}&to=${__to}"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "id": 9,
-      "type": "row",
-      "title": "Same names over SNMP",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 25
-      },
-      "collapsed": false,
-      "panels": []
-    },
-    {
-      "id": 10,
-      "type": "table",
-      "title": "Cisco (and others PRTG also polls)",
-      "description": "Same device names on the ktranslate-shaped SNMP path. Click Device for details.",
-      "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 26
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "targets": [
-        {
           "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
           },
-          "editorMode": "code",
-          "expr": "max by(device_name) (kentik_snmp_CPU{provider=\"cisco\"})",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
           "refId": "A",
-          "legendFormat": "__auto",
-          "range": false,
-          "instant": true
+          "root_selector": "sensors",
+          "source": "url",
+          "type": "json",
+          "url": "/prtg/api/v2/sensors/alarms",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
         }
       ],
+      "title": "Alarms only",
       "transformations": [
-        {
-          "id": "labelsToFields",
-          "options": {
-            "mode": "columns"
-          }
-        },
-        {
-          "id": "merge",
-          "options": {}
-        },
         {
           "id": "organize",
           "options": {
             "excludeByName": {
-              "Time": true,
-              "Index": true,
-              "__name__": true,
-              "job": true,
-              "deployment_host": true,
-              "service_name": true,
-              "src_addr": true,
-              "tags_container_service": true,
-              "instrumentation_name": true,
-              "tags_snmp_group": true
-            },
-            "renameByName": {
-              "device_name": "Device",
-              "Value": "CPU %"
+              "building": true,
+              "device": true,
+              "id": true,
+              "last_message": true,
+              "model": true,
+              "name": true,
+              "platform": true,
+              "status": true,
+              "type": true,
+              "vendor": true
             },
             "indexByName": {
+              "Building": 2,
               "Device": 0,
-              "CPU %": 1
-            }
+              "Last message": 5,
+              "Model": 7,
+              "Sensor": 1,
+              "Status": 4,
+              "Type": 3,
+              "Vendor": 6
+            },
+            "renameByName": {}
           }
         }
       ],
-      "options": {
-        "showHeader": true,
-        "cellHeight": "sm",
-        "footer": {
-          "show": false
-        }
+      "type": "table"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "tags": [
+    "workshop",
+    "network-o11y",
+    "infinity"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "workshop-network-apis",
+          "value": "workshop-network-apis"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "infinity",
+        "options": [],
+        "query": "yesoreyeram-infinity-datasource",
+        "refresh": 1,
+        "type": "datasource"
       },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Device"
-            },
-            "properties": [
-              {
-                "id": "links",
-                "value": [
-                  {
-                    "title": "Device details",
-                    "url": "/d/workshop-device-details?var-device=${__data.fields.Device}&var-datasource=${datasource}&var-loki=${loki}&from=${__from}&to=${__to}"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+      {
+        "current": {
+          "text": "workshop-ktranslate",
+          "value": "workshop-ktranslate"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": "workshop-ktranslate-logs",
+          "value": "workshop-ktranslate-logs"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "loki",
+        "options": [],
+        "query": "loki",
+        "refresh": 1,
+        "type": "datasource"
       }
-    }
-  ],
-  "annotations": {
-    "list": []
+    ]
   },
-  "links": [
-    {
-      "title": "Device Summary",
-      "type": "link",
-      "url": "/d/workshop-device-summary",
-      "asDropdown": false,
-      "icon": "dashboard"
-    },
-    {
-      "title": "Device Details",
-      "type": "link",
-      "url": "/d/workshop-device-details",
-      "asDropdown": false,
-      "icon": "dashboard"
-    },
-    {
-      "title": "PRTG",
-      "type": "link",
-      "url": "/d/workshop-prtg-summary",
-      "asDropdown": false,
-      "icon": "cloud"
-    },
-    {
-      "title": "Check Point",
-      "type": "link",
-      "url": "/d/workshop-checkpoint-summary",
-      "asDropdown": false,
-      "icon": "cloud"
-    },
-    {
-      "title": "Aruba",
-      "type": "link",
-      "url": "/d/workshop-aruba-summary",
-      "asDropdown": false,
-      "icon": "cloud"
-    }
-  ],
-  "fiscalYearStartMonth": 0
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timezone": "browser",
+  "title": "Workshop PRTG Summary",
+  "uid": "workshop-prtg-summary"
 }

@@ -11,7 +11,7 @@ The facilitator will paste datasource credentials, the synthetic target IP, and 
 3. [Watch discovery](01-watch-discovery.md)
 4. [Synthetics](02-synthetics.md)
 5. [Import dashboards, then hunt](03-import-and-hunt.md)
-6. [The path got worse](04-latency-fault.md)
+6. [A second vantage](04-latency-fault.md)
 7. [Infinity + Assistant](05-infinity-assistant.md)
 
 Dashboard JSON: [dashboards/](dashboards/). Mock API paths (Lab 5): [api-paths.md](api-paths.md).

@@ -1,10 +1,12 @@
-# Facilitator / take-home collector
+# Take-home collector (not the webinar path)
 
-Attendees do **not** run this during the webinar. You use it (or [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana)) for the guided discovery you screen-share. They can clone it later if their team wants a collector.
+Attendees do **not** run this during the webinar. **Guided discovery on the call** is the colocated 3-site Clos in [network-o11y-demo](https://github.com/Mesverrum/network-o11y-demo): `groups/srl-hq.env` / `srl-branch1` / `srl-branch2`, `make discover GROUP=…`, restore `python3 local/scripts/ssm-alloy-ktranslate-parallel.py`.
+
+This folder is a **later** snmpsim + [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana) path if their team wants a collector of their own.
 
 ktranslate is community / partner. It is not Grafana Support.
 
-## Preferred: KtransToGrafana
+## KtransToGrafana (take-home)
 
 The maintained path is Marc's repo:
 

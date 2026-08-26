@@ -1,5 +1,7 @@
 # Add the shared lab data sources
 
+← Previous: [Start here](00-login.md)
+
 A Grafana **data source** is a connection to a backend. **Prometheus** is metrics. **Loki** is logs.
 
 SNMP and syslog for this workshop live on the facilitator’s Grafana Cloud. You add two data sources that point there, using values from **webinar chat**.
@@ -69,7 +71,7 @@ If Save & test fails, check for a swapped user/password, a missing `/api/prom`, 
 count by (device_name) (kentik_snmp_PollingHealth)
 ```
 
-4. Click **Run query**. You should see about eight device names (`bld4-asw-01`, `dc-core-01`, …).
+4. Click **Run query**. You should see device names. If you want the sites too, run `count by (device_name, tags_snmp_group) (kentik_snmp_PollingHealth)`.
 
 Empty here means the shared lab is not sending yet, or you are on the wrong datasource. Post in chat.
 
@@ -78,3 +80,5 @@ Empty here means the shared lab is not sending yet, or you are on the wrong data
 Explore against **workshop-ktranslate** shows device names (or chat confirmed the lab is still filling).
 
 Then: [watch discovery](01-watch-discovery.md) when they say Lab 1. You need these sources before [import](03-import-and-hunt.md).
+
+Next: [Lab 1 — Watch discovery](01-watch-discovery.md) →

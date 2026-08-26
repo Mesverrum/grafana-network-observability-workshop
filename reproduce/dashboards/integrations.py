@@ -109,26 +109,6 @@ def inf_stat(
     }
 
 
-def snmp_join(pid: int, title: str, provider: str, pos: dict) -> dict:
-    return b.table(
-        pid,
-        title,
-        b.PROM,
-        [
-            b.prom_target(
-                f'max by(device_name) (kentik_snmp_CPU{{provider="{provider}"}})',
-                instant=True,
-            )
-        ],
-        pos,
-        description="Same device names on the ktranslate-shaped SNMP path. Click Device for details.",
-        transformations=b.series_table_transforms(
-            {"device_name": "Device", "Value": "CPU %"}
-        ),
-        overrides=[b.device_link_override()],
-    )
-
-
 def _shell(uid: str, title: str, description: str, panels: list[dict]) -> dict:
     return {
         "uid": uid,
@@ -168,8 +148,8 @@ def prtg_summary() -> dict:
             "What this is",
             (
                 "Infinity against the workshop **PRTG** mock (`/prtg/api/v2/sensors`).\n\n"
-                "Same skill as their NMS API — JSON in, table out. Click a device to "
-                "open the SNMP Device Details board."
+                "Same skill as their NMS API — JSON in, table out. "
+                "These names exist only on the mock API, not in SNMP."
             ),
             b.grid(0, 1, 8, 5),
         ),
@@ -207,7 +187,6 @@ def prtg_summary() -> dict:
             [b.infinity_url("/prtg/api/v2/sensors", "sensors", cols)],
             b.grid(0, 7, 24, 10),
             description="GET /prtg/api/v2/sensors → sensors[]",
-            overrides=[b.device_link_override()],
         ),
         b.table(
             8,
@@ -216,15 +195,12 @@ def prtg_summary() -> dict:
             [b.infinity_url("/prtg/api/v2/sensors/alarms", "sensors", cols)],
             b.grid(0, 17, 24, 8),
             description="GET /prtg/api/v2/sensors/alarms",
-            overrides=[b.device_link_override()],
         ),
-        b.row(9, "Same names over SNMP", 25),
-        snmp_join(10, "Cisco (and others PRTG also polls)", "cisco", b.grid(0, 26, 24, 7)),
     ]
     return _shell(
         PRTG_UID,
         "Workshop PRTG Summary",
-        "Mock PRTG sensor inventory via Infinity. Explore the NMS API, then join a name to SNMP.",
+        "Mock PRTG sensor inventory via Infinity. These devices are not on the SNMP path.",
         panels,
     )
 
@@ -287,7 +263,6 @@ def checkpoint_summary() -> dict:
             [b.infinity_url("/checkpoint/gateways", "gateways", gw_cols)],
             b.grid(0, 7, 24, 9),
             description="GET /checkpoint/gateways → gateways[]",
-            overrides=[b.device_link_override()],
         ),
         b.row(8, "Skyline status", 16),
         b.table(
@@ -297,7 +272,6 @@ def checkpoint_summary() -> dict:
             [b.infinity_url("/checkpoint/skyline/status", "objects", gw_cols)],
             b.grid(0, 17, 16, 8),
             description="Same four gateways on the Skyline status document.",
-            overrides=[b.device_link_override()],
         ),
         b.table(
             10,
@@ -317,11 +291,8 @@ def checkpoint_summary() -> dict:
                 )
             ],
             b.grid(16, 17, 8, 8),
-            description="Leftover path — same box as bld4-fw-01.",
-            overrides=[b.device_link_override()],
+            description="Leftover FortiGate-shaped path on the same mock API.",
         ),
-        b.row(11, "Same names over SNMP", 25),
-        snmp_join(12, "Check Point over SNMP", "checkpoint", b.grid(0, 26, 24, 7)),
     ]
     return _shell(
         CP_UID,
@@ -410,7 +381,6 @@ def aruba_summary() -> dict:
             [b.infinity_url("/edgeconnect/appliances", "appliances", ap_cols)],
             b.grid(0, 7, 24, 8),
             description="GET /edgeconnect/appliances (alias of /gms/rest/appliance)",
-            overrides=[b.device_link_override()],
         ),
         b.table(
             9,
@@ -443,10 +413,7 @@ def aruba_summary() -> dict:
             [b.infinity_url("/aruba/aps", "aps", central_cols)],
             b.grid(12, 23, 12, 8),
             description="GET /aruba/monitoring/v2/aps",
-            overrides=[b.device_link_override()],
         ),
-        b.row(14, "Same names over SNMP", 31),
-        snmp_join(15, "Aruba over SNMP", "aruba", b.grid(0, 32, 24, 7)),
     ]
     return _shell(
         ARUBA_UID,

@@ -55,7 +55,7 @@ def facilitator_control() -> dict:
     enable = _action(
         "Enable Singapore path",
         True,
-        confirm="Route private-probe traffic via Singapore? Destination IP stays the same.",
+        confirm="Route the public VIP via Singapore? Destination IP stays the same.",
         color="semi-dark-red",
     )
     disable = _action(
@@ -68,7 +68,7 @@ def facilitator_control() -> dict:
         "id": 4,
         "type": "stat",
         "title": "TCP duration (workshop-tcp)",
-        "description": "Last duration from Synthetic Monitoring. Expect this to rise after the agent applies the hairpin.",
+        "description": "Public-probe TCP handshake to the GA edge — stays low after hairpin. Use traceroute hops for Lab 4.",
         "gridPos": b.grid(12, 6, 12, 6),
         "datasource": b.PROM,
         "targets": [
@@ -99,8 +99,8 @@ def facilitator_control() -> dict:
             (
                 "This board is **not** for attendees. Click a control table to POST "
                 "`/admin/hairpin` through Infinity (`workshop-hairpin-control`). "
-                "The private-probe host polls that flag and runs **your** on/off "
-                "commands — no DNS flip.\n\n"
+                "The hairpin agent on the control host polls that flag and runs "
+                "**your** on/off commands — no DNS flip.\n\n"
                 "Need **Editor** (Viewers cannot run visualization actions). "
                 "If the click does nothing, edit the panel → Data links and actions → "
                 "Connection = the Infinity datasource `workshop-hairpin-control`.\n\n"
@@ -186,7 +186,7 @@ def facilitator_control() -> dict:
         "Workshop Facilitator — path control",
         (
             "Toggle the Singapore hairpin from Grafana. Infinity actions POST "
-            "/admin/hairpin; a private-probe agent applies routing. Do not import "
+            "/admin/hairpin; the control-host agent applies GA weights. Do not import "
             "onto attendee stacks."
         ),
         panels,

@@ -1,131 +1,111 @@
 {
-  "uid": "workshop-facilitator-control",
-  "title": "Workshop Facilitator \u2014 path control",
-  "description": "Toggle the Singapore hairpin from Grafana. Infinity actions POST /admin/hairpin; a private-probe agent applies routing. Do not import onto attendee stacks.",
-  "tags": [
-    "workshop",
-    "network-o11y",
-    "facilitator"
-  ],
-  "timezone": "browser",
-  "schemaVersion": 39,
-  "version": 1,
-  "refresh": "5s",
+  "annotations": {
+    "list": []
+  },
+  "description": "Toggle the Singapore hairpin from Grafana. Infinity actions POST /admin/hairpin; the control-host agent applies GA weights. Do not import onto attendee stacks.",
   "editable": true,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "time": {
-    "from": "now-1h",
-    "to": "now"
-  },
-  "templating": {
-    "list": [
-      {
-        "name": "infinity",
-        "type": "datasource",
-        "query": "yesoreyeram-infinity-datasource",
-        "current": {
-          "text": "workshop-network-apis",
-          "value": "workshop-network-apis"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "options": [],
-        "refresh": 1
-      },
-      {
-        "name": "hairpin",
-        "type": "datasource",
-        "query": "yesoreyeram-infinity-datasource",
-        "current": {
-          "text": "workshop-hairpin-control",
-          "value": "workshop-hairpin-control"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "options": [],
-        "refresh": 1
-      },
-      {
-        "name": "datasource",
-        "type": "datasource",
-        "query": "prometheus",
-        "current": {
-          "text": "grafanacloud-prom",
-          "value": "grafanacloud-prom"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "options": [],
-        "refresh": 1
-      },
-      {
-        "name": "loki",
-        "type": "datasource",
-        "query": "loki",
-        "current": {
-          "text": "grafanacloud-logs",
-          "value": "grafanacloud-logs"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "options": [],
-        "refresh": 1
-      }
-    ]
-  },
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "title": "Device Summary",
+      "type": "link",
+      "url": "/d/workshop-device-summary"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "title": "Device Details",
+      "type": "link",
+      "url": "/d/workshop-device-details"
+    },
+    {
+      "asDropdown": false,
+      "icon": "cloud",
+      "title": "PRTG",
+      "type": "link",
+      "url": "/d/workshop-prtg-summary"
+    },
+    {
+      "asDropdown": false,
+      "icon": "cloud",
+      "title": "Check Point",
+      "type": "link",
+      "url": "/d/workshop-checkpoint-summary"
+    },
+    {
+      "asDropdown": false,
+      "icon": "cloud",
+      "title": "Aruba",
+      "type": "link",
+      "url": "/d/workshop-aruba-summary"
+    }
+  ],
   "panels": [
     {
-      "id": 1,
-      "type": "text",
-      "title": "Facilitator only",
       "gridPos": {
         "h": 6,
         "w": 24,
         "x": 0,
         "y": 0
       },
+      "id": 1,
       "options": {
-        "mode": "markdown",
-        "content": "This board is **not** for attendees. Click a control table to POST `/admin/hairpin` through Infinity (`workshop-hairpin-control`). The private-probe host polls that flag and runs **your** on/off commands \u2014 no DNS flip.\n\nNeed **Editor** (Viewers cannot run visualization actions). If the click does nothing, edit the panel \u2192 Data links and actions \u2192 Connection = the Infinity datasource `workshop-hairpin-control`.\n\nSetup notes live in `reproduce/facilitator/hairpin.md`."
-      }
+        "content": "This board is **not** for attendees. Click a control table to POST `/admin/hairpin` through Infinity (`workshop-hairpin-control`). The hairpin agent on the control host polls that flag and runs **your** on/off commands \u2014 no DNS flip.\n\nNeed **Editor** (Viewers cannot run visualization actions). If the click does nothing, edit the panel \u2192 Data links and actions \u2192 Connection = the Infinity datasource `workshop-hairpin-control`.\n\nSetup notes live in `reproduce/facilitator/hairpin.md`.",
+        "mode": "markdown"
+      },
+      "title": "Facilitator only",
+      "type": "text"
     },
     {
-      "id": 2,
-      "type": "stat",
-      "title": "Desired path",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
       "description": "0 = direct US. 1 = Singapore hairpin requested.",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 6,
         "x": 0,
         "y": 6
       },
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${infinity}"
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
       "targets": [
         {
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${infinity}"
-          },
-          "refId": "A",
-          "type": "json",
-          "source": "url",
-          "url": "/admin/hairpin",
-          "url_options": {
-            "method": "GET",
-            "data": "",
-            "params": []
-          },
-          "format": "table",
-          "parser": "backend",
-          "root_selector": "",
           "columns": [
             {
               "selector": "active_num",
@@ -133,25 +113,36 @@
               "type": "number"
             }
           ],
-          "filters": []
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "/admin/hairpin",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
         }
       ],
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "textMode": "auto"
+      "title": "Desired path",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
       },
+      "description": "What the probe agent last reported. Stale if the agent is down.",
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -164,44 +155,33 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
-      }
-    },
-    {
-      "id": 3,
-      "type": "stat",
-      "title": "Applied on probe",
-      "description": "What the probe agent last reported. Stale if the agent is down.",
+      },
       "gridPos": {
         "h": 6,
         "w": 6,
         "x": 6,
         "y": 6
       },
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${infinity}"
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
       "targets": [
         {
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${infinity}"
-          },
-          "refId": "A",
-          "type": "json",
-          "source": "url",
-          "url": "/admin/hairpin",
-          "url_options": {
-            "method": "GET",
-            "data": "",
-            "params": []
-          },
-          "format": "table",
-          "parser": "backend",
-          "root_selector": "",
           "columns": [
             {
               "selector": "applied_num",
@@ -209,87 +189,36 @@
               "type": "number"
             }
           ],
-          "filters": []
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "/admin/hairpin",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
         }
       ],
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "textMode": "auto"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          }
-        },
-        "overrides": []
-      }
+      "title": "Applied on probe",
+      "type": "stat"
     },
     {
-      "id": 4,
-      "type": "stat",
-      "title": "TCP duration (workshop-tcp)",
-      "description": "Last duration from Synthetic Monitoring. Expect this to rise after the agent applies the hairpin.",
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 6
-      },
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "max(probe_duration_seconds{job=\"workshop-tcp\"})",
-          "refId": "A",
-          "legendFormat": "__auto",
-          "range": false,
-          "instant": true
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "textMode": "auto"
-      },
+      "description": "Public-probe TCP handshake to the GA edge \u2014 stays low after hairpin. Use traceroute hops for Lab 4.",
       "fieldConfig": {
         "defaults": {
-          "unit": "s",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -306,44 +235,99 @@
                 "value": 0.4
               }
             ]
-          }
+          },
+          "unit": "s"
         },
         "overrides": []
-      }
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "max(probe_duration_seconds{job=\"workshop-tcp\"})",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "TCP duration (workshop-tcp)",
+      "type": "stat"
     },
     {
-      "id": 5,
-      "type": "table",
-      "title": "Enable Singapore path \u2014 click this table",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
+      },
       "description": "One-click Infinity POST {\"active\": true}. Confirm, then watch Desired path go red.",
+      "fieldConfig": {
+        "defaults": {
+          "actions": [
+            {
+              "confirmation": "Route the public VIP via Singapore? Destination IP stays the same.",
+              "infinity": {
+                "body": "{\"active\": true}",
+                "datasourceUid": "workshop-hairpin-control",
+                "headers": [
+                  [
+                    "Content-Type",
+                    "application/json"
+                  ]
+                ],
+                "method": "POST",
+                "queryParams": [],
+                "url": "/admin/hairpin"
+              },
+              "oneClick": true,
+              "style": {
+                "backgroundColor": "semi-dark-red"
+              },
+              "title": "Enable Singapore path",
+              "type": "infinity"
+            }
+          ]
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 12
       },
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${infinity}"
+      "id": 5,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
       },
       "targets": [
         {
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${infinity}"
-          },
-          "refId": "A",
-          "type": "json",
-          "source": "url",
-          "url": "/admin/hairpin",
-          "url_options": {
-            "method": "GET",
-            "data": "",
-            "params": []
-          },
-          "format": "table",
-          "parser": "backend",
-          "root_selector": "",
           "columns": [
             {
               "selector": "label",
@@ -361,80 +345,80 @@
               "type": "boolean"
             }
           ],
-          "filters": []
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "/admin/hairpin",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
         }
       ],
+      "title": "Enable Singapore path \u2014 click this table",
       "transformations": [],
-      "options": {
-        "showHeader": true,
-        "cellHeight": "md",
-        "footer": {
-          "show": false
-        }
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${infinity}"
       },
+      "description": "One-click Infinity POST {\"active\": false}.",
       "fieldConfig": {
         "defaults": {
           "actions": [
             {
-              "type": "infinity",
-              "title": "Enable Singapore path",
-              "confirmation": "Route private-probe traffic via Singapore? Destination IP stays the same.",
-              "oneClick": true,
-              "style": {
-                "backgroundColor": "semi-dark-red"
-              },
+              "confirmation": "Remove the Singapore hairpin and restore the direct path?",
               "infinity": {
-                "method": "POST",
-                "url": "/admin/hairpin",
-                "body": "{\"active\": true}",
+                "body": "{\"active\": false}",
+                "datasourceUid": "workshop-hairpin-control",
                 "headers": [
                   [
                     "Content-Type",
                     "application/json"
                   ]
                 ],
+                "method": "POST",
                 "queryParams": [],
-                "datasourceUid": "workshop-hairpin-control"
-              }
+                "url": "/admin/hairpin"
+              },
+              "oneClick": true,
+              "style": {
+                "backgroundColor": "semi-dark-green"
+              },
+              "title": "Restore direct US",
+              "type": "infinity"
             }
           ]
         },
         "overrides": []
-      }
-    },
-    {
-      "id": 6,
-      "type": "table",
-      "title": "Restore direct US \u2014 click this table",
-      "description": "One-click Infinity POST {\"active\": false}.",
+      },
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 12
       },
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${infinity}"
+      "id": 6,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
       },
       "targets": [
         {
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${infinity}"
-          },
-          "refId": "A",
-          "type": "json",
-          "source": "url",
-          "url": "/admin/hairpin",
-          "url_options": {
-            "method": "GET",
-            "data": "",
-            "params": []
-          },
-          "format": "table",
-          "parser": "backend",
-          "root_selector": "",
           "columns": [
             {
               "selector": "label",
@@ -452,61 +436,71 @@
               "type": "boolean"
             }
           ],
-          "filters": []
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${infinity}"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "/admin/hairpin",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
         }
       ],
+      "title": "Restore direct US \u2014 click this table",
       "transformations": [],
-      "options": {
-        "showHeader": true,
-        "cellHeight": "md",
-        "footer": {
-          "show": false
-        }
-      },
-      "fieldConfig": {
-        "defaults": {
-          "actions": [
-            {
-              "type": "infinity",
-              "title": "Restore direct US",
-              "confirmation": "Remove the Singapore hairpin and restore the direct path?",
-              "oneClick": true,
-              "style": {
-                "backgroundColor": "semi-dark-green"
-              },
-              "infinity": {
-                "method": "POST",
-                "url": "/admin/hairpin",
-                "body": "{\"active\": false}",
-                "headers": [
-                  [
-                    "Content-Type",
-                    "application/json"
-                  ]
-                ],
-                "queryParams": [],
-                "datasourceUid": "workshop-hairpin-control"
-              }
-            }
-          ]
-        },
-        "overrides": []
-      }
+      "type": "table"
     },
     {
-      "id": 7,
-      "type": "timeseries",
-      "title": "Synthetic TCP duration",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "spanNulls": 600000,
+            "stacking": {
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "s"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 24,
         "x": 0,
         "y": 20
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
       },
       "targets": [
         {
@@ -516,57 +510,53 @@
           },
           "editorMode": "code",
           "expr": "probe_duration_seconds{job=\"workshop-tcp\"}",
-          "refId": "A",
+          "instant": false,
           "legendFormat": "{{probe}}",
           "range": true,
-          "instant": false
+          "refId": "A"
         }
       ],
+      "title": "Synthetic TCP duration",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "",
       "fieldConfig": {
         "defaults": {
-          "unit": "s",
-          "min": 0,
           "custom": {
             "drawStyle": "line",
-            "lineWidth": 2,
             "fillOpacity": 10,
+            "lineWidth": 1,
             "spanNulls": 600000,
             "stacking": {
               "mode": "none"
             }
-          }
+          },
+          "min": 0,
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": {
-        "legend": {
-          "displayMode": "table",
-          "placement": "right",
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ]
-        },
-        "tooltip": {
-          "mode": "multi"
-        }
-      }
-    },
-    {
-      "id": 8,
-      "type": "timeseries",
-      "title": "Traceroute hops",
-      "description": "",
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 28
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "targets": [
         {
@@ -576,53 +566,53 @@
           },
           "editorMode": "code",
           "expr": "probe_traceroute_total_hops{job=\"workshop-tr\"}",
-          "refId": "A",
+          "instant": false,
           "legendFormat": "{{probe}}",
           "range": true,
-          "instant": false
+          "refId": "A"
         }
       ],
+      "title": "Traceroute hops",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "",
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
-          "min": 0,
           "custom": {
             "drawStyle": "line",
-            "lineWidth": 1,
             "fillOpacity": 10,
+            "lineWidth": 1,
             "spanNulls": 600000,
             "stacking": {
               "mode": "none"
             }
-          }
+          },
+          "min": 0,
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "calcs": []
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      }
-    },
-    {
-      "id": 9,
-      "type": "timeseries",
-      "title": "Route hash changes",
-      "description": "",
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 28
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 9,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "targets": [
         {
@@ -632,79 +622,88 @@
           },
           "editorMode": "code",
           "expr": "changes(probe_traceroute_route_hash{job=\"workshop-tr\"}[15m])",
-          "refId": "A",
+          "instant": false,
           "legendFormat": "{{probe}}",
           "range": true,
-          "instant": false
+          "refId": "A"
         }
       ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "min": 0,
-          "custom": {
-            "drawStyle": "line",
-            "lineWidth": 1,
-            "fillOpacity": 10,
-            "spanNulls": 600000,
-            "stacking": {
-              "mode": "none"
-            }
-          }
+      "title": "Route hash changes",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": [
+    "workshop",
+    "network-o11y",
+    "facilitator"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "workshop-network-apis",
+          "value": "workshop-network-apis"
         },
-        "overrides": []
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "infinity",
+        "options": [],
+        "query": "yesoreyeram-infinity-datasource",
+        "refresh": 1,
+        "type": "datasource"
       },
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "calcs": []
+      {
+        "current": {
+          "text": "workshop-hairpin-control",
+          "value": "workshop-hairpin-control"
         },
-        "tooltip": {
-          "mode": "single"
-        }
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "hairpin",
+        "options": [],
+        "query": "yesoreyeram-infinity-datasource",
+        "refresh": 1,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": "workshop-ktranslate",
+          "value": "workshop-ktranslate"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": "workshop-ktranslate-logs",
+          "value": "workshop-ktranslate-logs"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "loki",
+        "options": [],
+        "query": "loki",
+        "refresh": 1,
+        "type": "datasource"
       }
-    }
-  ],
-  "annotations": {
-    "list": []
+    ]
   },
-  "links": [
-    {
-      "title": "Device Summary",
-      "type": "link",
-      "url": "/d/workshop-device-summary",
-      "asDropdown": false,
-      "icon": "dashboard"
-    },
-    {
-      "title": "Device Details",
-      "type": "link",
-      "url": "/d/workshop-device-details",
-      "asDropdown": false,
-      "icon": "dashboard"
-    },
-    {
-      "title": "PRTG",
-      "type": "link",
-      "url": "/d/workshop-prtg-summary",
-      "asDropdown": false,
-      "icon": "cloud"
-    },
-    {
-      "title": "Check Point",
-      "type": "link",
-      "url": "/d/workshop-checkpoint-summary",
-      "asDropdown": false,
-      "icon": "cloud"
-    },
-    {
-      "title": "Aruba",
-      "type": "link",
-      "url": "/d/workshop-aruba-summary",
-      "asDropdown": false,
-      "icon": "cloud"
-    }
-  ],
-  "fiscalYearStartMonth": 0
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timezone": "browser",
+  "title": "Workshop Facilitator \u2014 path control",
+  "uid": "workshop-facilitator-control"
 }

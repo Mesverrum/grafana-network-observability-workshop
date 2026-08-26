@@ -9,7 +9,7 @@ This workshop is a **webinar**, not a classroom. Attendees are remote, on mute, 
 - **Do not wait** for everyone to finish. Give a timebox, ask for a thumbs-up or a one-line chat readout from volunteers, then move.
 - **UI, not Explore.** They live in Synthetics check pages and **Network Observability** dashboards. You show Explore once on the share in Lab 2.
 - **Help:** they raise hand or chat. Unmute one person at a time. Screenshare *their* Grafana only if they can; otherwise they screenshot into chat.
-- **Break:** they stay in the webinar. You use it to confirm generator + SM, not to walk the room.
+- **Break:** they stay in the webinar. You use it to confirm Clos SNMP on the shared Prom + SM checks, not to walk the room.
 
 ## Paste this at join
 
@@ -34,7 +34,7 @@ TCP: 15.197.194.37:80
 Probe: Oregon or North Virginia (public). Do not add Singapore yet.
 ```
 
-Do not tell them to install or select a private probe. Their stacks cannot see yours. You shuffle the VIP in AWS; they only watch duration and hops on the check page.
+Do not tell them to install or select a private probe. Their stacks cannot see yours. Lab 4 they add a **public Singapore** probe on the same VIP. You do not shuffle GA for that exercise.
 
 ## What not to say
 

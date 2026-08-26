@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Build workshop dashboards as Grafana JSON.
+"""Helpers for workshop dashboard JSON.
 
-Mirrors the lab collection path (Device Summary → Device Details) at workshop
-scale. No ticket copy that names the guilty device.
+The importable JSON in this folder and labs/dashboards/ is pulled from live
+Grafana (Assistant edits on marcnetterfield1). Do not regenerate those files
+from this script — it would wipe that work.
 
-Table rule: Device, Interface, and other friendly identifiers are always the
-leftmost columns (IDENTITY_FIRST + organize). Do not leave them wherever the
-API JSON or Prom labels happen to land.
+Re-pull: python local/scripts/_export-workshop-live.py in network-o11y-demo.
 """
 
 from __future__ import annotations
@@ -23,6 +22,8 @@ DETAIL_UID = "workshop-device-details"
 SUMMARY_UID = "workshop-device-summary"
 SEL = 'tags_snmp_group=~"$snmp_group", provider=~"$provider", device_name=~"$device_name"'
 DEV = 'device_name=~"$device"'
+# Workshop hunt is the colocated 3-site Clos, not the campus static list.
+SITES = 'tags_snmp_group=~"srl-.*"'
 
 
 def ds_var(name: str, query: str, current: str) -> dict:
@@ -262,7 +263,7 @@ def alertlist(pid: int, title: str, pos: dict) -> dict:
         "id": pid,
         "type": "alertlist",
         "title": title,
-        "description": "Firing and pending instances from Workshop / campus.",
+        "description": "Firing and pending instances from Workshop / sites.",
         "gridPos": pos,
         "options": {
             "viewMode": "list",
@@ -401,7 +402,7 @@ def summary_templating() -> dict:
             query_var(
                 "snmp_group",
                 "SNMP group",
-                'label_values(kentik_snmp_PollingHealth{service_name="ktranslate-snmp-workshop"}, tags_snmp_group)',
+                f"label_values(kentik_snmp_PollingHealth{{{SITES}}}, tags_snmp_group)",
             ),
             query_var(
                 "provider",
@@ -425,7 +426,7 @@ def details_templating() -> dict:
             query_var(
                 "device",
                 "Device",
-                'label_values(kentik_snmp_PollingHealth{service_name="ktranslate-snmp-workshop"}, device_name)',
+                f'label_values(kentik_snmp_PollingHealth{{{SITES}}}, device_name)',
                 include_all=False,
                 multi=False,
             ),
@@ -614,7 +615,7 @@ def summary() -> dict:
                 [
                     {
                         **loki_target(
-                            'sum by(device_name) (count_over_time({service_name="ktranslate-syslog-workshop"} | json | device_name=~"$device_name" [$__interval]))'
+                            'sum by(device_name) (count_over_time({service_name="ktranslate"} | json | instrumentation_name="ktranslate-syslog" | device_name=~"$device_name" [$__interval]))'
                         ),
                         "legendFormat": "{{device_name}}",
                     }
@@ -628,7 +629,7 @@ def summary() -> dict:
         logs(
             20,
             "Recent Device Syslog",
-            '{service_name="ktranslate-syslog-workshop"} | json | device_name=~"$device_name"',
+            '{service_name="ktranslate"} | json | instrumentation_name="ktranslate-syslog" | device_name=~"$device_name"',
             grid(12, 51, 12, 8),
         ),
         row(21, "Controller APIs (Infinity)", 59),
@@ -638,8 +639,7 @@ def summary() -> dict:
             INF,
             [infinity_url("/prtg/api/v2/sensors", "sensors", cols_prtg)],
             grid(0, 60, 8, 8),
-            description="Mock PRTG. Open Workshop PRTG Summary for the full page.",
-            overrides=[device_link_override()],
+            description="Mock PRTG. Open Workshop PRTG Summary for the full page. These names are not in SNMP.",
         ),
         table(
             23,
@@ -652,7 +652,7 @@ def summary() -> dict:
                 {"selector": "cpu", "text": "CPU", "type": "number"},
             ])],
             grid(8, 60, 8, 8),
-            overrides=[device_link_override()],
+            description="Mock Check Point. These names are not in SNMP.",
         ),
         table(
             24,
@@ -665,15 +665,15 @@ def summary() -> dict:
                 {"selector": "role", "text": "Role", "type": "string"},
             ])],
             grid(16, 60, 8, 8),
-            overrides=[device_link_override()],
+            description="Mock EdgeConnect. These names are not in SNMP.",
         ),
     ]
     return {
         "uid": SUMMARY_UID,
         "title": "Workshop Device Summary",
         "description": (
-            "Fleet overview of the workshop campus (ktranslate-shaped SNMP). "
-            "Start at alerts, then click a device to open Device Details."
+            "Fleet overview of the 3-site lab (HQ + two branches, ktranslate SNMP). "
+            "Use $snmp_group for srl-hq / srl-branch1 / srl-branch2, then click a device."
         ),
         "tags": ["workshop", "network-o11y", "ktranslate"],
         "timezone": "browser",
@@ -866,7 +866,7 @@ def details() -> dict:
         logs(
             15,
             "Device Syslog",
-            '{service_name="ktranslate-syslog-workshop"} | json | device_name=~"$device"',
+            '{service_name="ktranslate"} | json | instrumentation_name="ktranslate-syslog" | device_name=~"$device"',
             grid(0, 39, 24, 10),
             description="Forwarded syslog for the selected device.",
         ),
@@ -875,7 +875,7 @@ def details() -> dict:
         "uid": DETAIL_UID,
         "title": "Workshop Device Details",
         "description": (
-            "Single-device health for the workshop campus. "
+            "Single-device health for the 3-site lab. "
             "Opened from Device Summary via the Device column."
         ),
         "tags": ["workshop", "network-o11y", "ktranslate"],
@@ -923,61 +923,12 @@ def details() -> dict:
     }
 
 
-def skeleton() -> dict:
-    hint = (
-        "This board is yours. Add panels after you have used Summary → Details.\n\n"
-        "Ideas: an alert list, a device table with a drill-down, or Infinity "
-        "`/meraki/devices` next to `kentik_snmp_CPU`."
-    )
-    return {
-        "uid": "workshop-my-noc",
-        "title": "My NOC view",
-        "tags": ["workshop", "network-o11y", "lab4"],
-        "timezone": "browser",
-        "schemaVersion": 39,
-        "version": 1,
-        "refresh": "10s",
-        "editable": True,
-        "graphTooltip": 1,
-        "time": {"from": "now-30m", "to": "now"},
-        "templating": {
-            "list": [
-                ds_var("datasource", "prometheus", "grafanacloud-prom"),
-                ds_var("loki", "loki", "grafanacloud-logs"),
-                ds_var("infinity", "yesoreyeram-infinity-datasource", "workshop-network-apis"),
-            ]
-        },
-        "panels": [
-            {
-                "id": 1,
-                "type": "text",
-                "title": "Build this",
-                "gridPos": grid(0, 0, 24, 5),
-                "options": {"mode": "markdown", "content": hint},
-            }
-        ],
-        "annotations": {"list": []},
-        "links": [],
-        "fiscalYearStartMonth": 0,
-    }
-
-
 def main() -> None:
-    import integrations
-    import facilitator
-
-    for name, builder in (
-        ("device-summary.json", summary),
-        ("device-details.json", details),
-        ("my-noc-view.json", skeleton),
-        ("prtg-summary.json", integrations.prtg_summary),
-        ("checkpoint-summary.json", integrations.checkpoint_summary),
-        ("aruba-summary.json", integrations.aruba_summary),
-        ("facilitator-control.json", facilitator.facilitator_control),
-    ):
-        path = OUT / name
-        path.write_text(json.dumps(builder(), indent=2) + "\n", encoding="utf-8")
-        print(f"wrote {path}")
+    raise SystemExit(
+        "Workshop dashboard JSON is pulled from live Grafana. "
+        "Do not regenerate it here. Re-pull with "
+        "python local/scripts/_export-workshop-live.py (network-o11y-demo)."
+    )
 
 
 if __name__ == "__main__":

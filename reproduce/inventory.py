@@ -1,10 +1,13 @@
-"""Shared campus inventory for mocks, generator, and dashboard copy.
+"""Infinity mock campus inventory (PRTG / Check Point / EdgeConnect / Meraki).
 
-Building 4 is the workshop fault. Flip `fault_active` in the mock admin API
-or pass --fault on the generator; both should tell the same story.
+Building 4 is the Lab 5 API fault. Flip `fault_active` on the mock admin API.
 
-Estate flavor: PRTG over Cisco, Check Point firewalls, Aruba EdgeConnect SD-WAN.
-Meraki is the Infinity Lab 5 controller. FortiGate paths stay as aliases.
+These names are **not** on the student SNMP hunt. Hunt devices are the
+colocated Clos (`spine1`, `leaf1`, `leaf2`, `leaf-br1`, `leaf-br2`) with
+`tags_snmp_group` `srl-hq` / `srl-branch1` / `srl-branch2`.
+
+The leftover `generator/` still emits this campus list as fake `kentik_snmp_*`.
+Do not run it into the workshop stack — Device Summary filters `srl-.*`.
 """
 
 from __future__ import annotations

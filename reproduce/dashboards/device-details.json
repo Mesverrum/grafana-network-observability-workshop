@@ -1,156 +1,63 @@
 {
-  "uid": "workshop-device-details",
-  "title": "Workshop Device Details",
+  "annotations": {
+    "list": []
+  },
   "description": "Single-device health for the workshop campus. Opened from Device Summary via the Device column.",
-  "tags": [
-    "workshop",
-    "network-o11y",
-    "ktranslate"
-  ],
-  "timezone": "browser",
-  "schemaVersion": 39,
-  "version": 1,
-  "refresh": "30s",
   "editable": true,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "time": {
-    "from": "now-1h",
-    "to": "now"
-  },
-  "templating": {
-    "list": [
-      {
-        "name": "datasource",
-        "type": "datasource",
-        "query": "prometheus",
-        "current": {
-          "text": "grafanacloud-prom",
-          "value": "grafanacloud-prom"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "options": [],
-        "refresh": 1
-      },
-      {
-        "name": "loki",
-        "type": "datasource",
-        "query": "loki",
-        "current": {
-          "text": "grafanacloud-logs",
-          "value": "grafanacloud-logs"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "options": [],
-        "refresh": 1
-      },
-      {
-        "name": "device",
-        "label": "Device",
-        "type": "query",
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${datasource}"
-        },
-        "definition": "label_values(kentik_snmp_PollingHealth{service_name=\"ktranslate-snmp-workshop\"}, device_name)",
-        "query": "label_values(kentik_snmp_PollingHealth{service_name=\"ktranslate-snmp-workshop\"}, device_name)",
-        "refresh": 2,
-        "includeAll": false,
-        "multi": false,
-        "allValue": ".*",
-        "current": {
-          "text": "",
-          "value": ""
-        },
-        "sort": 1,
-        "hide": 0
-      },
-      {
-        "name": "interface",
-        "label": "Interface",
-        "type": "query",
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${datasource}"
-        },
-        "definition": "label_values(kentik_snmp_if_OperStatus{device_name=~\"$device\"}, if_interface_name)",
-        "query": "label_values(kentik_snmp_if_OperStatus{device_name=~\"$device\"}, if_interface_name)",
-        "refresh": 2,
-        "includeAll": true,
-        "multi": true,
-        "allValue": ".*",
-        "current": {
-          "text": "All",
-          "value": "$__all",
-          "selected": true
-        },
-        "sort": 1,
-        "hide": 0
-      }
-    ]
-  },
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "title": "Device Summary",
+      "type": "link",
+      "url": "/d/workshop-device-summary"
+    },
+    {
+      "asDropdown": false,
+      "icon": "cloud",
+      "title": "PRTG",
+      "type": "link",
+      "url": "/d/workshop-prtg-summary"
+    },
+    {
+      "asDropdown": false,
+      "icon": "cloud",
+      "title": "Check Point",
+      "type": "link",
+      "url": "/d/workshop-checkpoint-summary"
+    },
+    {
+      "asDropdown": false,
+      "icon": "cloud",
+      "title": "Aruba",
+      "type": "link",
+      "url": "/d/workshop-aruba-summary"
+    }
+  ],
   "panels": [
     {
-      "id": 1,
-      "type": "row",
-      "title": "Overview",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "collapsed": false,
-      "panels": []
+      "id": 1,
+      "panels": [],
+      "title": "Overview",
+      "type": "row"
     },
     {
-      "id": 2,
-      "type": "stat",
-      "title": "Polling Health",
-      "description": "1 = healthy",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 0,
-        "y": 1
-      },
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "max by(device_name) (kentik_snmp_PollingHealth{device_name=~\"$device\"})",
-          "refId": "A",
-          "legendFormat": "__auto",
-          "range": true,
-          "instant": false
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "textMode": "auto"
-      },
+      "description": "1 = healthy",
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -163,25 +70,30 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
-      }
-    },
-    {
-      "id": 3,
-      "type": "stat",
-      "title": "CPU",
-      "description": "",
+      },
       "gridPos": {
         "h": 4,
         "w": 6,
-        "x": 6,
+        "x": 0,
         "y": 1
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
       "targets": [
         {
@@ -190,29 +102,24 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "max by(device_name) (kentik_snmp_CPU{device_name=~\"$device\"})",
-          "refId": "A",
+          "expr": "max by(device_name) (kentik_snmp_PollingHealth{device_name=~\"$device\"})",
+          "instant": false,
           "legendFormat": "__auto",
           "range": true,
-          "instant": false
+          "refId": "A"
         }
       ],
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "textMode": "auto"
+      "title": "Polling Health",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
-          "unit": "percent",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -229,25 +136,30 @@
                 "value": 85
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
-      }
-    },
-    {
-      "id": 4,
-      "type": "stat",
-      "title": "Memory",
-      "description": "",
+      },
       "gridPos": {
         "h": 4,
         "w": 6,
-        "x": 12,
+        "x": 6,
         "y": 1
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
       "targets": [
         {
@@ -256,29 +168,24 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "max by(device_name) (kentik_snmp_MemoryUtilization{device_name=~\"$device\"})",
-          "refId": "A",
+          "expr": "max by(device_name) (kentik_snmp_CPU{device_name=~\"$device\"})",
+          "instant": false,
           "legendFormat": "__auto",
           "range": true,
-          "instant": false
+          "refId": "A"
         }
       ],
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "textMode": "auto"
+      "title": "CPU",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
-          "unit": "percent",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -295,25 +202,30 @@
                 "value": 90
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
-      }
-    },
-    {
-      "id": 5,
-      "type": "stat",
-      "title": "Interface Errors",
-      "description": "Device-wide in errors/s",
+      },
       "gridPos": {
         "h": 4,
         "w": 6,
-        "x": 18,
+        "x": 12,
         "y": 1
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
       "targets": [
         {
@@ -322,29 +234,24 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum(kentik_snmp_ifInErrors{device_name=~\"$device\"} / 60)",
-          "refId": "A",
+          "expr": "max by(device_name) (kentik_snmp_MemoryUtilization{device_name=~\"$device\"})",
+          "instant": false,
           "legendFormat": "__auto",
           "range": true,
-          "instant": false
+          "refId": "A"
         }
       ],
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "textMode": "auto"
+      "title": "Memory",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
+      "description": "Device-wide in errors/s",
       "fieldConfig": {
         "defaults": {
-          "unit": "eps",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -361,25 +268,86 @@
                 "value": 5
               }
             ]
-          }
+          },
+          "unit": "eps"
         },
         "overrides": []
-      }
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "sum(kentik_snmp_ifInErrors{device_name=~\"$device\"} / 60)",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Interface Errors",
+      "type": "stat"
     },
     {
-      "id": 6,
-      "type": "timeseries",
-      "title": "CPU Over Time",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 1,
+            "spanNulls": 600000,
+            "stacking": {
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 5
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "targets": [
         {
@@ -389,53 +357,53 @@
           },
           "editorMode": "code",
           "expr": "max by(device_name) (kentik_snmp_CPU{device_name=~\"$device\"})",
-          "refId": "A",
+          "instant": false,
           "legendFormat": "{{device_name}}",
           "range": true,
-          "instant": false
+          "refId": "A"
         }
       ],
+      "title": "CPU Over Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "",
       "fieldConfig": {
         "defaults": {
-          "unit": "percent",
-          "min": 0,
           "custom": {
             "drawStyle": "line",
-            "lineWidth": 1,
             "fillOpacity": 10,
+            "lineWidth": 1,
             "spanNulls": 600000,
             "stacking": {
               "mode": "none"
             }
-          }
+          },
+          "min": 0,
+          "unit": "percent"
         },
         "overrides": []
       },
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "calcs": []
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      }
-    },
-    {
-      "id": 7,
-      "type": "timeseries",
-      "title": "Memory Over Time",
-      "description": "",
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 5
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "targets": [
         {
@@ -445,66 +413,51 @@
           },
           "editorMode": "code",
           "expr": "max by(device_name) (kentik_snmp_MemoryUtilization{device_name=~\"$device\"})",
-          "refId": "A",
+          "instant": false,
           "legendFormat": "{{device_name}}",
           "range": true,
-          "instant": false
+          "refId": "A"
         }
       ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "min": 0,
-          "custom": {
-            "drawStyle": "line",
-            "lineWidth": 1,
-            "fillOpacity": 10,
-            "spanNulls": 600000,
-            "stacking": {
-              "mode": "none"
-            }
-          }
-        },
-        "overrides": []
-      },
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "calcs": []
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      }
+      "title": "Memory Over Time",
+      "type": "timeseries"
     },
     {
-      "id": 8,
-      "type": "row",
-      "title": "Interfaces",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 13
       },
-      "collapsed": false,
-      "panels": []
+      "id": 8,
+      "panels": [],
+      "title": "Interfaces",
+      "type": "row"
     },
     {
-      "id": 9,
-      "type": "table",
-      "title": "Interface Status",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "Oper 1 = up. Sort Errors/s or bps to find the outlier.",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 24,
         "x": 0,
         "y": 14
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 9,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
       },
       "targets": [
         {
@@ -514,10 +467,10 @@
           },
           "editorMode": "code",
           "expr": "max by(if_interface_name, if_Alias) (kentik_snmp_if_OperStatus{device_name=~\"$device\", if_interface_name=~\"$interface\"})",
-          "refId": "A",
+          "instant": true,
           "legendFormat": "__auto",
           "range": false,
-          "instant": true
+          "refId": "A"
         },
         {
           "datasource": {
@@ -526,10 +479,10 @@
           },
           "editorMode": "code",
           "expr": "sum by(if_interface_name) (kentik_snmp_ifInErrors{device_name=~\"$device\", if_interface_name=~\"$interface\"} / 60)",
-          "refId": "B",
+          "instant": true,
           "legendFormat": "__auto",
           "range": false,
-          "instant": true
+          "refId": "B"
         },
         {
           "datasource": {
@@ -538,10 +491,10 @@
           },
           "editorMode": "code",
           "expr": "sum by(if_interface_name) ((kentik_snmp_ifHCInOctets{device_name=~\"$device\", if_interface_name=~\"$interface\"}) * 8 / 60)",
-          "refId": "C",
+          "instant": true,
           "legendFormat": "__auto",
           "range": false,
-          "instant": true
+          "refId": "C"
         },
         {
           "datasource": {
@@ -550,12 +503,13 @@
           },
           "editorMode": "code",
           "expr": "sum by(if_interface_name) ((kentik_snmp_ifHCOutOctets{device_name=~\"$device\", if_interface_name=~\"$interface\"}) * 8 / 60)",
-          "refId": "D",
+          "instant": true,
           "legendFormat": "__auto",
           "range": false,
-          "instant": true
+          "refId": "D"
         }
       ],
+      "title": "Interface Status",
       "transformations": [
         {
           "id": "labelsToFields",
@@ -571,63 +525,77 @@
           "id": "organize",
           "options": {
             "excludeByName": {
-              "Time": true,
               "Index": true,
+              "Time": true,
               "__name__": true,
-              "job": true,
               "deployment_host": true,
+              "device_name": true,
+              "instrumentation_name": true,
+              "job": true,
               "service_name": true,
               "src_addr": true,
               "tags_container_service": true,
-              "instrumentation_name": true,
-              "tags_snmp_group": true,
-              "device_name": true
+              "tags_snmp_group": true
+            },
+            "indexByName": {
+              "Alias": 1,
+              "Errors/s": 3,
+              "In bps": 4,
+              "Interface": 0,
+              "Oper": 2,
+              "Out bps": 5
             },
             "renameByName": {
-              "if_interface_name": "Interface",
-              "if_Alias": "Alias",
               "Value #A": "Oper",
               "Value #B": "Errors/s",
               "Value #C": "In bps",
-              "Value #D": "Out bps"
-            },
-            "indexByName": {
-              "Interface": 0,
-              "Alias": 1,
-              "Oper": 2,
-              "Errors/s": 3,
-              "In bps": 4,
-              "Out bps": 5
+              "Value #D": "Out bps",
+              "if_Alias": "Alias",
+              "if_interface_name": "Interface"
             }
           }
         }
       ],
-      "options": {
-        "showHeader": true,
-        "cellHeight": "sm",
-        "footer": {
-          "show": false
-        }
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      }
+      "type": "table"
     },
     {
-      "id": 10,
-      "type": "timeseries",
-      "title": "Interface Traffic In",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 1,
+            "spanNulls": 600000,
+            "stacking": {
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bps"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 22
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "targets": [
         {
@@ -637,53 +605,53 @@
           },
           "editorMode": "code",
           "expr": "sum by(if_interface_name) ((kentik_snmp_ifHCInOctets{device_name=~\"$device\", if_interface_name=~\"$interface\"}) * 8 / 60)",
-          "refId": "A",
+          "instant": false,
           "legendFormat": "{{if_interface_name}}",
           "range": true,
-          "instant": false
+          "refId": "A"
         }
       ],
+      "title": "Interface Traffic In",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "",
       "fieldConfig": {
         "defaults": {
-          "unit": "bps",
-          "min": 0,
           "custom": {
             "drawStyle": "line",
-            "lineWidth": 1,
             "fillOpacity": 10,
+            "lineWidth": 1,
             "spanNulls": 600000,
             "stacking": {
               "mode": "none"
             }
-          }
+          },
+          "min": 0,
+          "unit": "bps"
         },
         "overrides": []
       },
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "calcs": []
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      }
-    },
-    {
-      "id": 11,
-      "type": "timeseries",
-      "title": "Interface Traffic Out",
-      "description": "",
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 22
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "targets": [
         {
@@ -693,53 +661,53 @@
           },
           "editorMode": "code",
           "expr": "sum by(if_interface_name) ((kentik_snmp_ifHCOutOctets{device_name=~\"$device\", if_interface_name=~\"$interface\"}) * 8 / 60)",
-          "refId": "B",
+          "instant": false,
           "legendFormat": "{{if_interface_name}}",
           "range": true,
-          "instant": false
+          "refId": "B"
         }
       ],
+      "title": "Interface Traffic Out",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "",
       "fieldConfig": {
         "defaults": {
-          "unit": "bps",
-          "min": 0,
           "custom": {
             "drawStyle": "line",
-            "lineWidth": 1,
             "fillOpacity": 10,
+            "lineWidth": 1,
             "spanNulls": 600000,
             "stacking": {
               "mode": "none"
             }
-          }
+          },
+          "min": 0,
+          "unit": "eps"
         },
         "overrides": []
       },
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "calcs": []
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      }
-    },
-    {
-      "id": 12,
-      "type": "timeseries",
-      "title": "Interface Errors In",
-      "description": "",
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 30
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "targets": [
         {
@@ -749,53 +717,53 @@
           },
           "editorMode": "code",
           "expr": "sum by(if_interface_name) (kentik_snmp_ifInErrors{device_name=~\"$device\", if_interface_name=~\"$interface\"} / 60)",
-          "refId": "A",
+          "instant": false,
           "legendFormat": "{{if_interface_name}}",
           "range": true,
-          "instant": false
+          "refId": "A"
         }
       ],
+      "title": "Interface Errors In",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "",
       "fieldConfig": {
         "defaults": {
-          "unit": "eps",
-          "min": 0,
           "custom": {
             "drawStyle": "line",
-            "lineWidth": 1,
             "fillOpacity": 10,
+            "lineWidth": 1,
             "spanNulls": 600000,
             "stacking": {
               "mode": "none"
             }
-          }
+          },
+          "min": 0,
+          "unit": "eps"
         },
         "overrides": []
       },
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "calcs": []
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      }
-    },
-    {
-      "id": 13,
-      "type": "timeseries",
-      "title": "Interface Errors Out",
-      "description": "",
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 30
       },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "targets": [
         {
@@ -805,56 +773,33 @@
           },
           "editorMode": "code",
           "expr": "sum by(if_interface_name) (kentik_snmp_ifOutErrors{device_name=~\"$device\", if_interface_name=~\"$interface\"} / 60)",
-          "refId": "B",
+          "instant": false,
           "legendFormat": "{{if_interface_name}}",
           "range": true,
-          "instant": false
+          "refId": "B"
         }
       ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "eps",
-          "min": 0,
-          "custom": {
-            "drawStyle": "line",
-            "lineWidth": 1,
-            "fillOpacity": 10,
-            "spanNulls": 600000,
-            "stacking": {
-              "mode": "none"
-            }
-          }
-        },
-        "overrides": []
-      },
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "calcs": []
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      }
+      "title": "Interface Errors Out",
+      "type": "timeseries"
     },
     {
-      "id": 14,
-      "type": "row",
-      "title": "Events",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 38
       },
-      "collapsed": false,
-      "panels": []
+      "id": 14,
+      "panels": [],
+      "title": "Events",
+      "type": "row"
     },
     {
-      "id": 15,
-      "type": "logs",
-      "title": "Device Syslog",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
       "description": "Forwarded syslog for the selected device.",
       "gridPos": {
         "h": 10,
@@ -862,9 +807,11 @@
         "x": 0,
         "y": 39
       },
-      "datasource": {
-        "type": "loki",
-        "uid": "${loki}"
+      "id": 15,
+      "options": {
+        "showLabels": true,
+        "showTime": true,
+        "wrapLogMessage": true
       },
       "targets": [
         {
@@ -873,50 +820,102 @@
             "uid": "${loki}"
           },
           "editorMode": "code",
-          "expr": "{service_name=\"ktranslate-syslog-workshop\"} | json | device_name=~\"$device\"",
+          "expr": "{service_name=\"ktranslate\"} | json | instrumentation_name=\"ktranslate-syslog\" | device_name=~\"$device\"",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "options": {
-        "showTime": true,
-        "showLabels": true,
-        "wrapLogMessage": true
+      "title": "Device Syslog",
+      "type": "logs"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "tags": [
+    "workshop",
+    "network-o11y",
+    "ktranslate"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "workshop-ktranslate",
+          "value": "workshop-ktranslate"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": "workshop-ktranslate-logs",
+          "value": "workshop-ktranslate-logs"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "loki",
+        "options": [],
+        "query": "loki",
+        "refresh": 1,
+        "type": "datasource"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(kentik_snmp_PollingHealth{tags_snmp_group=~\"srl-.*\"}, device_name)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Device",
+        "multi": false,
+        "name": "device",
+        "query": "label_values(kentik_snmp_PollingHealth{tags_snmp_group=~\"srl-.*\"}, device_name)",
+        "refresh": 2,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(kentik_snmp_if_OperStatus{device_name=~\"$device\"}, if_interface_name)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Interface",
+        "multi": true,
+        "name": "interface",
+        "query": "label_values(kentik_snmp_if_OperStatus{device_name=~\"$device\"}, if_interface_name)",
+        "refresh": 2,
+        "sort": 1,
+        "type": "query"
       }
-    }
-  ],
-  "annotations": {
-    "list": []
+    ]
   },
-  "links": [
-    {
-      "title": "Device Summary",
-      "type": "link",
-      "url": "/d/workshop-device-summary",
-      "asDropdown": false,
-      "icon": "dashboard"
-    },
-    {
-      "title": "PRTG",
-      "type": "link",
-      "url": "/d/workshop-prtg-summary",
-      "asDropdown": false,
-      "icon": "cloud"
-    },
-    {
-      "title": "Check Point",
-      "type": "link",
-      "url": "/d/workshop-checkpoint-summary",
-      "asDropdown": false,
-      "icon": "cloud"
-    },
-    {
-      "title": "Aruba",
-      "type": "link",
-      "url": "/d/workshop-aruba-summary",
-      "asDropdown": false,
-      "icon": "cloud"
-    }
-  ],
-  "fiscalYearStartMonth": 0
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timezone": "browser",
+  "title": "Workshop Device Details",
+  "uid": "workshop-device-details"
 }

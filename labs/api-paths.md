@@ -1,5 +1,7 @@
 # Mock controller APIs (Infinity)
 
+← Previous: [Lab 5 — Infinity + Assistant](05-infinity-assistant.md)
+
 Use this in **Lab 5** after `workshop-network-apis` exists. In Explore, **Root** is the JSON key that holds the rows. Meraki has no key (the response is already a list).
 
 | Integration | Path | Root | Identity fields |
@@ -14,3 +16,5 @@ Use this in **Lab 5** after `workshop-network-apis` exists. In Explore, **Root**
 | Meraki | `/meraki/devices` | leave empty (JSON array) | `name` |
 
 Vendor dashboards from Lab 3: Workshop PRTG Summary, Workshop Check Point Summary, Workshop Aruba Summary.
+
+Next: [Labs](README.md) →

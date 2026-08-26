@@ -1,6 +1,6 @@
 # Dashboard JSON to import
 
-Import these in **Lab 3**, in this order, into a folder named **Network Observability**.
+Pulled from live Grafana on the facilitator lab (Assistant-edited). Import these in **Lab 3**, in this order, into a folder named **Network Observability**.
 
 Map Prometheus → `workshop-ktranslate`, Loki → `workshop-ktranslate-logs`. If the form asks for Infinity and you do not have that source yet, leave it; Lab 5 adds it.
 

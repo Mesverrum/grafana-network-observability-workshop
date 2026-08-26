@@ -2,5 +2,6 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+echo "WARNING: leftover campus generator — not the webinar Clos SNMP path"
 echo "starting workshop generator against stacks.csv"
 exec python3 generator/generate.py --manifest stacks.csv --interval 15 --fault

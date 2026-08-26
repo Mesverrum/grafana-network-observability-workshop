@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
-"""Provision Workshop / campus alert rules on attendee Grafana Cloud stacks.
+"""Provision Clos SNMP alert rules.
 
-Same Reduce + Threshold shape as the lab collection. Scoped to
-tags_snmp_group=campus so they do not collide with Network Lab / ktranslate.
+Queries `grafanacloud-prom` on the stack in the manifest. Only useful on a
+stack that already has live `kentik_snmp_*` (facilitator / workshop write dest).
+Do not expect these to fire on empty attendee sandboxes — they hunt via the
+shared `workshop-ktranslate` remote source.
+
+Scoped to tags_snmp_group=~"srl-.*" so campus extras stay out.
 `for` is 1m so instances fire during a half-day room.
 """
 
@@ -150,14 +154,14 @@ def rule(uid: str, title: str, expr: str, summary: str, description: str, severi
 
 
 def rules(grafana: str) -> list[dict]:
-    campus = 'tags_snmp_group="campus"'
+    sites = 'tags_snmp_group=~"srl-.*"'
     return [
         rule(
             "ws-high-device-cpu",
             "High device CPU",
-            f"max by(device_name) (kentik_snmp_CPU{{{campus}}}) > 80",
+            f"max by(device_name) (kentik_snmp_CPU{{{sites}}}) > 80",
             "CPU above 80% on {{ $labels.device_name }}",
-            "Workshop campus CPU has been above 80% for 1 minute.",
+            "Workshop site CPU has been above 80% for 1 minute.",
             "warning",
             grafana,
         ),
@@ -166,7 +170,7 @@ def rules(grafana: str) -> list[dict]:
             "High interface error rate",
             (
                 "sum by(device_name, if_interface_name) ("
-                f"kentik_snmp_ifInErrors{{{campus}}} / 60) > 5"
+                f"kentik_snmp_ifInErrors{{{sites}}} / 60) > 5"
             ),
             "High errors on {{ $labels.device_name }} {{ $labels.if_interface_name }}",
             "In errors exceed 5/s (ktranslate 60s delta gauge).",
@@ -176,7 +180,7 @@ def rules(grafana: str) -> list[dict]:
         rule(
             "ws-snmp-polling-unhealthy",
             "SNMP polling unhealthy",
-            f"max by(device_name) (kentik_snmp_PollingHealth{{{campus}}}) < 1",
+            f"max by(device_name) (kentik_snmp_PollingHealth{{{sites}}}) < 1",
             "SNMP polling unhealthy on {{ $labels.device_name }}",
             "PollingHealth is below 1 for 1 minute.",
             "critical",

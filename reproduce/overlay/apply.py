@@ -32,7 +32,6 @@ ADMIN_HEADER = "X-Workshop-Admin"
 DASHBOARDS = [
     "device-summary.json",
     "device-details.json",
-    "my-noc-view.json",
     "prtg-summary.json",
     "checkpoint-summary.json",
     "aruba-summary.json",
