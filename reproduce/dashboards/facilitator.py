@@ -68,7 +68,7 @@ def facilitator_control() -> dict:
         "id": 4,
         "type": "stat",
         "title": "TCP duration (workshop-tcp)",
-        "description": "Public-probe TCP handshake to the GA edge — stays low after hairpin. Use traceroute hops for Lab 4.",
+        "description": "Public-probe TCP handshake to the GA edge — stays low after hairpin. Use traceroute hops for the Singapore stretch.",
         "gridPos": b.grid(12, 6, 12, 6),
         "datasource": b.PROM,
         "targets": [

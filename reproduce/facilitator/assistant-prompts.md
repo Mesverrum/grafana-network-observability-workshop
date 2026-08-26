@@ -1,4 +1,4 @@
-# Assistant prompts (webinar chat + Lab 5)
+# Assistant prompts (webinar chat + Lab 6)
 
 Paste these into webinar chat. SNMP is on **workshop-ktranslate**. Synthetics stay on the attendee stack Prometheus.
 
@@ -14,7 +14,17 @@ In the last 30 minutes, which device_name has the highest kentik_snmp_CPU?
 Show me interface error rates for device_name leaf1.
 ```
 
-## Lab 5: connect then build
+## Lab 5: hunt (after you inject)
+
+They should use dashboards first. If they want Assistant:
+
+```
+In the last 20 minutes, which device_name and interface look unhealthy on workshop-ktranslate?
+Use kentik_snmp_ifOperStatus and (kentik_snmp_ifInErrors)/60. Check Loki syslog if present.
+Do not invent Building 4 or Meraki.
+```
+
+## Lab 6: connect then build
 
 After Infinity `workshop-network-apis` is working (they tested `/meraki/devices` in Explore, or opened Workshop PRTG Summary):
 

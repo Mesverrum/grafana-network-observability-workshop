@@ -1,6 +1,6 @@
 # Lab 2 — Synthetics: traceroute and a port check
 
-← Previous: [Lab 1 — Watch discovery](01-watch-discovery.md)
+← Previous: [Lab 1 — Add the shared lab data sources](01-datasources.md)
 
 SNMP is what the box thinks. **Synthetics** are checks Grafana runs from the internet toward a target you choose.
 
@@ -39,7 +39,7 @@ Docs if you want them: [traceroute](https://grafana.com/docs/grafana-cloud/testi
 
 1. Open **workshop-tcp** from the Checks list.
 2. Wait until at least one run is green. First TCP run is usually under a minute. If it stays red, the target or port is wrong; paste a screenshot in chat.
-3. Confirm the check is green. Duration here is often only a few milliseconds. Lab 4 adds a **Singapore** probe and compares **by vantage**.
+3. Confirm the check is green. Duration here is often only a few milliseconds.
 4. Open **workshop-tr**. Traceroute can take up to two minutes for the first result.
 5. Confirm you can see a hop list or traceroute map.
 
@@ -49,6 +49,6 @@ Both checks have a result and you know which public probe you used. Leave the ta
 
 ## Stretch
 
-Add a second public probe in a nearby region (Ohio or Montreal) only if chat says to. Lab 4 is **Singapore**, not this.
+Optional later: add public **Singapore** on the same checks — [a second vantage](stretch-second-vantage.md). Do that only if chat says to. Do not add Singapore during this lab unless they ask.
 
-Next: [Lab 3 — Import dashboards, then hunt](03-import-and-hunt.md) →
+Next: [Lab 3 — Import dashboards](03-import-dashboards.md) →

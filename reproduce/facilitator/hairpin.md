@@ -97,6 +97,6 @@ curl -sS -H "X-Workshop-Admin: $WORKSHOP_ADMIN_TOKEN" \
 
 The agent should flip within `HAIRPIN_POLL_SECS` (default 2s). GA then needs ~15–30s.
 
-## Lab 4
+## Optional Singapore stretch
 
-Student Lab 4 is adding a **public Singapore probe** on the same VIP ([`singapore-fault.md`](singapore-fault.md)). This hairpin board is an optional origin demo (`curl` body). It is not their lever.
+Student stretch is adding a **public Singapore probe** on the same VIP ([`singapore-fault.md`](singapore-fault.md)). Lab 5 is the Clos interface you disable ([`inject-fault.md`](inject-fault.md)). This hairpin board is an optional origin demo (`curl` body). It is not their lever.

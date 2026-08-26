@@ -37,7 +37,7 @@ Say:
 
 > Credential group, not a spreadsheet of community strings per IP. One group per site: `srl-hq`, `srl-branch1`, `srl-branch2`. Discovery tries candidates against that group's range and keeps what authenticated. After this, polling is boring, which is what you want.
 
-Point at `kentik_snmp_PollingHealth` when it lands. Names: HQ `spine1` / `leaf1` / `leaf2`, branches `leaf-br1` / `leaf-br2`. Filter Device Summary with **SNMP group**. Building 4 / Check Point / EdgeConnect names are the **Infinity mocks** in Lab 5, not this SNMP walk.
+Point at `kentik_snmp_PollingHealth` when it lands. Names: HQ `spine1` / `leaf1` / `leaf2`, branches `leaf-br1` / `leaf-br2`. Filter Device Summary with **SNMP group**. Building 4 / Check Point / EdgeConnect names are the **Infinity mocks** in Lab 6, not this SNMP walk. They add data sources while you discover — do not make them wait on a “watch discovery” lab.
 
 ## Cloud backends + Assistant (8–10 min)
 
@@ -51,29 +51,29 @@ Paste this in chat (also in [assistant-prompts.md](assistant-prompts.md)). They 
 
 ## Synthetics primer (5 min, then they drive)
 
-> SNMP tells you what the box thinks. Synthetics tell you what a user path looks like from a **probe** — a city Grafana runs the check from. Same public IP for everyone. Lab 2 is one US public probe. Lab 4 they add Singapore and compare.
+> SNMP tells you what the box thinks. Synthetics tell you what a user path looks like from a **probe** — a city Grafana runs the check from. Same public IP for everyone. Lab 2 is one US public probe. Singapore is optional stretch if we have time.
 
-> Create two checks: a **traceroute** and a **TCP port** check. Same US probe. Do not add Singapore yet.
+> Create two checks: a **traceroute** and a **TCP port** check. Same US probe.
 
 Paste this as its own chat message:
 
 ```
 Target: 15.197.194.37
 TCP: 15.197.194.37:80
-Probe: Oregon or North Virginia (public). Do not add Singapore yet.
+Probe: Oregon or North Virginia (public). Do not add Singapore unless I say so.
 ```
 
-## Import + hunt (2 min)
+## Import, then explore (2 min)
 
-> Open Device Summary. Alerts on the fleet, a device table, click through to one box. I will share the shape once; you click on your stack.
+> Import the JSON. Then open Device Summary while the fleet is quiet. Alerts on the fleet, a device table, click through to one box. I will share the shape once; you click on your stack. Do not hunt a failure yet.
 
-## Two vantages (2 min)
+## Incident (Lab 5)
 
-> Same IP you already typed. Edit **workshop-tcp** and **workshop-tr**. Add the public **Singapore** probe. Keep Oregon or North Virginia. Lab 4 is in chat.
+> Something changed. I am not going to tell you which box. Summary first, then Details, then syslog, then your TCP check. Ask: is this the Clos, or the user path from the internet?
 
-> Two probes = two paths. Duration may stay small on this VIP (Global Accelerator handshake is to a nearby edge). The traceroute maps will still differ. That is the concept.
+Paste the Lab 5 block from [chat-paste.md](chat-paste.md). Inject first: [inject-fault.md](inject-fault.md). Do not name `leaf1`.
 
-Do **not** wait on the facilitator hairpin board for their charts to move. Optional aside: `curl` to the VIP shows which nginx origin we selected; public SM TCP does not.
+Singapore second vantage is optional stretch only. Do **not** wait on the hairpin board.
 
 ## Infinity + Assistant (4 min)
 
@@ -81,7 +81,7 @@ Do **not** wait on the facilitator hairpin board for their charts to move. Optio
 
 > After the webinar that URL becomes the real controller plus an API key. The skill is the same.
 
-Paste the Lab 5 Assistant block into chat.
+Paste the Lab 6 Assistant block into chat.
 
 ## Close (8 min)
 

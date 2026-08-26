@@ -1,6 +1,6 @@
 """Infinity mock campus inventory (PRTG / Check Point / EdgeConnect / Meraki).
 
-Building 4 is the Lab 5 API fault. Flip `fault_active` on the mock admin API.
+Building 4 is the Lab 6 API fault. Flip `fault_active` on the mock admin API.
 
 These names are **not** on the student SNMP hunt. Hunt devices are the
 colocated Clos (`spine1`, `leaf1`, `leaf2`, `leaf-br1`, `leaf-br2`) with

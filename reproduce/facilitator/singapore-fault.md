@@ -1,16 +1,16 @@
-# Lab 4 — two public probes (facilitator)
+# Optional stretch — two public probes (facilitator)
 
-Student lab: [`labs/04-latency-fault.md`](../../labs/04-latency-fault.md). They add the public **Singapore** probe on the **same VIP**. You do not need the hairpin board for this exercise.
+Student page: [`labs/stretch-second-vantage.md`](../../labs/stretch-second-vantage.md). They add the public **Singapore** probe on the **same VIP**. This is **not** Lab 5. The incident is the Clos interface you disable ([inject-fault.md](inject-fault.md)).
 
-Goal: **vantage**. Same target, two cities, two paths. Then an alert on the TCP check.
+Skip this stretch if the hunt is running long. You do not need the hairpin board.
 
-## What you say
+## What you say (only if you run it)
 
 > Probe is where Grafana runs the check. Target is the IP. Lab 2 was one US city. Add Singapore. Keep the first probe.
 
 > TCP duration on this VIP may stay small on both (Global Accelerator handshake is to a nearby edge). Traceroute hop list / map by probe is still two different paths. If Singapore TCP is slower, that is extra.
 
-Paste the Lab 4 block from [chat-paste.md](chat-paste.md).
+Paste the optional Singapore block from [chat-paste.md](chat-paste.md).
 
 ## Hairpin board (optional aside)
 
@@ -28,7 +28,7 @@ Threshold in **seconds** (example `0.05`). Do not use `400`. Group by `probe` if
 
 ## Checklist
 
-- [ ] Lab 2 paste said **do not add Singapore yet**
-- [ ] Lab 4 paste: add Singapore on tcp + traceroute, same IP
+- [ ] Lab 2 paste said **do not add Singapore unless I say so**
+- [ ] Stretch paste: add Singapore on tcp + traceroute, same IP
 - [ ] You are not blocked on `applied_num` / GA weights
 - [ ] If Singapore is missing from the probe list, they refresh **Testing & synthetics → Probes**
