@@ -8,7 +8,7 @@ Setup first. Hunt after they have boards. You inject the Clos fault; they troubl
 |---|---|---|---|
 | 0:00–0:12 | Cloud vs OSS | You ingest. Grafana owns Mimir/Loki/Tempo and upgrades. | Join webinar + Grafana. Mute. [00-login](../../labs/00-login.md) |
 | 0:12–0:25 | ktranslate architecture | Slide or shared diagram: devices → ktranslate (SNMP, traps, flows, syslog) → Alloy → Cloud. Support honesty. | Stay in Grafana; finish login. |
-| 0:25–0:40 | Data sources | Paste Prom/Loki. Narrate discovery on **your** collector while they Save & test. Guided discovery notes: [watch-discovery.md](watch-discovery.md). | [01-datasources](../../labs/01-datasources.md) |
+| 0:25–0:40 | Data sources | Paste Prom/Loki. Clos SNMP is already polling — [pre-session discovery](watch-discovery.md). | [01-datasources](../../labs/01-datasources.md) |
 | 0:40–1:10 | Synthetics | Share the first click. Paste the public VIP. They prove TCP is green and traceroute has a hop list. | [02-synthetics](../../labs/02-synthetics.md) |
 | 1:10–1:20 | Break | Confirm Clos SNMP on the shared Prom (`spine1` / `leaf-br1`). Confirm SM checks exist. Stay on the call. | Stretch; keep the webinar open. |
 | 1:20–1:40 | Import | Point at Device Summary on **your** share so they know the shape. They import JSON only. | [03-import-dashboards](../../labs/03-import-dashboards.md) |
@@ -23,7 +23,7 @@ Singapore second vantage is **optional stretch** ([stretch-second-vantage](../..
 
 - Stacks up. Overlay skipped dashboards. Attendees add Infinity in Lab 6: **Administration → Plugins** if Infinity is missing, then **Connections → Add new connection → Infinity** named `workshop-network-apis` at the mock origin (Allowed hosts = that URL). Brokkr does not preinstall Infinity.
 - Attendees query the **3-site Clos** via `workshop-ktranslate` (not the generator inventory). Expect `srl-hq` (`spine1`, `leaf1`, `leaf2`), `srl-branch1` (`leaf-br1`), `srl-branch2` (`leaf-br2`).
-- Live discover on colocated: share `groups/srl-hq.env` (then the branch files) and `make discover GROUP=srl-hq` **while they add data sources**. Restore collectors: `python3 local/scripts/ssm-alloy-ktranslate-parallel.py` from network-o11y-demo. Campus Forti/Arista/Cisco is optional extra (`tags_snmp_group=campus`); do not default the hunt there.
+- Clos already discovered **before join**: `make discover GROUP=srl-hq` (then branch groups). Confirm `kentik_snmp_PollingHealth` on your Explore. Restore collectors: `python3 local/scripts/ssm-alloy-ktranslate-parallel.py` from network-o11y-demo. Notes: [watch-discovery.md](watch-discovery.md). Campus Forti/Arista/Cisco is optional extra (`tags_snmp_group=campus`); do not default the hunt there.
 - Synthetic Monitoring is enabled on attendee stacks (public probes only). VIP `15.197.194.37:80` answers. Do not require Singapore or the hairpin toggle for the student path.
 - Clos SNMP is live on the shared `workshop-ktranslate` source. **Stop `events-loop`** before Lab 4 so background flaps do not look like the incident. Infinity mocks have Building 4 degraded (Lab 6). Do not expect mock names (`bld4-*`, `wan-edge-01`) on Device Summary.
 - Chat macros ready: labs URL, Grafana URL reminder, Lab 2 VIP paste, Lab 5 incident paste, Assistant prompts.
@@ -33,7 +33,7 @@ Singapore second vantage is **optional stretch** ([stretch-second-vantage](../..
 
 | Symptom | Fix |
 |---|---|
-| They want to "just SSH" | No. Watch your discovery. Their work is Cloud. |
+| They want to "just SSH" | No. Their work is Cloud. |
 | They offer production SNMP | Decline. Sandbox + lab appliances. |
 | Empty hunt dashboards | Wait one 60s poll. Confirm `kentik_snmp_PollingHealth` on **your** Explore (`spine1`, `leaf1`, `leaf-br1`). SNMP group All or `srl-*`. |
 | SM has no probes | Testing & synthetics → Synthetics → Probes. Refresh. Paste the click-path in chat. |
@@ -48,6 +48,7 @@ Singapore second vantage is **optional stretch** ([stretch-second-vantage](../..
 
 - Make them install Docker or ktranslate.
 - Call ktranslate official Grafana Support.
+- Run live SNMP discovery on the call.
 - Point Infinity at a customer's production PRTG / Check Point / Orchestrator.
 - Tell them which interface you disabled.
 - Assume they have paper, a second person in the room, or can see anything you did not paste or share.

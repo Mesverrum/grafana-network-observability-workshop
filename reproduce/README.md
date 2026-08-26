@@ -4,7 +4,7 @@ This folder is the facilitator kit for a **webinar**. Attendees stay in [`../lab
 
 **Student SNMP story is the colocated 3-site Clos**, not the mock campus names and not the leftover OTLP generator. Infinity mocks (PRTG / Check Point / EdgeConnect / Meraki) are a **separate** Lab 6 API. Those hostnames are not in SNMP.
 
-**Student order:** login → data sources → synthetics → import dashboards → explore (healthy) → you inject a Clos fault → they hunt → Infinity. Discovery is **your** share during data sources, not a student lab. Synthetics: one public VIP, Oregon or N. Virginia. Singapore is optional stretch. Hairpin / GA origin toggle is optional facilitator `curl` only — [`facilitator/inject-fault.md`](facilitator/inject-fault.md), [`facilitator/singapore-fault.md`](facilitator/singapore-fault.md), [`facilitator/hairpin.md`](facilitator/hairpin.md).
+**Student order:** login → data sources → synthetics → import dashboards → explore (healthy) → you inject a Clos fault → they hunt → Infinity. Finish SNMP discovery **before** the call ([`facilitator/watch-discovery.md`](facilitator/watch-discovery.md)). Synthetics: one public VIP, Oregon or N. Virginia. Singapore is optional stretch. Hairpin / GA origin toggle is optional facilitator `curl` only — [`facilitator/inject-fault.md`](facilitator/inject-fault.md), [`facilitator/singapore-fault.md`](facilitator/singapore-fault.md), [`facilitator/hairpin.md`](facilitator/hairpin.md).
 
 ## Before the webinar
 
@@ -30,9 +30,9 @@ python3 overlay/apply.py --manifest stacks-facilitator.csv --mock-url https://YO
 
 Public VIP + dashboard toggle: [`facilitator/hairpin.md`](facilitator/hairpin.md).
 
-5. Live SNMP / syslog / traps come from **network-o11y-demo** on the colocated host (ktranslate + Alloy, dual-ship to the workshop stack). Restore: `python3 local/scripts/ssm-alloy-ktranslate-parallel.py`. Guided discovery is `make discover GROUP=srl-hq` (then branch groups). Optional campus vendors stay `tags_snmp_group=campus` and off the hunt boards.
+5. Live SNMP / syslog / traps come from **network-o11y-demo** on the colocated host (ktranslate + Alloy, dual-ship to the workshop stack). Restore: `python3 local/scripts/ssm-alloy-ktranslate-parallel.py`. **Before the webinar:** `make discover GROUP=srl-hq` (then branch groups) so polling is already live. Optional campus vendors stay `tags_snmp_group=campus` and off the hunt boards.
 
-6. You screen-share discovery. They do not SSH. Take-home collector notes: [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana) or [`optional-ktranslate/`](optional-ktranslate/) — not the webinar path.
+6. They do not SSH and they do not watch discovery. Take-home collector notes: [KtransToGrafana](https://github.com/Mesverrum/KtransToGrafana) or [`optional-ktranslate/`](optional-ktranslate/) — not the webinar path.
 
 ## Day-of
 
@@ -51,7 +51,7 @@ Student dashboard JSON is **pulled from live Grafana**, not generated here. `pyt
 | `dashboards/` | Live-pulled JSON + helpers (do not regenerate) |
 | `scripts/` | Mocks, tunnel, leftover generator helpers |
 | `facilitator/` | Webinar run-of-show, talk track, Clos fault inject, prompts |
-| `optional-ktranslate/` | Take-home snmpsim notes. Webinar discovery is the colocated Clos. |
+| `optional-ktranslate/` | Take-home snmpsim notes. Webinar SNMP is the colocated Clos (discovered before the call). |
 
 ## Plugins
 

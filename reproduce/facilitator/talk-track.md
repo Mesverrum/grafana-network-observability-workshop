@@ -31,13 +31,15 @@ Say:
 
 > Grafana's *supported* SNMP path is Alloy `prometheus.exporter.snmp`. It works. It is more YAML and MIB pain. We use ktranslate in the field because discovery and vendor profiles are faster. It is **not** a Grafana Support product. If your leadership asks, say community/partner.
 
-> You are not installing this today. I will discover the lab on my screen. You will live in Cloud.
+> You are not installing this today. The lab is already polling. You will live in Cloud.
 
-## Guided discovery (while it runs)
+## How the boxes were found (already done)
 
-> Credential group, not a spreadsheet of community strings per IP. One group per site: `srl-hq`, `srl-branch1`, `srl-branch2`. Discovery tries candidates against that group's range and keeps what authenticated. After this, polling is boring, which is what you want.
+Do this before the call: [watch-discovery.md](watch-discovery.md). On the webinar, stay past tense. Do not share a live `make discover`.
 
-Point at `kentik_snmp_PollingHealth` when it lands. Names: HQ `spine1` / `leaf1` / `leaf2`, branches `leaf-br1` / `leaf-br2`. Filter Device Summary with **SNMP group**. Building 4 / Check Point / EdgeConnect names are the **Infinity mocks** in Lab 6, not this SNMP walk. They add data sources while you discover — do not make them wait on a “watch discovery” lab.
+> Credential group, not a spreadsheet of community strings per IP. One group per site: `srl-hq`, `srl-branch1`, `srl-branch2`. Discovery tried candidates against that group's range and kept what authenticated. Polling is boring, which is what you want.
+
+If you show Explore, `kentik_snmp_PollingHealth` is already there. Names: HQ `spine1` / `leaf1` / `leaf2`, branches `leaf-br1` / `leaf-br2`. Filter Device Summary with **SNMP group**. Building 4 / Check Point / EdgeConnect names are the **Infinity mocks** in Lab 6, not this SNMP walk.
 
 ## Cloud backends + Assistant (8–10 min)
 

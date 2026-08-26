@@ -73,11 +73,11 @@ count by (device_name) (kentik_snmp_PollingHealth)
 
 4. Click **Run query**. You should see device names. If you want the sites too, run `count by (device_name, tags_snmp_group) (kentik_snmp_PollingHealth)`.
 
-Empty here means the shared lab is not sending yet, or you are on the wrong datasource. Post in chat.
+Empty here means you are on the wrong datasource, or the shared lab is down. Post in chat.
 
 ## You are done when
 
-Explore against **workshop-ktranslate** shows device names (or chat confirmed the lab is still filling).
+Explore against **workshop-ktranslate** shows device names.
 
 You need these sources before you [import dashboards](03-import-dashboards.md). Next is synthetics on **your** stack — not the shared SNMP source.
 
