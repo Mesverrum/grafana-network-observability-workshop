@@ -1,3 +1,3 @@
 # Infinity + Assistant
 
-This page moved to **[Lab 6 — Infinity + Assistant](06-infinity-assistant.md)**.
+This page moved to **[Lab 4 — Infinity + Assistant](04-infinity-assistant.md)**.

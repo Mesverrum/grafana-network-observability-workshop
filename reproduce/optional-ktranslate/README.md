@@ -14,7 +14,7 @@ https://github.com/Mesverrum/KtransToGrafana
 
 1. Clone it on a Linux host or WSL with Docker.
 2. Copy `.env.sample` → `.env`.
-3. From your Brokkr stack: **Add new connection → OpenTelemetry (OTLP)**. Paste:
+3. From the **shared** Grafana Cloud stack: **Add new connection → OpenTelemetry (OTLP)**. Paste:
 
    - `GC_OTLP_URL` = endpoint
    - `GC_OTLP_ACCOUNT` = instance id (username)
@@ -39,7 +39,7 @@ Import the 00–10 dashboards from that repo. Do not stop at Device Details.
 | File | Purpose |
 |---|---|
 | `docker-compose.yaml` | `snmpsim` (always) + optional `alloy` forwarder |
-| `.env.sample` | Brokkr OTLP names |
+| `.env.sample` | Grafana Cloud OTLP names |
 | `config.alloy.sample` | Alloy → Grafana Cloud OTLP if you already have a local OTLP producer |
 | `ktranslate-snmp.yaml` | Example ktranslate device file targeting snmpsim |
 

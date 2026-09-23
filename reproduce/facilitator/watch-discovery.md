@@ -24,7 +24,7 @@ Confirm on **your** Explore before you start:
 count by (device_name, tags_snmp_group) (kentik_snmp_PollingHealth)
 ```
 
-Expect HQ `spine1` / `leaf1` / `leaf2`, branches `leaf-br1` / `leaf-br2`. Building 4 / Check Point / EdgeConnect names are the **Infinity mocks** in Lab 6, not this SNMP walk.
+Expect HQ `spine1` / `leaf1` / `leaf2`, branches `leaf-br1` / `leaf-br2`. Building 4 / Check Point / EdgeConnect names are the **Infinity mocks** in Lab 4, not this SNMP walk.
 
 ## How it worked (architecture talk only)
 

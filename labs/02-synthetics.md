@@ -1,54 +1,45 @@
 # Lab 2 — Synthetics: traceroute and a port check
 
-← Previous: [Lab 1 — Add the shared lab data sources](01-datasources.md)
+← Previous: [Lab 1 — Explore](01-explore.md)
 
-SNMP is what the box thinks. **Synthetics** are checks Grafana runs from the internet toward a target you choose.
+SNMP is what the box thinks. **Synthetics** are checks Grafana runs from the internet toward a target the facilitator chose.
 
-This lab uses **your** stack’s Synthetic Monitoring (not the facilitator’s `workshop-ktranslate` source). Results land in the Prometheus Grafana already created on your stack. The facilitator will paste a **public IP** and `IP:port` in chat. Copy both. Every stack uses the same target.
+The stack already has **workshop-tr** and **workshop-tcp**. Open those first so you know the target and probe. You **may** create your own checks. Job names must be **yours** — a second `workshop-tcp` collides with the shared one.
 
-Docs if you want them: [traceroute](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/checks/traceroute/), [TCP](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/checks/tcp/), [public probes](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/public-probes/).
+Docs: [traceroute](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/checks/traceroute/), [TCP](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/checks/tcp/), [public probes](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/create-checks/public-probes/).
 
 ## Find Synthetics
 
 1. Left menu: **Testing & synthetics**.
 2. Click **Synthetics** (not **Performance Testing** / **k6**, which is a different load-testing product).
-3. If the page asks you to **Initialize the plugin**, click it and wait for a Checks list. If you already have a Checks list, skip this.
+3. If the page asks to **Initialize the plugin**, stop and post in chat.
 
-## A. Traceroute check
+## A. Look at the shared checks
 
-1. **Add new check** (sometimes **Create check** or **Create new check**).
-2. Choose the **Traceroute** card.
-3. **Job name:** `workshop-tr`. This is the label Grafana stores on the check (`job` in metrics).
-4. **Target:** the IP from chat (example `15.197.194.37`). No `https://`, no port.
-5. **Probe locations:** a **probe** is the city Grafana runs the check from. Choose **one** public probe, **Oregon** or **North Virginia**. Uncheck anything else.
-6. **Frequency:** `120` seconds, or **2 minutes** if the control is in minutes.
-7. Scroll to the bottom. **Submit** / **Save**.
-8. If the UI offers **Test**, click it once.
+1. Open **workshop-tcp**. Confirm a green run. Note **target** (`IP:port`) and **probe** (Oregon or North Virginia).
+2. Open **workshop-tr**. Confirm a hop list or map. Same IP, no port.
 
-## B. TCP check
+Do not **Edit** the shared checks (probes, target, or name). Leave them as the room’s known-good path.
 
-1. **Add new check** again.
-2. Choose **TCP**. If you only see HTTP / Ping / DNS, scroll. It is not under “API Endpoint.”
-3. **Job name:** `workshop-tcp`.
-4. **Target:** IP **and port** from chat (example `15.197.194.37:80`).
-5. **Probes:** the same single public probe as traceroute.
-6. **Frequency:** `60` seconds is fine.
-7. **Save**.
+## B. Optional: your own checks
 
-## C. Prove it on the check page
+Use the **same target** from chat / from the shared checks. **Job name** must include your name:
 
-1. Open **workshop-tcp** from the Checks list.
-2. Wait until at least one run is green. First TCP run is usually under a minute. If it stays red, the target or port is wrong; paste a screenshot in chat.
-3. Confirm the check is green. Duration here is often only a few milliseconds.
-4. Open **workshop-tr**. Traceroute can take up to two minutes for the first result.
-5. Confirm you can see a hop list or traceroute map.
+1. **Add new check** → **TCP**.
+2. **Job name:** `workshop-tcp-` plus a short handle (`workshop-tcp-jdoe`). Letters, numbers, hyphen.
+3. **Target:** the `IP:port` from chat (example `15.197.194.37:80`).
+4. **Probes:** one public probe, Oregon or North Virginia.
+5. **Frequency:** 60s is fine. **Save**.
+6. Repeat for **Traceroute**, job `workshop-tr-jdoe`, target = IP only, frequency 120s.
+
+If Save says the name exists, change the job name. Do not overwrite `workshop-tcp`.
 
 ## You are done when
 
-Both checks have a result and you know which public probe you used. Leave the target alone for the rest of the session.
+You have seen a green TCP run (shared and/or yours) and know which probe you used. Leave the **target** alone for the rest of the session.
 
 ## Stretch
 
-Optional later: add public **Singapore** on the same checks — [a second vantage](stretch-second-vantage.md). Do that only if chat says to. Do not add Singapore during this lab unless they ask.
+Singapore on **your** checks: [stretch — a second vantage](stretch-second-vantage.md). Skip unless chat says to. Do not add Singapore on the shared `workshop-tcp` unless the facilitator says so.
 
-Next: [Lab 3 — Import dashboards](03-import-dashboards.md) →
+Next: wait for chat. Then [Lab 3 — Troubleshoot](03-troubleshoot.md) →

@@ -1,5 +1,3 @@
 # Add the shared lab data sources
 
-This page moved to **[Lab 1 — Add the shared lab data sources](01-datasources.md)**.
-
-Start there after [login](00-login.md).
+This page is retired. Use [Login](00-login.md), then [Lab 1 — Explore](01-explore.md).

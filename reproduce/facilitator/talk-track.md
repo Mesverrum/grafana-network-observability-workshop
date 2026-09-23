@@ -39,7 +39,7 @@ Do this before the call: [watch-discovery.md](watch-discovery.md). On the webina
 
 > Credential group, not a spreadsheet of community strings per IP. One group per site: `srl-hq`, `srl-branch1`, `srl-branch2`. Discovery tried candidates against that group's range and kept what authenticated. Polling is boring, which is what you want.
 
-If you show Explore, `kentik_snmp_PollingHealth` is already there. Names: HQ `spine1` / `leaf1` / `leaf2`, branches `leaf-br1` / `leaf-br2`. Filter Device Summary with **SNMP group**. Building 4 / Check Point / EdgeConnect names are the **Infinity mocks** in Lab 6, not this SNMP walk.
+If you show Explore, `kentik_snmp_PollingHealth` is already there. Names: HQ `spine1` / `leaf1` / `leaf2`, branches `leaf-br1` / `leaf-br2`. Filter Device Summary with **SNMP group**. Building 4 / Check Point / EdgeConnect names are the **Infinity mocks** in Lab 4, not this SNMP walk.
 
 ## Cloud backends + Assistant (8–10 min)
 
@@ -53,27 +53,27 @@ Paste this in chat (also in [assistant-prompts.md](assistant-prompts.md)). They 
 
 ## Synthetics primer (5 min, then they drive)
 
-> SNMP tells you what the box thinks. Synthetics tell you what a user path looks like from a **probe** — a city Grafana runs the check from. Same public IP for everyone. Lab 2 is one US public probe. Singapore is optional stretch if we have time.
+> SNMP tells you what the box thinks. Synthetics tell you what a user path looks like from a **probe** — a city Grafana runs the check from. Same public IP for everyone. Canonical checks **workshop-tcp** / **workshop-tr** already exist. They may clone with unique job names (`workshop-tcp-jdoe`). Singapore is optional stretch on **their** checks.
 
-> Create two checks: a **traceroute** and a **TCP port** check. Same US probe.
-
-Paste this as its own chat message:
+You already created **workshop-tcp** and **workshop-tr**. Paste this so they know the target:
 
 ```
+Open workshop-tcp and workshop-tr first (do not Edit those).
+Optional: workshop-tcp-YOURHANDLE and workshop-tr-YOURHANDLE, same target.
 Target: 15.197.194.37
 TCP: 15.197.194.37:80
-Probe: Oregon or North Virginia (public). Do not add Singapore unless I say so.
+Probe: Oregon or North Virginia (public).
 ```
 
-## Import, then explore (2 min)
+## Explore (2 min)
 
-> Import the JSON. Then open Device Summary while the fleet is quiet. Alerts on the fleet, a device table, click through to one box. I will share the shape once; you click on your stack. Do not hunt a failure yet.
+> Boards are already in **Network Observability**. Open Device Summary while the fleet is quiet. Alerts on the fleet, a device table, click through to one box. I will share the shape once; you click the same stack. Do not hunt a failure yet.
 
-## Incident (Lab 5)
+## Incident (Lab 3)
 
-> Something changed. I am not going to tell you which box. Summary first, then Details, then syslog, then your TCP check. Ask: is this the Clos, or the user path from the internet?
+> Something changed. I am not going to tell you which box. Summary first, then Details, then syslog, then the shared TCP check. Ask: is this the Clos, or the user path from the internet?
 
-Paste the Lab 5 block from [chat-paste.md](chat-paste.md). Inject first: [inject-fault.md](inject-fault.md). Do not name `leaf1`.
+Paste the Lab 3 block from [chat-paste.md](chat-paste.md). Inject first: [inject-fault.md](inject-fault.md). Do not name `leaf1`.
 
 Singapore second vantage is optional stretch only. Do **not** wait on the hairpin board.
 
@@ -83,7 +83,7 @@ Singapore second vantage is optional stretch only. Do **not** wait on the hairpi
 
 > After the webinar that URL becomes the real controller plus an API key. The skill is the same.
 
-Paste the Lab 6 Assistant block into chat.
+Paste the Lab 4 Assistant block into chat. Ask them to put their name in the dashboard title.
 
 ## Close (8 min)
 

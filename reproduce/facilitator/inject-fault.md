@@ -1,6 +1,6 @@
-# Inject Clos fault (Lab 5)
+# Inject Clos fault (Lab 3)
 
-Student lab: [`labs/05-troubleshoot.md`](../../labs/05-troubleshoot.md). They already imported dashboards and explored a **healthy** fleet. You change the lab. They hunt. Do **not** name the device or interface in chat.
+Student lab: [`labs/03-troubleshoot.md`](../../labs/03-troubleshoot.md). They already explored a **healthy** fleet on the shared stack. You change the lab. They hunt. Do **not** name the device or interface in chat.
 
 ## What you inject
 
@@ -20,13 +20,13 @@ On the colocated host:
 make -C local workshop-fault
 ```
 
-Wait ~90s. On **your** Device Details for `leaf1`, confirm `ethernet-1/1` is down. Then paste the Lab 5 block from [chat-paste.md](chat-paste.md).
+Wait ~90s. On **your** Device Details for `leaf1`, confirm `ethernet-1/1` is down. Then paste the Lab 3 block from [chat-paste.md](chat-paste.md).
 
 ## What you say
 
 > Something changed. Use the boards you already have. I am not going to tell you which box.
 
-> Device Summary first. Then Details. Then syslog. Then your TCP check — does the internet path still look fine?
+> Device Summary first. Then Details. Then syslog. Then the shared TCP check — does the internet path still look fine?
 
 Timebox ~20 minutes. Volunteer one-line readouts in chat. Do not freeze for stragglers.
 
@@ -46,12 +46,12 @@ The start command also stops `events-loop` so background flaps do not compete wi
 
 - Announce `leaf1` or `ethernet-1/1`
 - Shuffle Global Accelerator / hairpin for this lab
-- Point them at Building 4 / Meraki (that is Lab 6)
+- Point them at Building 4 / Meraki (that is Lab 4)
 
 ## Checklist
 
-- [ ] Lab 4 explore happened while the interface was still up
+- [ ] Lab 1 explore happened while the interface was still up
 - [ ] `events-loop` stopped
 - [ ] Fault start succeeded; your Details shows the port down
-- [ ] Lab 5 chat paste does not name the box
-- [ ] Fault cleared before close (or before Lab 6 if you want a clean SNMP picture on the Assistant board)
+- [ ] Lab 3 chat paste does not name the box
+- [ ] Fault cleared before close (or before Lab 4 if you want a clean SNMP picture on the Assistant board)

@@ -2,14 +2,16 @@
 
 This workshop is a **webinar**, not a classroom. Attendees are remote, on mute, with Grafana in another window. They will not have a whiteboard, a printed workbook, or a person to wave at.
 
+Everyone is on **one shared Grafana Cloud stack**. You provision datasources and the clean folder. They log in, make a named folder, and may clone synthetics with unique job names.
+
 ## How you run it
 
-- **You share** architecture slides (or a simple diagram), then your collector / Grafana. They **drive their own** stack for labs 1–6.
-- **Chat is the board.** Paste from [chat-paste.md](chat-paste.md): labs URL, **datasource credentials**, public VIP + `:80`, mock/Infinity URL, Assistant prompts, “start Lab N”.
+- **You share** architecture slides (or a simple diagram), then Grafana on the **shared** stack. They **drive the same** stack for labs 1–4.
+- **Chat is the board.** Paste from [chat-paste.md](chat-paste.md): labs URL, **Grafana URL** (no tokens), “start Lab N”, Assistant prompts.
 - **Do not wait** for everyone to finish. Give a timebox, ask for a thumbs-up or a one-line chat readout from volunteers, then move.
-- **UI, not Explore.** They live in Synthetics check pages and **Network Observability** dashboards. You show Explore once on the share in Lab 1 (Save & test prove-out).
+- **UI, not Explore.** They live in dashboards (shared folder or their copy) and Synthetics. You show Explore once on the share if SNMP looks empty.
 - **Help:** they raise hand or chat. Unmute one person at a time. Screenshare *their* Grafana only if they can; otherwise they screenshot into chat.
-- **Break:** they stay in the webinar. You use it to confirm Clos SNMP on the shared Prom + SM checks, not to walk the room.
+- **Break:** they stay in the webinar. You use it to confirm Clos SNMP + SM checks, not to walk the room.
 
 ## Paste this at join
 
@@ -17,26 +19,16 @@ See the full blocks in [chat-paste.md](chat-paste.md). Join message:
 
 ```
 Labs: https://github.com/Mesverrum/grafana-network-observability-workshop/tree/main/labs
-Work in the Grafana URL from your invite email. Keep this webinar visible.
-Your stack starts empty. Log in first. When I paste data source credentials, do Lab 1 (01-datasources).
-Chat a screenshot if Save & test fails.
+Grafana: REPLACE_SHARED_STACK_URL
+Log in first. Do not add Prom/Loki. Do not import GitHub JSON.
+Make a folder: Network Observability — Your Name
 ```
 
-After login, paste the **workshop-ktranslate** Prometheus + Loki block. They cannot import until that Save & test is green.
+Order they drive: login → named folder + explore → synthetics (shared and/or unique jobs) → **you inject a fault** → they hunt → Infinity.
 
-Order they drive: login → data sources → synthetics → import → explore → **you inject a fault** → they hunt → Infinity.
+Do not tell them to install or select a private probe. Singapore is optional stretch on **their** checks. Clos fault: [inject-fault.md](inject-fault.md).
 
-At Lab 2, paste this so they can copy it:
-
-```
-Target: 15.197.194.37
-TCP: 15.197.194.37:80
-Probe: Oregon or North Virginia (public). Do not add Singapore unless I say so.
-```
-
-Do not tell them to install or select a private probe. Their stacks cannot see yours. Singapore is optional stretch, not the incident. Clos fault: [inject-fault.md](inject-fault.md).
-
-At Lab 6, paste the Infinity block from [chat-paste.md](chat-paste.md). They install Infinity from **Plugins** if the catalog is empty, then add `workshop-network-apis` (URL + Allowed hosts = mock origin, No Auth). Prove with Explore `/meraki/devices`.
+At Lab 4, paste the Infinity block from [chat-paste.md](chat-paste.md). The source `workshop-network-apis` already exists. Prove with Explore `/meraki/devices` if someone is stuck.
 
 ## What not to say
 
@@ -44,4 +36,5 @@ At Lab 6, paste the Infinity block from [chat-paste.md](chat-paste.md). They ins
 - “Wave if you are stuck.”
 - “I will come around.”
 - The device or interface you disabled.
+- “Paste this glc_ token into Connections.”
 - Anything that assumes they are in the same room.

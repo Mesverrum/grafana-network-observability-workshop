@@ -1,9 +1,9 @@
 # Public VIP + dashboard path toggle
 
-Each attendee has their own Brokkr stack. They cannot pick a private probe you registered on yours. Give them **one public IP**. They hit it with a **public** Synthetic Monitoring probe. You shuffle **where that IP lands in AWS**.
+Everyone is on **one shared Grafana Cloud stack**. They cannot pick a private probe you registered elsewhere. Give them **one public IP**. The shared stack already has **workshop-tcp** / **workshop-tr** on a **public** Synthetic Monitoring probe. You shuffle **where that IP lands in AWS**.
 
 ```
-Attendee stacks
+Shared stack
   → public probe (Oregon / N. Virginia)
   → Global Accelerator anycast VIP :80
   → US nginx  (hairpin off)
@@ -15,7 +15,7 @@ Facilitator dashboard (Editor)
   → aws globalaccelerator UpdateEndpointGroup  (US weight 100/0 vs SG 100/0)
 ```
 
-Same destination IP all day. No DNS flip. No private probe on student stacks.
+Same destination IP all day. No DNS flip. No per-attendee stack.
 
 ## What you stand up once
 
@@ -99,4 +99,4 @@ The agent should flip within `HAIRPIN_POLL_SECS` (default 2s). GA then needs ~15
 
 ## Optional Singapore stretch
 
-Student stretch is adding a **public Singapore probe** on the same VIP ([`singapore-fault.md`](singapore-fault.md)). Lab 5 is the Clos interface you disable ([`inject-fault.md`](inject-fault.md)). This hairpin board is an optional origin demo (`curl` body). It is not their lever.
+Student stretch is adding a **public Singapore probe** on the same VIP ([`singapore-fault.md`](singapore-fault.md)). Lab 3 is the Clos interface you disable ([`inject-fault.md`](inject-fault.md)). This hairpin board is an optional origin demo (`curl` body). It is not their lever.
